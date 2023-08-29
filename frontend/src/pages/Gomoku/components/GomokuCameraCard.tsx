@@ -1,11 +1,24 @@
 import styled from "@emotion/styled";
-import { Card } from "../../../components";
+import { Card } from "@components";
+import { textStyles } from "@/styles";
 
 function GomokuCameraCard() {
   return (
     <StyledGomokuCameraCard>
       <Card>
-        <div>카메라 요기</div>
+        <div
+          css={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h4
+            css={{ ...textStyles.contents }}
+          >{`카메라를 여기에 놓아주세요`}</h4>
+        </div>
       </Card>
     </StyledGomokuCameraCard>
   );
@@ -13,6 +26,6 @@ function GomokuCameraCard() {
 
 export default GomokuCameraCard;
 
-const StyledGomokuCameraCard = styled.main`
+const StyledGomokuCameraCard = styled.section`
   padding: 8px;
 `;

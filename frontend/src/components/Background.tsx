@@ -17,7 +17,7 @@ function Background() {
         minWidth: "100vw",
         minHeight: "100vh",
       }}
-    ></div>
+    />
   );
 }
 

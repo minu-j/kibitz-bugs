@@ -3,16 +3,23 @@ import browserRouter from "./router/browserRouter";
 import Background from "./components/Background";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { FontStyles, GlobalStyles, ResetStyles } from "./styles";
+import {
+  FontStyles,
+  GlobalAnimations,
+  GlobalStyles,
+  ResetStyles,
+} from "./styles";
+import { RecoilRoot } from "recoil";
+import { Bgm } from "./components";
 
 function App() {
   const [windowScale, setWindowScale] = useState<number>(
-    Math.min(window.innerWidth / 1280, window.innerHeight / 720)
+    Math.min(window.innerWidth / 1280, window.innerHeight / 720),
   );
 
   const handleResize = () => {
     setWindowScale(
-      Math.min(window.innerWidth / 1280, window.innerHeight / 720)
+      Math.min(window.innerWidth / 1280, window.innerHeight / 720),
     );
   };
 
@@ -27,19 +34,23 @@ function App() {
   }, []);
 
   return (
-    <StyledApp>
-      <FontStyles />
-      <GlobalStyles />
-      <ResetStyles />
-      <StyledMainPage
-        style={{
-          transform: `translate(-50%, -50%) scale(${windowScale})`,
-        }}
-      >
-        <RouterProvider router={browserRouter} />
-      </StyledMainPage>
-      <Background />
-    </StyledApp>
+    <RecoilRoot>
+      <StyledApp>
+        <FontStyles />
+        <GlobalStyles />
+        <ResetStyles />
+        <GlobalAnimations />
+        <Bgm />
+        <StyledMainPage
+          style={{
+            transform: `translate(-50%, -50%) scale(${windowScale})`,
+          }}
+        >
+          <RouterProvider router={browserRouter} />
+        </StyledMainPage>
+        <Background />
+      </StyledApp>
+    </RecoilRoot>
   );
 }
 

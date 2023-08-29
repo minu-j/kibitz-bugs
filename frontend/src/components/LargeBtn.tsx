@@ -55,8 +55,10 @@ const StyledLargeBtn = styled.div`
   cursor: pointer;
   width: 248px;
   position: relative;
+  transition: transform 0.3s;
 
   &:hover {
     filter: brightness(0.9);
+    transform: scale(1.03);
   }
 `;

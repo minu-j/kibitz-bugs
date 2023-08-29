@@ -1,17 +1,19 @@
 import styled from "@emotion/styled";
-import GomokuBoard from "./components/GomokuBoard";
-import GomokuCameraCard from "./components/GomokuCameraCard";
-import GomokuChatCard from "./components/GomokuChatCard";
-import GomokuInfoCard from "./components/GomokuInfoCard";
+import {
+  GomokuBoard,
+  GomokuCameraCard,
+  GomokuChatCard,
+  GomokuInfoCard,
+} from "./components";
 
 function Gomoku() {
   return (
     <StyledGomoku>
       <GomokuBoard />
-      <div css={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        <GomokuInfoCard></GomokuInfoCard>
-        <GomokuChatCard></GomokuChatCard>
-        <GomokuCameraCard></GomokuCameraCard>
+      <div css={{ width: 420, display: "flex", flexDirection: "column" }}>
+        <GomokuInfoCard />
+        <GomokuChatCard />
+        <GomokuCameraCard />
       </div>
     </StyledGomoku>
   );
@@ -20,7 +22,7 @@ function Gomoku() {
 export default Gomoku;
 
 const StyledGomoku = styled.main`
-  padding: 16px 64px;
+  padding: 16px 60px;
   width: 1280px;
   height: 720px;
   display: flex;

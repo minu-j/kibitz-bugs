@@ -1,21 +1,42 @@
 import { useState } from "react";
-import { colorStyles } from "../../../styles";
-import target from "../../../assets/images/target.svg";
-import blackStone from "../../../assets/images/blackStone.svg";
-import whiteStone from "../../../assets/images/whiteStone.svg";
-import recentMark from "../../../assets/images/recentMark.svg";
+import { colorStyles } from "@styles";
+import target from "@assets/images/target.svg";
+import blackStone from "@assets/images/blackStone.svg";
+import whiteStone from "@assets/images/whiteStone.svg";
+import recentMark from "@assets/images/recentMark.svg";
+import forbiddenMark from "@assets/images/forbiddenMark.svg";
+import { useRecoilValue } from "recoil";
+import { gomokuTurnState } from "@/recoil/gomoku/atoms";
 
 interface IGomokuBoardSquareProps {
   size: number;
-  stone: 0 | 1 | 2;
+  stone: number;
+  i: number;
+  j: number;
+  forbidden: boolean;
   recent: boolean;
+  moveStone: (i: number, j: number, stone: 1 | 2) => void;
 }
 
-function GomokuBoardSquare({ size, stone, recent }: IGomokuBoardSquareProps) {
+function GomokuBoardSquare({
+  size,
+  stone,
+  i,
+  j,
+  forbidden,
+  recent,
+  moveStone,
+}: IGomokuBoardSquareProps) {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
+  const turn = useRecoilValue(gomokuTurnState);
 
   return (
     <div
+      onClick={() => {
+        if (stone === 0 && !(turn === 1 && forbidden)) {
+          moveStone(i, j, turn);
+        }
+      }}
       onMouseEnter={() => {
         setMouseOver(true);
       }}
@@ -26,7 +47,7 @@ function GomokuBoardSquare({ size, stone, recent }: IGomokuBoardSquareProps) {
         width: size,
         height: size,
         flexShrink: 0,
-        cursor: `${stone === 0 ? "pointer" : ""}`,
+        cursor: `${stone === 0 && !(turn === 1 && forbidden) ? "pointer" : ""}`,
       }}
     >
       <div
@@ -39,7 +60,7 @@ function GomokuBoardSquare({ size, stone, recent }: IGomokuBoardSquareProps) {
           transform: "translate(0, -50%)",
           backgroundColor: colorStyles.lightGray,
         }}
-      ></div>
+      />
       <div
         css={{
           width: "2px",
@@ -50,8 +71,18 @@ function GomokuBoardSquare({ size, stone, recent }: IGomokuBoardSquareProps) {
           transform: "translate(-50% , 0)",
           backgroundColor: colorStyles.lightGray,
         }}
-      ></div>
-      {stone === 1 ? (
+      />
+      {turn == 1 && forbidden ? (
+        <img
+          src={forbiddenMark}
+          css={{
+            width: size,
+            height: size,
+            transform: "scale(0.8)",
+            position: "absolute",
+          }}
+        />
+      ) : stone === 1 ? (
         <img
           src={blackStone}
           css={{
@@ -77,8 +108,8 @@ function GomokuBoardSquare({ size, stone, recent }: IGomokuBoardSquareProps) {
           css={{
             width: size,
             height: size,
-            transform: "scale(0.8)",
             position: "absolute",
+            animation: `breath 1s alternate ease-in-out infinite`,
           }}
         />
       ) : null}
