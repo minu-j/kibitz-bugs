@@ -10,16 +10,17 @@ import whiteStone from "@assets/images/whiteStone.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "@/recoil/user/atoms";
 import { gomokuState } from "@/recoil/gomoku/atoms";
-import { useEffect } from "react";
 import Dropdown from "@/components/Dropdown";
+import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 
 function Setting() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const [setting, setSetting] = useRecoilState(gomokuState);
 
-  const streamerTimeValues: number[] = [0, 10000, 30000, 60000];
-  const viewerTimeValues: number[] = [1000, 5000, 10000, 20000];
+  // 시간설정
+  const streamerTimeValues: number[] = [-1, 100, 300, 600];
+  const viewerTimeValues: number[] = [10, 50, 100, 200];
   const setStreamerTime = (value: number) => {
     setSetting({ ...setting, streamerTime: value });
   };
@@ -27,13 +28,9 @@ function Setting() {
     setSetting({ ...setting, viewerTime: value });
   };
 
-  useEffect(() => {
-    if (user.name === undefined || user.accessToken === undefined) {
-      alert("로그아웃되었습니다. 다시 로그인해주세요.");
-      navigate("/");
-    }
-  }, [user]);
+  useCheckUserAuth();
 
+  // 색 서로 바꾸기
   const switchColors = () => {
     setSetting((prevSetting) => {
       const newSetting = {

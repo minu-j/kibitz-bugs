@@ -19,7 +19,8 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
     "recoil": "^0.7.7",
-    "tmi.js": "^1.8.5"
+    "tmi.js": "^1.8.5",
+    "use-interval": "^1.4.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",

@@ -5,8 +5,11 @@ import {
   GomokuChatCard,
   GomokuInfoCard,
 } from "./components";
+import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 
 function Gomoku() {
+  useCheckUserAuth();
+
   return (
     <StyledGomoku>
       <GomokuBoard />

@@ -12,8 +12,8 @@ export const gomokuState = atom<TGomokuState>({
   default: {
     streamerColor: 1,
     viewerColor: 2,
-    streamerTime: 0,
-    viewerTime: 5000,
+    streamerTime: -1,
+    viewerTime: 50,
   },
 });
 
