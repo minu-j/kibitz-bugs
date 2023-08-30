@@ -16,17 +16,18 @@ export const gomokuPlay = (board: number[][]) => {
   const black = 1;
   const white = 2;
 
+  // 양 옆 4 추가하기
   const three_cases = [
-    { 1: 1, 2: 1, "-1": 0, 3: 0 },
-    { "-1": 1, 1: 1, "-2": 0, "-3": 0, 2: 0 },
-    { "-1": 1, 1: 1, "-2": 0, 2: 0, 3: 0 },
-    { "-2": 1, "-1": 1, "-3": 0, 1: 0 },
-    { 1: 1, 2: 0, 3: 1, "-1": 0, 4: 0 },
-    { 1: 0, 2: 1, 3: 1, "-1": 0, 4: 0 },
-    { "-1": 1, 1: 0, 2: 1, "-2": 0, 3: 0 },
-    { "-2": 1, "-1": 0, 1: 1, "-3": 0, 2: 0 },
-    { "-3": 1, "-2": 0, "-1": 1, "-4": 0, 1: 0 },
-    { "-3": 1, "-2": 1, "-1": 0, "-4": 0, 1: 0 },
+    { 1: 1, 2: 1, "-1": 0, 3: 0, "-1": 4, 4: 4 },
+    { "-1": 1, 1: 1, "-2": 0, "-3": 0, 2: 0, "-4": 4, 2: 4 },
+    { "-1": 1, 1: 1, "-2": 0, 2: 0, 3: 0, "-3": 4, 4: 4 },
+    { "-2": 1, "-1": 1, "-3": 0, 1: 0, "-4": 4, 2: 4 },
+    { 1: 1, 2: 0, 3: 1, "-1": 0, 4: 0, "-2": 4, 5: 4 },
+    { 1: 0, 2: 1, 3: 1, "-1": 0, 4: 0, "-2": 4, 5: 4 },
+    { "-1": 1, 1: 0, 2: 1, "-2": 0, 3: 0, "-3": 4, 4: 4 },
+    { "-2": 1, "-1": 0, 1: 1, "-3": 0, 2: 0, "-4": 4, 3: 4 },
+    { "-3": 1, "-2": 0, "-1": 1, "-4": 0, 1: 0, "-5": 4, 2: 4 },
+    { "-3": 1, "-2": 1, "-1": 0, "-4": 0, 1: 0, "-5": 4, 2: 4 },
   ];
 
   const four_cases = [
@@ -154,15 +155,6 @@ export const gomokuPlay = (board: number[][]) => {
                   break;
                 }
               }
-
-              // if (nr < 0 || nr >= N || nc < 0 || nc >= N) {
-              //   flag = true;
-              //   break;
-              // }
-              // if (board[nr][nc] != position[1]) {
-              //   flag = true;
-              //   break;
-              // }
             }
             if (!flag) {
               fourCnt++;
@@ -217,9 +209,6 @@ export const gomokuPlay = (board: number[][]) => {
           }
         }
         if (doubleThreeCandidates.length > 1) {
-          // if (r == 4 && c == 5) {
-          //   console.log(doubleThreeCandidates);
-          // }
           board[r][c] = 1;
           let cnt = 0;
           for (const candidate of doubleThreeCandidates) {
@@ -228,9 +217,6 @@ export const gomokuPlay = (board: number[][]) => {
               if (typeof position == "number") {
                 break;
               }
-              // if (r == 4 && c == 5) {
-              //   console.log("position:", position);
-              // }
 
               if (position[1] == 0) {
                 const nr =
@@ -302,16 +288,25 @@ export const gomokuPlay = (board: number[][]) => {
         for (const position of list) {
           const newR = nr + dr[d] * position[0];
           const newC = nc + dc[d] * position[0];
-          if (r == 3 && c == 5 && nr == 7 && nc == 5) {
-            console.log(position, newR, newC);
-          }
+
           if (newR < 0 || newR >= N || newC < 0 || newC >= N) {
-            flag = true;
-            break;
+            if (position[1] == 4) {
+              continue;
+            } else {
+              flag = true;
+              break;
+            }
           }
-          if (board[newR][newC] != position[1]) {
-            flag = true;
-            break;
+          if (position[1] == 4) {
+            if (board[newR][newC] == 1) {
+              flag = true;
+              break;
+            }
+          } else {
+            if (board[newR][newC] != position[1]) {
+              flag = true;
+              break;
+            }
           }
         }
         if (!flag) {
@@ -362,8 +357,6 @@ export const gomokuPlay = (board: number[][]) => {
   checkFiveOrSix();
   checkDoubleFour();
   checkDoubleThree();
-
-  console.log(blockedPositions);
 
   return [blockedPositions, finishPositions];
 };
