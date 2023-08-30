@@ -1,10 +1,8 @@
 // @ts-nocheck
 
-// const board = new Array(N).fill(null).map(() => new Array(N).fill(0));
-
-export const gomokuPlay = (board: number[][]) => {
+export const gomokuPlay = (board) => {
   const N = 16;
-
+  const error = [0, 0];
   const dr = [1, 0, 1, 1];
   const dc = [0, 1, 1, -1];
 
@@ -18,7 +16,7 @@ export const gomokuPlay = (board: number[][]) => {
 
   // 양 옆 4 추가하기
   const three_cases = [
-    { 1: 1, 2: 1, "-1": 0, 3: 0, "-1": 4, 4: 4 },
+    { 1: 1, 2: 1, "-1": 0, 3: 0, "-2": 4, 4: 4 },
     { "-1": 1, 1: 1, "-2": 0, "-3": 0, 2: 0, "-4": 4, 2: 4 },
     { "-1": 1, 1: 1, "-2": 0, 2: 0, 3: 0, "-3": 4, 4: 4 },
     { "-2": 1, "-1": 1, "-3": 0, 1: 0, "-4": 4, 2: 4 },
@@ -58,8 +56,8 @@ export const gomokuPlay = (board: number[][]) => {
   ];
 
   const checkFiveOrSix = function () {
-    for (let r = 0; r < N; r++) {
-      for (let c = 0; c < N; c++) {
+    for (let r = 1; r < N; r++) {
+      for (let c = 1; c < N; c++) {
         if (board[r][c] != 0) {
           continue;
         }
@@ -73,7 +71,7 @@ export const gomokuPlay = (board: number[][]) => {
             for (let j = 0; j < 5; j++) {
               const nr = r + dr[d] * (i + j);
               const nc = c + dc[d] * (i + j);
-              if (nr < 0 || nr >= N || nc < 0 || nc >= N) {
+              if (nr < 1 || nr >= N || nc < 1 || nc >= N) {
                 break;
               }
               if ((nr != r || nc != c) && board[nr][nc] == black) {
@@ -87,13 +85,13 @@ export const gomokuPlay = (board: number[][]) => {
               for (let j = i - 1; j <= i + 5; j += 6) {
                 const nr = r + dr[d] * j;
                 const nc = c + dc[d] * j;
-                if (nr < 0 || nr >= N || nc < 0 || nc >= N) {
+                if (nr < 1 || nr >= N || nc < 1 || nc >= N) {
                   continue;
                 }
                 // 흑돌이 하나라도 있다면 6목
                 if (board[nr][nc] == black) {
                   blockedPositions.add(r + " " + c);
-                  if (r == 1 && c == 10) {
+                  if (r == error[0] && c == error[1]) {
                     console.log("6목때문");
                   }
                   flag = true;
@@ -117,8 +115,8 @@ export const gomokuPlay = (board: number[][]) => {
   };
 
   const checkDoubleFour = function () {
-    for (let r = 0; r < N; r++) {
-      for (let c = 0; c < N; c++) {
+    for (let r = 1; r < N; r++) {
+      for (let c = 1; c < N; c++) {
         if (
           board[r][c] != 0 ||
           finishPositions.has(r + " " + c) ||
@@ -136,7 +134,7 @@ export const gomokuPlay = (board: number[][]) => {
               const nr = r + dr[d] * position[0];
               const nc = c + dc[d] * position[0];
 
-              if (nr < 0 || nr >= N || nc < 0 || nc >= N) {
+              if (nr < 1 || nr >= N || nc < 1 || nc >= N) {
                 if (position[1] == 4) {
                   continue;
                 } else {
@@ -164,7 +162,7 @@ export const gomokuPlay = (board: number[][]) => {
         }
         if (fourCnt > 1) {
           blockedPositions.add(r + " " + c);
-          if (r == 1 && c == 10) {
+          if (r == error[0] && c == error[1]) {
             console.log("44때문");
           }
         }
@@ -173,8 +171,8 @@ export const gomokuPlay = (board: number[][]) => {
   };
 
   const checkDoubleThree = function () {
-    for (let r = 0; r < N; r++) {
-      for (let c = 0; c < N; c++) {
+    for (let r = 1; r < N; r++) {
+      for (let c = 1; c < N; c++) {
         if (
           board[r][c] != 0 ||
           finishPositions.has(r + " " + c) ||
@@ -192,13 +190,24 @@ export const gomokuPlay = (board: number[][]) => {
             for (const position of list) {
               const nr = r + dr[d] * position[0];
               const nc = c + dc[d] * position[0];
-              if (nr < 0 || nr >= N || nc < 0 || nc >= N) {
-                flag = true;
-                break;
+              if (nr < 1 || nr >= N || nc < 1 || nc >= N) {
+                if (position[1] == 4) {
+                  continue;
+                } else {
+                  flag = true;
+                  break;
+                }
               }
-              if (board[nr][nc] != position[1]) {
-                flag = true;
-                break;
+              if (position[1] == 4) {
+                if (board[nr][nc] == 1) {
+                  flag = true;
+                  break;
+                }
+              } else {
+                if (board[nr][nc] != position[1]) {
+                  flag = true;
+                  break;
+                }
               }
             }
             if (!flag) {
@@ -212,7 +221,6 @@ export const gomokuPlay = (board: number[][]) => {
           board[r][c] = 1;
           let cnt = 0;
           for (const candidate of doubleThreeCandidates) {
-            let flag = false;
             for (const position of candidate) {
               if (typeof position == "number") {
                 break;
@@ -238,7 +246,7 @@ export const gomokuPlay = (board: number[][]) => {
             }
           }
           if (cnt > 1) {
-            if (r == 1 && c == 10) {
+            if (r == error[0] && c == error[1]) {
               console.log("33때문");
             }
             blockedPositions.add(r + " " + c);
@@ -257,7 +265,7 @@ export const gomokuPlay = (board: number[][]) => {
         for (let j = 0; j < 5; j++) {
           const new_r = nr + dr[d] * (i + j);
           const new_c = nc + dc[d] * (i + j);
-          if (new_r < 0 || new_r >= N || new_c < 0 || new_c >= N) {
+          if (new_r < 1 || new_r >= N || new_c < 1 || new_c >= N) {
             break;
           }
           if ((new_r != nr || new_c != nc) && board[new_r][new_c] == black) {
@@ -268,7 +276,7 @@ export const gomokuPlay = (board: number[][]) => {
           for (let j = i - 1; j <= i + 5; j += 6) {
             const newR = nr + dr[d] * j;
             const newC = nc + dc[d] * j;
-            if (newR < 0 || newR >= N || newC < 0 || newC >= N) {
+            if (newR < 1 || newR >= N || newC < 1 || newC >= N) {
               continue;
             }
             if (board[newR][newC] == black) {
@@ -289,7 +297,7 @@ export const gomokuPlay = (board: number[][]) => {
           const newR = nr + dr[d] * position[0];
           const newC = nc + dc[d] * position[0];
 
-          if (newR < 0 || newR >= N || newC < 0 || newC >= N) {
+          if (newR < 1 || newR >= N || newC < 1 || newC >= N) {
             if (position[1] == 4) {
               continue;
             } else {
@@ -326,7 +334,7 @@ export const gomokuPlay = (board: number[][]) => {
         for (const position of list) {
           const newR = nr + dr[d] * position[0];
           const newC = nc + dc[d] * position[0];
-          if (newR < 0 || newR >= N || newC < 0 || newC >= N) {
+          if (newR < 1 || newR >= N || newC < 1 || newC >= N) {
             if (position[1] == 4) {
               continue;
             } else {
