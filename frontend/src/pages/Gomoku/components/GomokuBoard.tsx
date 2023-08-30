@@ -7,24 +7,7 @@ import { gomokuPlay } from "@/utils/gomokuPlay";
 
 function GomokuBoard() {
   const SQUARE_SIZE: number = 44;
-  const alphabet = [
-    "",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-  ];
+
   const [board, setBoard] = useRecoilState(gomokuBoardState);
   const setTurn = useSetRecoilState(gomokuTurnState);
   const [recent, setRecent] = useState<number[]>([0, 0]);
@@ -50,7 +33,7 @@ function GomokuBoard() {
         setFinishMoves(newFinishMoves);
         return newBoard;
       });
-      // setTurn((prevTurn) => (prevTurn === 1 ? 2 : 1));
+      setTurn((prevTurn) => (prevTurn === 1 ? 2 : 1));
       setRecent([i, j]);
     }
   };
@@ -127,3 +110,22 @@ const StyledGomokuBoard = styled.section`
   width: 740px;
   flex-shrink: 0;
 `;
+
+const alphabet = [
+  "",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+];

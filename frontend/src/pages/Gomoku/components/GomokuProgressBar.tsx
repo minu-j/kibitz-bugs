@@ -12,7 +12,7 @@ function GomokuProgressBar({ progress }: { progress: number }) {
       />
       <div
         css={{
-          width: (1 - progress / 100) * 384,
+          width: (progress / 100) * 384,
           height: 9,
           backgroundColor: "white",
           position: "absolute",

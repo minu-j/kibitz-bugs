@@ -24,6 +24,8 @@
       "@styles/*": ["styles/*"],
       "@types": ["types"],
       "@types/*": ["types/*"],
+      "@hooks": ["hooks"],
+      "@hooks/*": ["hooks/*"],
       "@utils": ["utils"],
       "@utils/*": ["utils/*"]
     },
