@@ -1,6 +1,12 @@
 // @ts-nocheck
 
-export const gomokuPlay = (board) => {
+/**
+ *
+ * @param board 현재 오목판 2차원 배열
+ * @param color 1-흑돌 / 2-백돌
+ * @returns [놓지 못하는 좌표, 놓으면 이기는 좌표]
+ */
+export const gomokuPlay = (board, color) => {
   const N = 16;
   const error = [0, 0];
   const dr = [1, 0, 1, 1];
@@ -14,6 +20,45 @@ export const gomokuPlay = (board) => {
   const black = 1;
   const white = 2;
 
+  // 백돌 5목 판단
+  if (color == 2) {
+    for (let r = 1; r < N; r++) {
+      for (let c = 1; c < N; c++) {
+        if (board[r][c] != 0) {
+          continue;
+        }
+
+        // 5목 판단
+        for (let d = 0; d < 4; d++) {
+          let flag = false;
+          for (let i = -4; i <= 0; i++) {
+            let cnt = 0;
+            for (let j = 0; j < 5; j++) {
+              const nr = r + dr[d] * (i + j);
+              const nc = c + dc[d] * (i + j);
+              if (nr < 1 || nr >= N || nc < 1 || nc >= N) {
+                break;
+              }
+              if ((nr != r || nc != c) && board[nr][nc] == white) {
+                cnt++;
+              }
+            }
+            if (cnt == 4) {
+              finishPositions.add(r + " " + c);
+              flag = true;
+              break;
+            }
+          }
+          if (flag) {
+            break;
+          }
+        }
+      }
+    }
+    return [[], finishPositions];
+  }
+
+  // 흑돌 차례
   // 양 옆 4 추가하기
   const three_cases = [
     { 1: 1, 2: 1, "-1": 0, 3: 0, "-2": 4, 4: 4 },
