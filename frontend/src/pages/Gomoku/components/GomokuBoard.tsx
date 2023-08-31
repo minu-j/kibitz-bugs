@@ -1,22 +1,17 @@
 import styled from "@emotion/styled";
 import GomokuBoardSquare from "./GomokuBoardSquare";
 import { useRecoilValue } from "recoil";
-import {
-  gomokuBoardState,
-  gomokuForbiddenMovesState,
-  gomokuRecentState,
-} from "@/recoil/gomoku/atoms";
+import { gomokuBoardState, gomokuRecentState } from "@/recoil/gomoku/atoms";
 
 function GomokuBoard() {
   const SQUARE_SIZE: number = 44;
 
   const board = useRecoilValue(gomokuBoardState);
   const recent = useRecoilValue(gomokuRecentState);
-  const forbiddenMoves = useRecoilValue(gomokuForbiddenMovesState);
 
   return (
     <StyledGomokuBoard>
-      {board.map((row, i) =>
+      {board.board.map((row, i) =>
         !i ? (
           <div key={`board-sqare-key-${i}`} css={{ display: "flex" }}>
             {row.map((col, j) =>
@@ -66,7 +61,7 @@ function GomokuBoard() {
                   size={SQUARE_SIZE}
                   i={i}
                   j={j}
-                  forbidden={forbiddenMoves.has(`${i} ${j}`)}
+                  forbidden={board.forbidden.has(`${i} ${j}`)}
                   stone={col}
                   recent={recent[0] == i && recent[1] == j}
                 />

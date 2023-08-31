@@ -7,10 +7,11 @@ import arrow from "@assets/images/arrow.svg";
 
 import { colorStyles, textStyles } from "@/styles";
 import { GomokuProgressBar } from ".";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "@/recoil/user/atoms";
 import {
   gomokuNowPlayerState,
+  gomokuResultState,
   gomokuState,
   gomokuTurnState,
   gomokuVoteState,
@@ -27,6 +28,7 @@ function GomokuInfoCard() {
   const [nowPlayer, setNowPlayer] = useRecoilState(gomokuNowPlayerState);
   const [time, setTime] = useState(-1);
   const [vote, setVote] = useRecoilState(gomokuVoteState);
+  const setResult = useSetRecoilState(gomokuResultState);
 
   const moveStone = useMoveStone();
 
@@ -36,7 +38,7 @@ function GomokuInfoCard() {
       console.log("똑딱");
     } else if (time === 0) {
       if (nowPlayer === 1) {
-        console.log("스트리머 시간 패");
+        setResult(2);
       } else {
         let maxKey = "";
         let maxValue = -1;
@@ -79,14 +81,6 @@ function GomokuInfoCard() {
             : (time / setting.viewerTime) * 100
         }
       />
-      {/* <h2
-        css={{
-          marginTop: 10,
-          ...textStyles.contents,
-        }}
-      >
-        {`스트리머가 선택 중...`}
-      </h2> */}
       <div
         css={{
           marginTop: 10,

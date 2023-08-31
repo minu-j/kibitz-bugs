@@ -1,39 +1,46 @@
 import {
   gomokuBoardState,
-  gomokuFinishMovesState,
-  gomokuForbiddenMovesState,
+  gomokuNowPlayerState,
   gomokuRecentState,
+  gomokuResultState,
   gomokuTurnState,
 } from "@/recoil/gomoku/atoms";
-import { gomokuPlay } from "@/utils/gomokuPlay";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { gomokuCore } from "@/utils/gomokuCore";
 
 const useMoveStone = () => {
-  const setBoard = useSetRecoilState(gomokuBoardState);
+  const [board, setBoard] = useRecoilState(gomokuBoardState);
   const setTurn = useSetRecoilState(gomokuTurnState);
   const setRecent = useSetRecoilState(gomokuRecentState);
-  const setForbiddenMoves = useSetRecoilState(gomokuForbiddenMovesState);
-  const [finishMoves, setFinishMoves] = useRecoilState(gomokuFinishMovesState);
+  const turn = useRecoilValue(gomokuTurnState);
+  const nowPlayer = useRecoilValue(gomokuNowPlayerState);
+  const setResult = useSetRecoilState(gomokuResultState);
 
   const moveStone = (i: number, j: number, stone: 1 | 2) => {
-    if (finishMoves.has(`${i} ${j}`)) {
+    setRecent([i, j]);
+    if (board.finish.has(`${i} ${j}`)) {
       setBoard((prevBoard) => {
-        const newBoard = JSON.parse(JSON.stringify(prevBoard));
+        const newBoard = JSON.parse(JSON.stringify(prevBoard.board));
         newBoard[i][j] = stone;
-        return newBoard;
+        return { board: newBoard, forbidden: new Set(), finish: new Set() };
       });
-      alert("끝");
+      setResult(nowPlayer);
     } else {
       setBoard((prevBoard) => {
-        const newBoard = JSON.parse(JSON.stringify(prevBoard));
+        const newBoard = JSON.parse(JSON.stringify(prevBoard.board));
         newBoard[i][j] = stone;
-        const [newForbiddenMoves, newFinishMoves] = gomokuPlay(newBoard);
-        // setForbiddenMoves(newForbiddenMoves);
-        // setFinishMoves(newFinishMoves);
-        return newBoard;
+        const [nextForbiddenMoves, nextFinishMoves] = gomokuCore(
+          newBoard,
+          turn === 1 ? 2 : 1,
+        );
+        console.log(turn, nextForbiddenMoves);
+        return {
+          board: newBoard,
+          forbidden: nextForbiddenMoves,
+          finish: nextFinishMoves,
+        };
       });
       setTurn((prevTurn) => (prevTurn === 1 ? 2 : 1));
-      setRecent([i, j]);
     }
   };
   return moveStone;

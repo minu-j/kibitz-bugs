@@ -3,9 +3,14 @@ import { Card } from "@components";
 import tmi from "tmi.js";
 import { userState } from "@/recoil/user/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { processCoord } from "@/utils/processCoord";
-import { gomokuVoteState } from "@/recoil/gomoku/atoms";
+import {
+  gomokuBoardState,
+  gomokuResultState,
+  gomokuVoteState,
+} from "@/recoil/gomoku/atoms";
+import { str2numCoord } from "@/utils/str2numCoord";
 
 interface IMessage {
   name: string | undefined;
@@ -18,18 +23,38 @@ function GomokuChatCard() {
   const [chatQueue, setChatQueue] = useState<IMessage[]>([]);
   const setVote = useSetRecoilState(gomokuVoteState);
 
+  const board = useRecoilValue(gomokuBoardState);
+  const boardRef = useRef(board);
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
+
+  const result = useRecoilValue(gomokuResultState);
+  const resultRef = useRef(result);
+  useEffect(() => {
+    resultRef.current = result;
+  }, [result]);
+
   const addVote = (coord: string) => {
-    if (coord) {
-      setVote((prevVote) => {
-        const newCount = prevVote.count;
-        if (newCount.has(coord)) {
-          newCount.set(coord, newCount.get(coord)! + 1);
-        } else {
-          newCount.set(coord, 1);
-        }
-        const newTotal = prevVote.total;
-        return { count: newCount, total: newTotal + 1 };
-      });
+    if (coord && !resultRef.current) {
+      const [i, j] = str2numCoord(coord);
+      console.log(boardRef.current.forbidden.has(`${i} ${j}`));
+      // 해당 보드에 돌이 없어야 투표에 반영
+      if (
+        !boardRef.current.board[i][j] &&
+        !boardRef.current.forbidden.has(`${i} ${j}`)
+      ) {
+        setVote((prevVote) => {
+          const newCount = prevVote.count;
+          if (newCount.has(coord)) {
+            newCount.set(coord, newCount.get(coord)! + 1);
+          } else {
+            newCount.set(coord, 1);
+          }
+          const newTotal = prevVote.total;
+          return { count: newCount, total: newTotal + 1 };
+        });
+      }
     }
   };
 
@@ -43,7 +68,9 @@ function GomokuChatCard() {
     if (self) {
       return;
     } // Ignore messages from the bot
+
     addVote(processCoord(msg));
+
     setChatQueue((prevChatQueue) => {
       if (prevChatQueue.length > MAX_CHAT_Q_LENGTH) {
         prevChatQueue.splice(0, 1);

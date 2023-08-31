@@ -1,13 +1,19 @@
-import { gomokuBoardState, gomokuTurnState } from "@/recoil/gomoku/atoms";
+import {
+  gomokuBoardState,
+  gomokuResultState,
+  gomokuTurnState,
+} from "@/recoil/gomoku/atoms";
 import { useResetRecoilState } from "recoil";
 
 function useResetGomoku() {
-  const setGomokuBoardState = useResetRecoilState(gomokuBoardState);
-  const setGomokuTurnState = useResetRecoilState(gomokuTurnState);
+  const resetGomokuBoardState = useResetRecoilState(gomokuBoardState);
+  const resetGomokuTurnState = useResetRecoilState(gomokuTurnState);
+  const resetResult = useResetRecoilState(gomokuResultState);
 
   const useResetGomokuState = () => {
-    setGomokuBoardState();
-    setGomokuTurnState();
+    resetGomokuBoardState();
+    resetGomokuTurnState();
+    resetResult();
   };
 
   return useResetGomokuState;
