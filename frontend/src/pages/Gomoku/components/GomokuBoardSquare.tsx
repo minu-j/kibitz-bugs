@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { colorStyles } from "@styles";
+import { colorStyles, textStyles } from "@styles";
 import target from "@assets/images/target.svg";
 import blackStone from "@assets/images/blackStone.svg";
 import whiteStone from "@assets/images/whiteStone.svg";
 import recentMark from "@assets/images/recentMark.svg";
 import forbiddenMark from "@assets/images/forbiddenMark.svg";
 import { useRecoilValue } from "recoil";
-import { gomokuTurnState } from "@/recoil/gomoku/atoms";
+import {
+  gomokuNowPlayerState,
+  gomokuTurnState,
+  gomokuVoteState,
+} from "@/recoil/gomoku/atoms";
+import { num2strCoord } from "@/utils/num2strCoord";
+import useMoveStone from "@/hooks/useMoveStone";
 
 interface IGomokuBoardSquareProps {
   size: number;
@@ -15,7 +21,6 @@ interface IGomokuBoardSquareProps {
   j: number;
   forbidden: boolean;
   recent: boolean;
-  moveStone: (i: number, j: number, stone: 1 | 2) => void;
 }
 
 function GomokuBoardSquare({
@@ -25,15 +30,18 @@ function GomokuBoardSquare({
   j,
   forbidden,
   recent,
-  moveStone,
 }: IGomokuBoardSquareProps) {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const turn = useRecoilValue(gomokuTurnState);
+  const nowPlayer = useRecoilValue(gomokuNowPlayerState);
+  const vote = useRecoilValue(gomokuVoteState);
+
+  const moveStone = useMoveStone();
 
   return (
     <div
       onClick={() => {
-        if (stone === 0 && !(turn === 1 && forbidden)) {
+        if (stone === 0 && !(turn === 1 && forbidden) && nowPlayer === 1) {
           moveStone(i, j, turn);
         }
       }}
@@ -47,7 +55,11 @@ function GomokuBoardSquare({
         width: size,
         height: size,
         flexShrink: 0,
-        cursor: `${stone === 0 && !(turn === 1 && forbidden) ? "pointer" : ""}`,
+        cursor: `${
+          stone === 0 && !(turn === 1 && forbidden) && nowPlayer === 1
+            ? "pointer"
+            : ""
+        }`,
       }}
     >
       <div
@@ -72,6 +84,30 @@ function GomokuBoardSquare({
           backgroundColor: colorStyles.lightGray,
         }}
       />
+
+      {vote.count.has(num2strCoord(i, j)) ? (
+        <div
+          css={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50% , -50%)",
+            ...textStyles.title2,
+          }}
+        >
+          {((vote.count.get(num2strCoord(i, j))! / vote.total) * 100).toFixed(
+            0,
+          )}
+          <span
+            css={{
+              ...textStyles.contents,
+            }}
+          >
+            %
+          </span>
+        </div>
+      ) : null}
+
       {turn == 1 && forbidden ? (
         <img
           src={forbiddenMark}
@@ -102,7 +138,7 @@ function GomokuBoardSquare({
             position: "absolute",
           }}
         />
-      ) : mouseOver ? (
+      ) : mouseOver && nowPlayer === 1 ? (
         <img
           src={target}
           css={{

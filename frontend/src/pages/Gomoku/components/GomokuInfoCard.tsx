@@ -7,24 +7,49 @@ import arrow from "@assets/images/arrow.svg";
 
 import { colorStyles, textStyles } from "@/styles";
 import { GomokuProgressBar } from ".";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "@/recoil/user/atoms";
-import { gomokuState, gomokuTurnState } from "@/recoil/gomoku/atoms";
+import {
+  gomokuNowPlayerState,
+  gomokuState,
+  gomokuTurnState,
+  gomokuVoteState,
+} from "@/recoil/gomoku/atoms";
 import { useEffect, useState } from "react";
 import useInterval from "use-interval";
+import useMoveStone from "@/hooks/useMoveStone";
+import { str2numCoord } from "@/utils/str2numCoord";
 
 function GomokuInfoCard() {
   const user = useRecoilValue(userState);
   const setting = useRecoilValue(gomokuState);
   const turn = useRecoilValue(gomokuTurnState);
-  const [nowPlayer, setNowPlayer] = useState(0);
-
+  const [nowPlayer, setNowPlayer] = useRecoilState(gomokuNowPlayerState);
   const [time, setTime] = useState(-1);
+  const [vote, setVote] = useRecoilState(gomokuVoteState);
+
+  const moveStone = useMoveStone();
 
   useInterval(() => {
     if (0 < time) {
       setTime((ot) => ot - 1);
       console.log("똑딱");
+    } else if (time === 0) {
+      if (nowPlayer === 1) {
+        console.log("스트리머 시간 패");
+      } else {
+        let maxKey = "";
+        let maxValue = -1;
+
+        for (const [key, value] of vote.count) {
+          if (value > maxValue) {
+            maxKey = key;
+            maxValue = value;
+          }
+        }
+        const [i, j] = str2numCoord(maxKey);
+        moveStone(i, j, setting.viewerColor);
+      }
     }
   }, 100);
 
@@ -36,6 +61,7 @@ function GomokuInfoCard() {
       setTime(setting.viewerTime);
       setNowPlayer(2);
     }
+    setVote({ count: new Map(), total: 0 });
   }, [turn]);
 
   return (

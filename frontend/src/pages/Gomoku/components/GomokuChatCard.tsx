@@ -2,8 +2,10 @@ import styled from "@emotion/styled";
 import { Card } from "@components";
 import tmi from "tmi.js";
 import { userState } from "@/recoil/user/atoms";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
+import { processCoord } from "@/utils/processCoord";
+import { gomokuVoteState } from "@/recoil/gomoku/atoms";
 
 interface IMessage {
   name: string | undefined;
@@ -14,6 +16,22 @@ function GomokuChatCard() {
   const user = useRecoilValue(userState);
   const MAX_CHAT_Q_LENGTH: number = 15;
   const [chatQueue, setChatQueue] = useState<IMessage[]>([]);
+  const setVote = useSetRecoilState(gomokuVoteState);
+
+  const addVote = (coord: string) => {
+    if (coord) {
+      setVote((prevVote) => {
+        const newCount = prevVote.count;
+        if (newCount.has(coord)) {
+          newCount.set(coord, newCount.get(coord)! + 1);
+        } else {
+          newCount.set(coord, 1);
+        }
+        const newTotal = prevVote.total;
+        return { count: newCount, total: newTotal + 1 };
+      });
+    }
+  };
 
   // Called every time a message comes in
   const onMessageHandler = (
@@ -25,6 +43,7 @@ function GomokuChatCard() {
     if (self) {
       return;
     } // Ignore messages from the bot
+    addVote(processCoord(msg));
     setChatQueue((prevChatQueue) => {
       if (prevChatQueue.length > MAX_CHAT_Q_LENGTH) {
         prevChatQueue.splice(0, 1);
@@ -61,6 +80,10 @@ function GomokuChatCard() {
 
     // Connect to Twitch:
     c.connect();
+
+    return () => {
+      c.disconnect();
+    };
   }, []);
 
   return (
