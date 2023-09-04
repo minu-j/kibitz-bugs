@@ -8,6 +8,7 @@ import forbiddenMark from "@assets/images/forbiddenMark.svg";
 import { useRecoilValue } from "recoil";
 import {
   gomokuNowPlayerState,
+  gomokuResultState,
   gomokuTurnState,
   gomokuVoteState,
 } from "@/recoil/gomoku/atoms";
@@ -35,13 +36,19 @@ function GomokuBoardSquare({
   const turn = useRecoilValue(gomokuTurnState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
   const vote = useRecoilValue(gomokuVoteState);
+  const result = useRecoilValue(gomokuResultState);
 
   const moveStone = useMoveStone();
 
   return (
     <div
       onClick={() => {
-        if (stone === 0 && !(turn === 1 && forbidden) && nowPlayer === 1) {
+        if (
+          stone === 0 &&
+          !(turn === 1 && forbidden) &&
+          nowPlayer === 1 &&
+          !result
+        ) {
           moveStone(i, j, turn);
         }
       }}
@@ -56,7 +63,10 @@ function GomokuBoardSquare({
         height: size,
         flexShrink: 0,
         cursor: `${
-          stone === 0 && !(turn === 1 && forbidden) && nowPlayer === 1
+          stone === 0 &&
+          !(turn === 1 && forbidden) &&
+          nowPlayer === 1 &&
+          !result
             ? "pointer"
             : ""
         }`,
@@ -85,7 +95,7 @@ function GomokuBoardSquare({
         }}
       />
 
-      {vote.count.has(num2strCoord(i, j)) ? (
+      {nowPlayer === 2 && vote.count.has(num2strCoord(i, j)) && !result ? (
         <div
           css={{
             position: "absolute",
@@ -108,7 +118,7 @@ function GomokuBoardSquare({
         </div>
       ) : null}
 
-      {turn == 1 && forbidden ? (
+      {turn === 1 && forbidden ? (
         <img
           src={forbiddenMark}
           css={{
@@ -138,7 +148,7 @@ function GomokuBoardSquare({
             position: "absolute",
           }}
         />
-      ) : mouseOver && nowPlayer === 1 ? (
+      ) : mouseOver && nowPlayer === 1 && !result ? (
         <img
           src={target}
           css={{

@@ -9,12 +9,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 function Auth() {
+  const client_id = import.meta.env.VITE_TWITCH_CLIENT_ID;
+  const client_secret = import.meta.env.VITE_TWITCH_CLIENT_SECRET;
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get("code");
-  const client_id = "ke8l9zd2f9fla9pf418ht24es2w4bi";
-  const client_secret = "um2d2h0snv77dj3jq77gxrctmmuky7";
   const grant_type = "authorization_code";
   const redirect_uri = "http://localhost:5173/auth";
 

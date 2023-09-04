@@ -2,57 +2,14 @@ import styled from "@emotion/styled";
 import { Card } from "@components";
 import tmi from "tmi.js";
 import { userState } from "@/recoil/user/atoms";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useEffect, useRef } from "react";
-import { processCoord } from "@/utils/processCoord";
-import {
-  gomokuBoardState,
-  gomokuResultState,
-  gomokuVoteState,
-} from "@/recoil/gomoku/atoms";
-import { str2numCoord } from "@/utils/str2numCoord";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
 import { chatQueueState } from "@/recoil/chat/atoms";
 
-function GomokuChatCard() {
+function SettingChatCard() {
   const user = useRecoilValue(userState);
   const MAX_CHAT_Q_LENGTH: number = 15;
   const [chatQueue, setChatQueue] = useRecoilState(chatQueueState);
-  const setVote = useSetRecoilState(gomokuVoteState);
-
-  const board = useRecoilValue(gomokuBoardState);
-  const boardRef = useRef(board);
-  useEffect(() => {
-    boardRef.current = board;
-  }, [board]);
-
-  const result = useRecoilValue(gomokuResultState);
-  const resultRef = useRef(result);
-  useEffect(() => {
-    resultRef.current = result;
-  }, [result]);
-
-  const addVote = (coord: string) => {
-    if (coord && !resultRef.current) {
-      const [i, j] = str2numCoord(coord);
-      console.log(boardRef.current.forbidden.has(`${i} ${j}`));
-      // 해당 보드에 돌이 없어야 투표에 반영
-      if (
-        !boardRef.current.board[i][j] &&
-        !boardRef.current.forbidden.has(`${i} ${j}`)
-      ) {
-        setVote((prevVote) => {
-          const newCount = prevVote.count;
-          if (newCount.has(coord)) {
-            newCount.set(coord, newCount.get(coord)! + 1);
-          } else {
-            newCount.set(coord, 1);
-          }
-          const newTotal = prevVote.total;
-          return { count: newCount, total: newTotal + 1 };
-        });
-      }
-    }
-  };
 
   // Called every time a message comes in
   const onMessageHandler = (
@@ -64,8 +21,6 @@ function GomokuChatCard() {
     if (self) {
       return;
     } // Ignore messages from the bot
-
-    addVote(processCoord(msg));
 
     setChatQueue((prevChatQueue) => {
       const newChatQueue = [...prevChatQueue];
@@ -111,7 +66,7 @@ function GomokuChatCard() {
   }, []);
 
   return (
-    <StyledGomokuChatCard>
+    <StyledSettingChatCard>
       <Card>
         <div
           css={{
@@ -155,12 +110,12 @@ function GomokuChatCard() {
           ))}
         </div>
       </Card>
-    </StyledGomokuChatCard>
+    </StyledSettingChatCard>
   );
 }
 
-export default GomokuChatCard;
+export default SettingChatCard;
 
-const StyledGomokuChatCard = styled.section`
+const StyledSettingChatCard = styled.section`
   padding: 8px;
 `;

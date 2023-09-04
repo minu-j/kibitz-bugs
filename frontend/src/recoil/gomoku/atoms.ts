@@ -17,24 +17,29 @@ export const gomokuState = atom<TGomokuState>({
   },
 });
 
-export const gomokuBoardState = atom<number[][]>({
+export interface TGomokuBoardState {
+  board: number[][];
+  forbidden: Set<unknown>;
+  finish: Set<unknown>;
+}
+
+export const gomokuBoardState = atom<TGomokuBoardState>({
   key: "gomokuBoardState",
-  default: new Array(16).fill(null).map(() => new Array(16).fill(0)),
+  default: {
+    board: new Array(16).fill(null).map(() => new Array(16).fill(0)),
+    forbidden: new Set(),
+    finish: new Set(),
+  },
+});
+
+export const gomokuResultState = atom<number>({
+  key: "gomokuResultState",
+  default: 0,
 });
 
 export const gomokuRecentState = atom<number[]>({
   key: "gomokuRecentState",
   default: [0, 0],
-});
-
-export const gomokuForbiddenMovesState = atom<Set<unknown>>({
-  key: "gomokuForbiddenMovesState",
-  default: new Set(),
-});
-
-export const gomokuFinishMovesState = atom<Set<unknown>>({
-  key: "gomokuFinishMovesState",
-  default: new Set(),
 });
 
 export const gomokuTurnState = atom<1 | 2>({

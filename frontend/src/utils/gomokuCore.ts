@@ -6,7 +6,7 @@
  * @param color 1-흑돌 / 2-백돌
  * @returns [놓지 못하는 좌표, 놓으면 이기는 좌표]
  */
-export const gomokuPlay = (board, color) => {
+export const gomokuCore = (board, color) => {
   const N = 16;
   const error = [0, 0];
   const dr = [1, 0, 1, 1];
@@ -55,7 +55,7 @@ export const gomokuPlay = (board, color) => {
         }
       }
     }
-    return [[], finishPositions];
+    return [new Set(), finishPositions];
   }
 
   // 흑돌 차례
