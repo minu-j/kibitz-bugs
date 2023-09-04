@@ -11,12 +11,14 @@ import { useSetRecoilState } from "recoil";
 function Auth() {
   const client_id = import.meta.env.VITE_TWITCH_CLIENT_ID;
   const client_secret = import.meta.env.VITE_TWITCH_CLIENT_SECRET;
+  const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get("code");
   const grant_type = "authorization_code";
-  const redirect_uri = "http://localhost:5173/auth";
+  const redirect_uri = `${BASE_URL}auth`;
 
   const setUser = useSetRecoilState(userState);
 

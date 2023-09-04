@@ -1,13 +1,21 @@
 import styled from "@emotion/styled/macro";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useInterval from "use-interval";
 
 function GomokuSetting() {
   const navigate = useNavigate();
+  const [count, setCount] = useState<number>(3);
 
   useInterval(() => {
-    navigate("");
+    setCount(count - 1);
   }, 1000);
+
+  useEffect(() => {
+    if (count < 0) {
+      navigate("/gomoku");
+    }
+  }, [count]);
 
   return (
     <StyledGomokuSetting>
