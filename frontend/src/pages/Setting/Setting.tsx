@@ -5,11 +5,19 @@ import {
   SettingChatCard,
   SettingInfoCard,
 } from "./components";
+import { useState } from "react";
+import { Countdown } from "@/components";
 
 function Setting() {
+  const [showCount, setShowCount] = useState<boolean>(false);
+
   return (
     <StyledSetting>
-      <GomokuSetting />
+      {showCount ? (
+        <Countdown />
+      ) : (
+        <GomokuSetting onClick={() => setShowCount(true)} />
+      )}
       <div css={{ width: 420, display: "flex", flexDirection: "column" }}>
         <SettingInfoCard />
         <SettingChatCard />

@@ -34,7 +34,6 @@ function GomokuChatCard() {
   const addVote = (coord: string) => {
     if (coord && !resultRef.current) {
       const [i, j] = str2numCoord(coord);
-      console.log(boardRef.current.forbidden.has(`${i} ${j}`));
       // 해당 보드에 돌이 없어야 투표에 반영
       if (
         !boardRef.current.board[i][j] &&

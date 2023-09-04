@@ -1,9 +1,10 @@
-import styled from "@emotion/styled/macro";
+import { textStyles } from "@/styles";
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useInterval from "use-interval";
 
-function GomokuSetting() {
+function Countdown() {
   const navigate = useNavigate();
   const [count, setCount] = useState<number>(3);
 
@@ -18,15 +19,23 @@ function GomokuSetting() {
   }, [count]);
 
   return (
-    <StyledGomokuSetting>
-      <div>5</div>
-    </StyledGomokuSetting>
+    <StyledCountdown>
+      {count === 3 ? (
+        <div css={{ ...textStyles.title1, fontSize: 80 }}>3</div>
+      ) : count === 2 ? (
+        <div css={{ ...textStyles.title1, fontSize: 80 }}>2</div>
+      ) : count === 1 ? (
+        <div css={{ ...textStyles.title1, fontSize: 80 }}>1</div>
+      ) : (
+        <div css={{ ...textStyles.title1, fontSize: 80 }}>START!</div>
+      )}
+    </StyledCountdown>
   );
 }
 
-export default GomokuSetting;
+export default Countdown;
 
-const StyledGomokuSetting = styled.div`
+const StyledCountdown = styled.div`
   width: 740px;
   flex-shrink: 0;
   display: flex;
