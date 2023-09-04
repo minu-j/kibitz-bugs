@@ -4,6 +4,7 @@ import { LargeBtn } from "@components";
 import { textStyles } from "@styles";
 import { objectToQueryString } from "@/utils/objectToQueryString";
 import Description from "./components/Description";
+import { isMobile } from "react-device-detect";
 
 function Login() {
   const AUTH_URL = import.meta.env.VITE_TWITCH_AUTH_URL;
@@ -36,22 +37,35 @@ function Login() {
         <h1 css={{ ...textStyles.title2 }}>{"키비츠 벅스"}</h1>
       </div>
       <Description />
-      <p
-        css={{
-          animation: `floadingUpDown 1s alternate ease-in-out infinite`,
-          ...textStyles.contents,
-        }}
-      >
-        클릭 한번으로 로그인 하기
-      </p>
-      <LargeBtn
-        label="twitch 로그인"
-        onClick={() =>
-          location.replace(
-            `${AUTH_URL}authorize?${objectToQueryString(queryParams)}`,
-          )
-        }
-      />
+      {isMobile ? (
+        <p
+          css={{
+            animation: `floadingUpDown 1s alternate ease-in-out infinite`,
+            ...textStyles.contents,
+          }}
+        >
+          PC로 접속해 플레이하세요.
+        </p>
+      ) : (
+        <>
+          <p
+            css={{
+              animation: `floadingUpDown 1s alternate ease-in-out infinite`,
+              ...textStyles.contents,
+            }}
+          >
+            클릭 한번으로 로그인 하기
+          </p>
+          <LargeBtn
+            label="twitch 로그인"
+            onClick={() =>
+              location.replace(
+                `${AUTH_URL}authorize?${objectToQueryString(queryParams)}`,
+              )
+            }
+          />
+        </>
+      )}
     </StyledLogin>
   );
 }
