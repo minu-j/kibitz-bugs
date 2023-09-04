@@ -2,19 +2,16 @@ import styled from "@emotion/styled";
 import { textStyles } from "@styles";
 import vs from "@assets/images/vs.svg";
 import { TbArrowsDiff, TbAlarm } from "react-icons/tb";
-import { LargeBtn } from "@components";
-import { useNavigate } from "react-router-dom";
+import { Dropdown, LargeBtn } from "@components";
 import blackStone from "@assets/images/blackStone.svg";
 import whiteStone from "@assets/images/whiteStone.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "@/recoil/user/atoms";
 import { gomokuState } from "@/recoil/gomoku/atoms";
-import Dropdown from "@/components/Dropdown";
 import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { SettingRow } from ".";
 
-function GomokuSetting() {
-  const navigate = useNavigate();
+function GomokuSetting({ onClick }: { onClick(): void }) {
   const user = useRecoilValue(userState);
   const [setting, setSetting] = useRecoilState(gomokuState);
 
@@ -149,7 +146,7 @@ function GomokuSetting() {
       <LargeBtn
         label="게임시작!"
         onClick={() => {
-          navigate("/gomoku");
+          onClick();
         }}
       />
     </StyledGomokuSetting>

@@ -40,7 +40,7 @@ function App() {
         <GlobalStyles />
         <ResetStyles />
         <GlobalAnimations />
-        <Bgm />
+        {/* <Bgm /> */}
         <StyledMainPage
           style={{
             transform: `translate(-50%, -50%) scale(${windowScale})`,

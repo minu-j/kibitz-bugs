@@ -33,7 +33,6 @@ const useMoveStone = () => {
           newBoard,
           turn === 1 ? 2 : 1,
         );
-        console.log(turn, nextForbiddenMoves);
         return {
           board: newBoard,
           forbidden: nextForbiddenMoves,

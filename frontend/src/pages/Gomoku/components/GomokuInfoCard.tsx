@@ -35,22 +35,25 @@ function GomokuInfoCard() {
   useInterval(() => {
     if (0 < time) {
       setTime((ot) => ot - 1);
-      console.log("똑딱");
     } else if (time === 0) {
       if (nowPlayer === 1) {
         setResult(2);
       } else {
-        let maxKey = "";
-        let maxValue = -1;
+        if (vote.total) {
+          let maxKey = "";
+          let maxValue = -1;
 
-        for (const [key, value] of vote.count) {
-          if (value > maxValue) {
-            maxKey = key;
-            maxValue = value;
+          for (const [key, value] of vote.count) {
+            if (value > maxValue) {
+              maxKey = key;
+              maxValue = value;
+            }
           }
+          const [i, j] = str2numCoord(maxKey);
+          moveStone(i, j, setting.viewerColor);
+        } else {
+          setResult(1);
         }
-        const [i, j] = str2numCoord(maxKey);
-        moveStone(i, j, setting.viewerColor);
       }
     }
   }, 100);
