@@ -1,7 +1,13 @@
 import styled from "@emotion/styled/macro";
+import { useNavigate } from "react-router-dom";
+import useInterval from "use-interval";
 
 function GomokuSetting() {
   const navigate = useNavigate();
+
+  useInterval(() => {
+    navigate("");
+  }, 1000);
 
   return (
     <StyledGomokuSetting>
