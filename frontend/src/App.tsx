@@ -10,7 +10,7 @@ import {
   ResetStyles,
 } from "./styles";
 import { RecoilRoot } from "recoil";
-import { Bgm } from "./components";
+// import { Bgm } from "./components";
 
 function App() {
   const [windowScale, setWindowScale] = useState<number>(
