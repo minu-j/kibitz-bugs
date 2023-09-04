@@ -17,7 +17,7 @@ function Gomoku() {
   return (
     <StyledGomoku>
       <GomokuBoard />
-      <div css={{ width: 420, display: "flex", flexDirection: "column" }}>
+      <div css={{ width: 380, display: "flex", flexDirection: "column" }}>
         {result ? <GomokuResultCard /> : <GomokuInfoCard />}
         <GomokuChatCard />
         <GomokuCameraCard />
@@ -29,7 +29,7 @@ function Gomoku() {
 export default Gomoku;
 
 const StyledGomoku = styled.main`
-  padding: 16px 60px;
+  padding: 44px 80px;
   width: 1280px;
   height: 720px;
   display: flex;

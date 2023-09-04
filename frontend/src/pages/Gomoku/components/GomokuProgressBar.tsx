@@ -6,18 +6,19 @@ function GomokuProgressBar({ progress }: { progress: number }) {
     <StyledGomokuProgressBar>
       <img
         css={{
-          width: 400,
+          width: 380,
         }}
         src={progressBar}
       />
       <div
         css={{
-          width: (progress / 100) * 384,
+          width: (progress / 100) * 366,
           height: 9,
           backgroundColor: "white",
           position: "absolute",
+          transition: "all 0.6s",
           top: 4,
-          right: 9,
+          right: 8,
         }}
       />
     </StyledGomokuProgressBar>
