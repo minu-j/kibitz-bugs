@@ -1,6 +1,6 @@
 import Logo from "@assets/images/Logo.png";
 import styled from "@emotion/styled";
-import { LargeBtn } from "@components";
+import { Footer, LargeBtn } from "@components";
 import { textStyles } from "@styles";
 import { objectToQueryString } from "@/utils/objectToQueryString";
 import Description from "./components/Description";
@@ -66,6 +66,7 @@ function Login() {
           />
         </>
       )}
+      <Footer />
     </StyledLogin>
   );
 }

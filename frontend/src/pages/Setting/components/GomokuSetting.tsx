@@ -16,8 +16,8 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
   const [setting, setSetting] = useRecoilState(gomokuState);
 
   // 시간설정
-  const streamerTimeValues: number[] = [-1, 100, 300, 600];
-  const viewerTimeValues: number[] = [10, 50, 100, 200];
+  const streamerTimeValues: number[] = [-1, 10, 30, 60];
+  const viewerTimeValues: number[] = [10, 15, 20, 30];
   const setStreamerTime = (value: number) => {
     setSetting({ ...setting, streamerTime: value });
   };
@@ -156,7 +156,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
 export default GomokuSetting;
 
 const StyledGomokuSetting = styled.section`
-  width: 740px;
+  width: 720px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

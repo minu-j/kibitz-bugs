@@ -21,13 +21,45 @@ function Countdown() {
   return (
     <StyledCountdown>
       {count === 3 ? (
-        <div css={{ ...textStyles.title1, fontSize: 80 }}>3</div>
+        <div
+          css={{
+            ...textStyles.title1,
+            fontSize: 120,
+            animation: `countPop 1s 0s both`,
+          }}
+        >
+          3
+        </div>
       ) : count === 2 ? (
-        <div css={{ ...textStyles.title1, fontSize: 80 }}>2</div>
+        <div
+          css={{
+            ...textStyles.title1,
+            fontSize: 120,
+            animation: `countPop 1s 1s both`,
+          }}
+        >
+          2
+        </div>
       ) : count === 1 ? (
-        <div css={{ ...textStyles.title1, fontSize: 80 }}>1</div>
+        <div
+          css={{
+            ...textStyles.title1,
+            fontSize: 120,
+            animation: `countPop 1s 2s both`,
+          }}
+        >
+          1
+        </div>
       ) : (
-        <div css={{ ...textStyles.title1, fontSize: 80 }}>START!</div>
+        <div
+          css={{
+            ...textStyles.title1,
+            fontSize: 120,
+            animation: `countPop 1s 3s both`,
+          }}
+        >
+          START!
+        </div>
       )}
     </StyledCountdown>
   );
@@ -36,7 +68,7 @@ function Countdown() {
 export default Countdown;
 
 const StyledCountdown = styled.div`
-  width: 740px;
+  width: 720px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

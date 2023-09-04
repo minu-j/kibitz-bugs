@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { gomokuBoardState, gomokuRecentState } from "@/recoil/gomoku/atoms";
 
 function GomokuBoard() {
-  const SQUARE_SIZE: number = 44;
+  const SQUARE_SIZE: number = 40;
 
   const board = useRecoilValue(gomokuBoardState);
   const recent = useRecoilValue(gomokuRecentState);
@@ -77,7 +77,7 @@ function GomokuBoard() {
 export default GomokuBoard;
 
 const StyledGomokuBoard = styled.section`
-  width: 740px;
+  width: 720px;
   flex-shrink: 0;
 `;
 

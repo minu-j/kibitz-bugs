@@ -56,7 +56,7 @@ function GomokuInfoCard() {
         }
       }
     }
-  }, 100);
+  }, 1000);
 
   useEffect(() => {
     if (setting.streamerColor === turn) {
@@ -74,7 +74,13 @@ function GomokuInfoCard() {
       <img css={{ width: 160 }} src={logo} />
       <div css={{ display: "flex", width: "100%", marginBlock: 20 }}>
         {UserInfo(user.name ?? "스트리머", "black")}
-        <img css={{ width: 60 }} src={vs} />
+        <img
+          css={{
+            width: 60,
+            animation: `breath 1s alternate ease-in-out infinite`,
+          }}
+          src={vs}
+        />
         {UserInfo("시청자", "white")}
       </div>
       <GomokuProgressBar
@@ -88,11 +94,11 @@ function GomokuInfoCard() {
         css={{
           marginTop: 10,
           color:
-            time === -1 || time > 50 ? colorStyles.primary : colorStyles.danger,
+            time === -1 || time > 5 ? colorStyles.primary : colorStyles.danger,
           ...textStyles.contents,
         }}
       >
-        {time === -1 ? `시간제한 없음` : `${time / 10}초`}
+        {time === -1 ? `시간제한 없음` : `남은시간 ${time}초`}
       </div>
     </StyledGomokuInfoCard>
   );
@@ -116,6 +122,7 @@ function GomokuInfoCard() {
                   position: "absolute",
                   top: 5,
                   left: 20,
+                  animation: `pointer 1s alternate ease-in-out infinite`,
                 }}
                 src={arrow}
               />
@@ -137,7 +144,7 @@ function GomokuInfoCard() {
                   position: "absolute",
                   top: 5,
                   right: 20,
-                  transform: `rotate(0.5turn)`,
+                  animation: `rotatedPointer 1s alternate ease-in-out infinite`,
                 }}
                 src={arrow}
               />
@@ -146,12 +153,12 @@ function GomokuInfoCard() {
         )}
         <h2
           css={{
-            width: 180,
+            width: 160,
             textAlign: "center",
             textOverflow: "ellipsis",
             overflow: "hidden",
             marginTop: 10,
-            ...textStyles.title2,
+            ...textStyles.contents,
           }}
         >
           {label}

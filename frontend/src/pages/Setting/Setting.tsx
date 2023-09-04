@@ -18,7 +18,7 @@ function Setting() {
       ) : (
         <GomokuSetting onClick={() => setShowCount(true)} />
       )}
-      <div css={{ width: 420, display: "flex", flexDirection: "column" }}>
+      <div css={{ width: 380, display: "flex", flexDirection: "column" }}>
         <SettingInfoCard />
         <SettingChatCard />
         <SettingCameraCard />
@@ -30,7 +30,7 @@ function Setting() {
 export default Setting;
 
 const StyledSetting = styled.main`
-  padding: 16px 60px;
+  padding: 44px 80px;
   width: 1280px;
   height: 720px;
   display: flex;

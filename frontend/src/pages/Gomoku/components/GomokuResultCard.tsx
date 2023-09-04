@@ -11,10 +11,27 @@ function GomokuResultCard() {
 
   return (
     <StyledGomokuResultCard>
+      <iframe
+        css={{
+          zIndex: -5,
+          position: "absolute",
+          height: 300,
+          bottom: -70,
+        }}
+        src="https://embed.lottiefiles.com/animation/32585"
+      ></iframe>
       <img css={{ width: 160 }} src={logo} />
-      <h2 css={{ marginBlock: 24, ...textStyles.title2 }}>게임 종료</h2>
-      <h3 css={{ ...textStyles.title1 }}>
-        {result === 1 ? `${user.name} 승` : "시청자 승"}
+      <h2
+        css={{
+          marginBlock: 24,
+          ...textStyles.title2,
+          animation: `popIn 0.3s 0s both`,
+        }}
+      >
+        승리
+      </h2>
+      <h3 css={{ ...textStyles.title1, animation: `popIn 1s 0.3s both` }}>
+        {result === 1 ? `${user.name}` : "시청자"}
       </h3>
     </StyledGomokuResultCard>
   );

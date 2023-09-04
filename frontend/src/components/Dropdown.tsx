@@ -29,7 +29,7 @@ function Dropdown({
     >
       {values.map((item, idx) => (
         <option key={`option-key-${idx}`} value={item}>
-          {item === -1 ? "무제한" : `${item / 10}초`}
+          {item === -1 ? "무제한" : `${item}초`}
         </option>
       ))}
     </select>
