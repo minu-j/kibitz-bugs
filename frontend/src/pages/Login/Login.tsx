@@ -7,9 +7,9 @@ import Description from "./components/Description";
 
 function Login() {
   const AUTH_URL = import.meta.env.VITE_TWITCH_AUTH_URL;
+  const client_id = import.meta.env.VITE_TWITCH_CLIENT_ID;
 
   const response_type = "code";
-  const client_id = "ke8l9zd2f9fla9pf418ht24es2w4bi";
   const scope = "openid user:read:email chat:read";
   const redirect_uri = "http://localhost:5173/auth";
   const queryParams = {
