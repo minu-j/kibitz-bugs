@@ -73,7 +73,7 @@ function GomokuInfoCard() {
     <StyledGomokuInfoCard>
       <img css={{ width: 160 }} src={logo} />
       <div css={{ display: "flex", width: "100%", marginBlock: 20 }}>
-        {UserInfo(user.name ?? "스트리머", "black")}
+        {UserInfo(user.nickname ?? "스트리머", "black")}
         <img
           css={{
             width: 60,
