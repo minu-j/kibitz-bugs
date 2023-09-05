@@ -23,7 +23,7 @@ function useCheckUserAuth() {
 
   // 유저 정보 손실 감지
   useEffect(() => {
-    if (user.name === undefined || user.accessToken === undefined) {
+    if (!user.nickname || !user.accessToken) {
       alert("로그아웃되었습니다. 다시 로그인해주세요.");
       navigate("/");
     }

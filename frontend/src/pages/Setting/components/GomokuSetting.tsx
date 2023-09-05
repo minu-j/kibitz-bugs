@@ -60,7 +60,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             ...textStyles.title2,
           }}
         >
-          {user.name}
+          {user.nickname}
         </h2>
         <img
           css={{
