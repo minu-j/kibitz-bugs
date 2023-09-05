@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/login")
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class LoginController {
     final private LoginService loginService;
 
     @PostMapping("")
-    public ResponseEntity<LoginResDto> createLoginHistory(@RequestBody LoginReqDto loginReqDto) {
+    public ResponseEntity<LoginResDto> createLoginHistory(@Valid @RequestBody LoginReqDto loginReqDto) {
         return ResponseEntity.ok(loginService.createLoginHistory(loginReqDto));
     }
 
