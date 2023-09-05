@@ -13,7 +13,7 @@ export const gomokuState = atom<TGomokuState>({
     streamerColor: 1,
     viewerColor: 2,
     streamerTime: -1,
-    viewerTime: 50,
+    viewerTime: 15,
   },
 });
 
