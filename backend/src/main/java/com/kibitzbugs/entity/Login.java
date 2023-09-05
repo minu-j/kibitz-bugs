@@ -17,6 +17,7 @@ public class Login extends BaseEntity{
     @Column(name = "login_id")
     private Long id;
     private String streamerId;
+    private String name;
     private String nickname;
     private String imgUrl;
 

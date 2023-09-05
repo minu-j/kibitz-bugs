@@ -8,6 +8,7 @@ import lombok.Getter;
 public class LoginResDto {
     private Long id;
     private String streamerId;
+    private String name;
     private String nickname;
     private String imgUrl;
 }

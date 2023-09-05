@@ -16,6 +16,7 @@ public class GameService {
     public GameResDto createGameHistory(GameReqDto gameReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
                 .streamerId(gameReqDto.getId())
+                .name(gameReqDto.getName())
                 .nickname(gameReqDto.getNickname())
                 .imgUrl(gameReqDto.getImgUrl())
                 .win(gameReqDto.getWin())
@@ -24,6 +25,7 @@ public class GameService {
         return GameResDto.builder()
                 .id(savedGame.getId())
                 .streamerId(savedGame.getStreamerId())
+                .name(savedGame.getName())
                 .nickname(savedGame.getNickname())
                 .imgUrl(savedGame.getImgUrl())
                 .win(savedGame.getWin())

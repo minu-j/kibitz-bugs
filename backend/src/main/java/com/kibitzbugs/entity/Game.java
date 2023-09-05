@@ -18,6 +18,7 @@ public class Game extends BaseEntity {
     @Column(name = "game_id")
     private Long id;
     private String streamerId;
+    private String name;
     private String nickname;
     private String imgUrl;
     private Boolean win;

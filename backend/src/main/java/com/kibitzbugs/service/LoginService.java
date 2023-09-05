@@ -16,12 +16,14 @@ public class LoginService {
     public LoginResDto createLoginHistory(LoginReqDto loginReqDto) {
         Login savedLogin = loginRepository.save(Login.builder()
                 .streamerId(loginReqDto.getId())
+                .name(loginReqDto.getName())
                 .nickname(loginReqDto.getNickname())
                 .imgUrl(loginReqDto.getImgUrl())
                 .build()
         );
         return LoginResDto.builder()
                 .id(savedLogin.getId())
+                .name(savedLogin.getName())
                 .streamerId(savedLogin.getStreamerId())
                 .nickname(savedLogin.getNickname())
                 .imgUrl(savedLogin.getImgUrl())

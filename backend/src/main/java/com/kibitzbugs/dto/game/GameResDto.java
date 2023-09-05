@@ -8,6 +8,7 @@ import lombok.Getter;
 public class GameResDto {
     private Long id;
     private String streamerId;
+    private String name;
     private String nickname;
     private String imgUrl;
     private Boolean win;

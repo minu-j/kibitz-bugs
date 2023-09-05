@@ -11,6 +11,8 @@ public class LoginReqDto {
     @NotBlank
     private String id;
     @NotBlank
+    private String name;
+    @NotBlank
     private String nickname;
     @NotBlank
     private String imgUrl;
