@@ -93,7 +93,7 @@ function GomokuChatCard() {
         username: "gomoku_bot",
         password: user.accessToken ?? "",
       },
-      channels: [user.name ?? ""],
+      channels: [user.nickname ?? ""],
     };
     // Create a client with our options
     const c = new tmi.client(opts);

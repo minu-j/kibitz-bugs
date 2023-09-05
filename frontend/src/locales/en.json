@@ -1,0 +1,10 @@
+{
+  "pages": {
+    "login": {
+      "Play on PC": "Play on your PC",
+      "click for login": "Login with one click",
+      "login": "twitch"
+    }
+  },
+  "components": {}
+}

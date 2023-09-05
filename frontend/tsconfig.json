@@ -26,6 +26,8 @@
       "@types/*": ["types/*"],
       "@hooks": ["hooks"],
       "@hooks/*": ["hooks/*"],
+      "@locales": ["locales"],
+      "@locales/*": ["locales/*"],
       "@utils": ["utils"],
       "@utils/*": ["utils/*"]
     },

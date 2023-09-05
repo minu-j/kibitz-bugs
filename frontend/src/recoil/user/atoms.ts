@@ -1,8 +1,9 @@
 import { atom } from "recoil";
 
 interface TUserState {
-  name: string | undefined;
   id: string | undefined;
+  name: string | undefined;
+  nickname: string | undefined;
   email: string | undefined;
   imgUrl: string | undefined;
   accessToken: string | undefined;
@@ -12,8 +13,9 @@ interface TUserState {
 export const userState = atom<TUserState>({
   key: "userState",
   default: {
-    name: undefined,
     id: undefined,
+    name: undefined,
+    nickname: undefined,
     email: undefined,
     imgUrl: undefined,
     accessToken: undefined,

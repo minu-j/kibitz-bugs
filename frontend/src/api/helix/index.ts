@@ -1,8 +1,8 @@
-import { IHeaders, instance } from "..";
+import { IHeaders, helixInstance } from "..";
 
 /**
  * [GET] "token" Access token 요청
  */
 export async function getUsers(headers: IHeaders) {
-  return instance(headers).get("users");
+  return helixInstance(headers).get("users");
 }

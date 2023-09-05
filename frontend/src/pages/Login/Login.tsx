@@ -5,8 +5,11 @@ import { textStyles } from "@styles";
 import { objectToQueryString } from "@/utils/objectToQueryString";
 import Description from "./components/Description";
 import { isMobile } from "react-device-detect";
+import { useTranslation } from "react-i18next";
 
 function Login() {
+  const { t } = useTranslation();
+
   const AUTH_URL = import.meta.env.VITE_TWITCH_AUTH_URL;
   const client_id = import.meta.env.VITE_TWITCH_CLIENT_ID;
   const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
@@ -23,6 +26,7 @@ function Login() {
 
   return (
     <StyledLogin>
+      <button>언어</button>
       <div
         css={{
           animation: `breath 2s alternate ease-in-out infinite`,
@@ -54,10 +58,10 @@ function Login() {
               ...textStyles.contents,
             }}
           >
-            클릭 한번으로 로그인 하기
+            {t("pages.login.click for login")}
           </p>
           <LargeBtn
-            label="twitch 로그인"
+            label={t("pages.login.login")}
             onClick={() =>
               location.replace(
                 `${AUTH_URL}authorize?${objectToQueryString(queryParams)}`,

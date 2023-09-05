@@ -4,10 +4,24 @@ import { useRecoilValue } from "recoil";
 import logo from "@assets/images/Logo.png";
 import { userState } from "@/recoil/user/atoms";
 import { textStyles } from "@/styles";
+import { useEffect } from "react";
+import { postGame } from "@/api/game";
 
 function GomokuResultCard() {
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    // DB에 게임 결과 전송
+    if (user.id && user.name && user.nickname && user.imgUrl)
+      postGame({
+        id: user.id,
+        name: user.name,
+        nickname: user.nickname,
+        imgUrl: user.imgUrl,
+        win: result === 1 ? true : false,
+      });
+  }, []);
 
   return (
     <StyledGomokuResultCard>
@@ -31,7 +45,7 @@ function GomokuResultCard() {
         승리
       </h2>
       <h3 css={{ ...textStyles.title1, animation: `popIn 1s 0.3s both` }}>
-        {result === 1 ? `${user.name}` : "시청자"}
+        {result === 1 ? `${user.nickname}` : "시청자"}
       </h3>
     </StyledGomokuResultCard>
   );
