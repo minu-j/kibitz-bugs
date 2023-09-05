@@ -9,6 +9,7 @@ import {
   GlobalStyles,
   ResetStyles,
 } from "./styles";
+import "@locales/i18n";
 import { RecoilRoot } from "recoil";
 // import { Bgm } from "./components";
 

@@ -1,0 +1,10 @@
+{
+  "pages": {
+    "login": {
+      "Play on PC": "PC로 접속해 플레이하세요",
+      "click for login": "클릭 한 번으로 로그인 하기",
+      "login": "twitch 로그인"
+    }
+  },
+  "components": {}
+}
