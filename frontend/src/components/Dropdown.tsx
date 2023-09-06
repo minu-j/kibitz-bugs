@@ -1,10 +1,14 @@
 import { textStyles } from "@/styles";
+import click from "@assets/audios/click.mp3";
+import hover from "@assets/audios/hover.mp3";
 
 interface IDropdownProps {
   selectedValue: number;
   values: number[];
   handleSelectChange(value: number): void;
 }
+const clickSound = new Audio(click);
+const hoverSound = new Audio(hover);
 
 function Dropdown({
   selectedValue,
@@ -13,6 +17,12 @@ function Dropdown({
 }: IDropdownProps) {
   return (
     <select
+      onMouseEnter={() => hoverSound.play()}
+      onMouseLeave={() => {
+        hoverSound.pause();
+        hoverSound.currentTime = 0;
+      }}
+      onClick={() => clickSound.play()}
       css={{
         cursor: "pointer",
         transition: `all, 0.3s`,
@@ -23,9 +33,7 @@ function Dropdown({
         ...textStyles.contents,
       }}
       value={selectedValue}
-      onChange={(e) => {
-        handleSelectChange(parseInt(e.target.value));
-      }}
+      onChange={(e) => handleSelectChange(parseInt(e.target.value))}
     >
       {values.map((item, idx) => (
         <option key={`option-key-${idx}`} value={item}>

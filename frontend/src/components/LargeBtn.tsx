@@ -4,18 +4,31 @@ import { useState } from "react";
 import largeButtonSrc from "../assets/images/largeButton.svg";
 import clickedLargeButtonSrc from "../assets/images/clickedLargeButton.svg";
 import { textStyles } from "../styles";
+import click from "@assets/audios/click.mp3";
+import hover from "@assets/audios/hover.mp3";
 
 interface ILargeBtnProps {
   label: string;
   onClick(e: React.MouseEvent): void;
 }
 
+const clickSound = new Audio(click);
+const hoverSound = new Audio(hover);
+
 function LargeBtn(props: ILargeBtnProps) {
   const [isPressed, setIsPressed] = useState<boolean>(false);
 
   return (
     <StyledLargeBtn
-      onClick={props.onClick}
+      onMouseEnter={() => hoverSound.play()}
+      onMouseLeave={() => {
+        hoverSound.pause();
+        hoverSound.currentTime = 0;
+      }}
+      onClick={(e) => {
+        props.onClick(e);
+        clickSound.play();
+      }}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
       css={{

@@ -1,22 +1,35 @@
-export function processCoord(input: string) {
-  if (2 <= input.length) {
-    // 알파벳과 숫자를 분리
-    const alphabet = input.charAt(0).toUpperCase();
-    const number = parseInt(input.slice(1));
+const convertMap = new Map();
+const eng = [
+  "",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+];
 
-    // 유효한 범위 확인
-    const validAlphabets = "ABCDEFGHIJKLMNO";
-    const validNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-
-    if (!validAlphabets.includes(alphabet) || !validNumbers.includes(number)) {
-      return "";
-    }
-
-    // 좌표를 가공하여 저장
-    const processedCoordinate = alphabet + number;
-
-    return processedCoordinate;
-  } else {
-    return "";
+for (let i = 1; i < 16; i++) {
+  for (let j = 1; j < 16; j++) {
+    convertMap.set(i + eng[j], eng[j] + (16 - i));
+    convertMap.set(eng[j] + i, eng[j] + (16 - i));
+    convertMap.set(i + eng[j].toLowerCase(), eng[j] + (16 - i));
+    convertMap.set(eng[j].toLowerCase() + i, eng[j] + (16 - i));
   }
+}
+
+export function processCoord(input: string) {
+  if (convertMap.has(input)) {
+    return convertMap.get(input);
+  }
+  return "";
 }

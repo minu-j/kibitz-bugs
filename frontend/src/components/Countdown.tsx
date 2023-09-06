@@ -3,13 +3,22 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useInterval from "use-interval";
+import countdown from "@assets/audios/countdown.mp3";
+import start from "@assets/audios/start.mp3";
 
 function Countdown() {
   const navigate = useNavigate();
   const [count, setCount] = useState<number>(3);
+  const countdownSound = new Audio(countdown);
+  const startSound = new Audio(start);
 
   useInterval(() => {
     setCount(count - 1);
+    if (count > 1) {
+      countdownSound.play();
+    } else if (count === 1) {
+      startSound.play();
+    }
   }, 1000);
 
   useEffect(() => {

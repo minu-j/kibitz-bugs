@@ -1,6 +1,5 @@
 export { default as Alert } from "./Alert";
 export { default as Background } from "./Background";
-export { default as Bgm } from "./Bgm";
 export { default as Card } from "./Card";
 export { default as Countdown } from "./Countdown";
 export { default as Dropdown } from "./Dropdown";

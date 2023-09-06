@@ -11,7 +11,6 @@ import {
 } from "./styles";
 import "@locales/i18n";
 import { RecoilRoot } from "recoil";
-// import { Bgm } from "./components";
 
 function App() {
   const [windowScale, setWindowScale] = useState<number>(
@@ -41,7 +40,6 @@ function App() {
         <GlobalStyles />
         <ResetStyles />
         <GlobalAnimations />
-        {/* <Bgm /> */}
         <StyledMainPage
           style={{
             transform: `translate(-50%, -50%) scale(${windowScale})`,

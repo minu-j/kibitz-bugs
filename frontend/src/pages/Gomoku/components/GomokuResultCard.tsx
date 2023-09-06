@@ -6,12 +6,16 @@ import { userState } from "@/recoil/user/atoms";
 import { textStyles } from "@/styles";
 import { useEffect } from "react";
 import { postGame } from "@/api/game";
+import win from "@assets/audios/win.mp3";
 
 function GomokuResultCard() {
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
 
+  const winSound = new Audio(win);
+
   useEffect(() => {
+    winSound.play();
     // DB에 게임 결과 전송
     if (user.id && user.name && user.nickname && user.imgUrl)
       postGame({

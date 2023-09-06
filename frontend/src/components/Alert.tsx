@@ -1,11 +1,16 @@
 import { textStyles } from "@/styles";
 import cargoonBox from "@assets/images/cartoonBox.svg";
+import click from "@assets/audios/click.mp3";
+import hover from "@assets/audios/hover.mp3";
 
 interface IAlertProps {
   body: string;
   onClick(e: React.MouseEvent): void;
   onCancleClick?(e: React.MouseEvent): void;
 }
+
+const clickSound = new Audio(click);
+const hoverSound = new Audio(hover);
 
 function Alert({ body, onClick, onCancleClick }: IAlertProps) {
   return (
@@ -57,6 +62,11 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
         </div>
         <div>
           <button
+            onMouseEnter={() => hoverSound.play()}
+            onMouseLeave={() => {
+              hoverSound.pause();
+              hoverSound.currentTime = 0;
+            }}
             css={{
               cursor: "pointer",
               border: "none",
@@ -66,12 +76,20 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
               },
               ...textStyles.contents,
             }}
-            onClick={onClick}
+            onClick={(e) => {
+              onClick(e);
+              clickSound.play();
+            }}
           >
             확인
           </button>
           {onCancleClick ? (
             <button
+              onMouseEnter={() => hoverSound.play()}
+              onMouseLeave={() => {
+                hoverSound.pause();
+                hoverSound.currentTime = 0;
+              }}
               css={{
                 cursor: "pointer",
                 border: "none",
@@ -82,7 +100,10 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
                 },
                 ...textStyles.contents,
               }}
-              onClick={onCancleClick}
+              onClick={(e) => {
+                onCancleClick(e);
+                clickSound.play();
+              }}
             >
               취소
             </button>
