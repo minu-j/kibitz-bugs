@@ -15,7 +15,8 @@ function Login() {
   const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
   const response_type = "code";
-  const scope = "openid user:read:email chat:read";
+  const scope =
+    "openid user:read:email chat:read chat:edit moderator:manage:shoutouts";
   const redirect_uri = `${BASE_URL}auth`;
   const queryParams = {
     response_type: response_type,
@@ -26,7 +27,7 @@ function Login() {
 
   return (
     <StyledLogin>
-      <button>언어</button>
+      {/* <button>언어</button> */}
       <div
         css={{
           animation: `breath 2s alternate ease-in-out infinite`,

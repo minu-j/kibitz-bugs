@@ -2,12 +2,13 @@ import {
   gomokuBoardState,
   gomokuNowPlayerState,
   gomokuRecentState,
+  gomokuRecordState,
   gomokuResultState,
   gomokuTurnState,
 } from "@/recoil/gomoku/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { gomokuCore } from "@/utils/gomokuCore";
-import move from "@assets/audios/move.mp3";
+import { num2strCoord } from "@/utils/num2strCoord";
 
 const useMoveStone = () => {
   const [board, setBoard] = useRecoilState(gomokuBoardState);
@@ -16,11 +17,11 @@ const useMoveStone = () => {
   const turn = useRecoilValue(gomokuTurnState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
   const setResult = useSetRecoilState(gomokuResultState);
-  const moveSound = new Audio(move);
+  const [record, setRecord] = useRecoilState(gomokuRecordState);
 
   const moveStone = (i: number, j: number, stone: 1 | 2) => {
     setRecent([i, j]);
-    moveSound.play();
+    setRecord([...record, num2strCoord(i, j)]);
     if (board.finish.has(`${i} ${j}`)) {
       setBoard((prevBoard) => {
         const newBoard = JSON.parse(JSON.stringify(prevBoard.board));

@@ -59,3 +59,8 @@ export const gomokuVoteState = atom<{
   key: "gomokuVoteState",
   default: { count: new Map(), total: 0 },
 });
+
+export const gomokuRecordState = atom<string[]>({
+  key: "gomokuRecordState",
+  default: [""],
+});

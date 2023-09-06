@@ -1,15 +1,17 @@
 import styled from "@emotion/styled";
 import { Alert, Card, SmallBtn } from "@components";
-import { textStyles } from "@/styles";
 import { BsX } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useResetGomoku from "@/hooks/useResetGomoku";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/recoil/user/atoms";
 
 function GomokuCameraCard() {
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const resetGomoku = useResetGomoku();
+  const user = useRecoilValue(userState);
 
   return (
     <StyledGomokuCameraCard>
@@ -36,14 +38,12 @@ function GomokuCameraCard() {
             alignItems: "center",
           }}
         >
-          <h4
-            css={{ ...textStyles.contents }}
-          >{`카메라를 여기에 놓아주세요`}</h4>
+          <img css={{ width: 80, borderRadius: "100%" }} src={user.imgUrl} />
           <div
             css={{
               position: "absolute",
-              right: 10,
-              bottom: 10,
+              right: 20,
+              top: 20,
             }}
           >
             <SmallBtn

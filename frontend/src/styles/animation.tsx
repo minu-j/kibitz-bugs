@@ -57,8 +57,8 @@ function GlobalAnimations() {
           0% {
             transform: scale(0);
           }
-          95% {
-            transform: scale(1);
+          90% {
+            transform: scale(1.1);
           }
           100% {
             transform: scale(1);

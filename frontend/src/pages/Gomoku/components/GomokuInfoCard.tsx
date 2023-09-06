@@ -20,7 +20,8 @@ import { useEffect, useState } from "react";
 import useInterval from "use-interval";
 import useMoveStone from "@/hooks/useMoveStone";
 import { str2numCoord } from "@/utils/str2numCoord";
-import timer from "@assets/audios/timer.mp3";
+// import timer from "@assets/audios/timer.mp3";
+import move from "@assets/audios/move.mp3";
 
 function GomokuInfoCard() {
   const user = useRecoilValue(userState);
@@ -32,12 +33,13 @@ function GomokuInfoCard() {
   const setResult = useSetRecoilState(gomokuResultState);
 
   const moveStone = useMoveStone();
-  const timerSound = new Audio(timer);
+  // const timerSound = new Audio(timer);
+  const moveSound = new Audio(move);
 
   useInterval(() => {
-    if (0 < time && time <= 6) {
-      timerSound.play();
-    }
+    // if (0 < time && time <= 6) {
+    //   timerSound.play();
+    // }
     if (0 < time) {
       setTime((ot) => ot - 1);
     } else if (time === 0) {
@@ -71,6 +73,7 @@ function GomokuInfoCard() {
       setTime(setting.viewerTime);
       setNowPlayer(2);
     }
+    moveSound.play();
     setVote({ count: new Map(), total: 0 });
   }, [turn]);
 
