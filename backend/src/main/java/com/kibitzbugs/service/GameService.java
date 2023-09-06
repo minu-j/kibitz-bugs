@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class GameService {
 
     final private GameRepository gameRepository;
+    final private TelegramService telegramService;
 
     public GameResDto createGameHistory(GameReqDto gameReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
@@ -22,6 +23,10 @@ public class GameService {
                 .win(gameReqDto.getWin())
                 .build()
         );
+
+        telegramService.sendMessage("스트리머 " + savedGame.getNickname() + "이/가 게임을 완료했습니다.%0A" +
+                "https://www.twitch.tv/" + savedGame.getName());
+
         return GameResDto.builder()
                 .id(savedGame.getId())
                 .streamerId(savedGame.getStreamerId())

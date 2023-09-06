@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     final private LoginRepository loginRepository;
+    final private TelegramService telegramService;
 
     public LoginResDto createLoginHistory(LoginReqDto loginReqDto) {
         Login savedLogin = loginRepository.save(Login.builder()
@@ -21,6 +22,10 @@ public class LoginService {
                 .imgUrl(loginReqDto.getImgUrl())
                 .build()
         );
+
+        telegramService.sendMessage("스트리머 " + savedLogin.getNickname() + "이/가 로그인하였습니다.%0A" +
+                "https://www.twitch.tv/" + savedLogin.getName());
+
         return LoginResDto.builder()
                 .id(savedLogin.getId())
                 .name(savedLogin.getName())
