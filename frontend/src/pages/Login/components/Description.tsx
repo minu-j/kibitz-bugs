@@ -7,9 +7,9 @@ function Description() {
     <StyledDescription>
       <div
         css={{
-          width: 380,
-          height: 296,
-          marginInline: 4,
+          width: 320,
+          height: 249,
+          marginInline: 2,
           padding: 40,
           backgroundImage: `url(${cargoonBox})`,
           backgroundSize: "cover",
@@ -18,13 +18,15 @@ function Description() {
           ":hover": { zIndex: 1, transform: `rotate(-0.01turn) scale(1.03)` },
         }}
       >
-        <h2 css={{ ...textStyles.title2 }}>스트리머와 시청자의 두뇌싸움!</h2>
+        <h2
+          css={{ ...textStyles.title2 }}
+        >{`스트리머와 시청자의 두뇌싸움!`}</h2>
       </div>
       <div
         css={{
-          width: 380,
-          height: 296,
-          marginInline: 4,
+          width: 320,
+          height: 249,
+          marginInline: 2,
           padding: 40,
           backgroundImage: `url(${cargoonBox})`,
           backgroundSize: "cover",
@@ -34,14 +36,14 @@ function Description() {
         }}
       >
         <h2 css={{ ...textStyles.title2 }}>
-          댓글 투표로 시청자의 선택이 결정됩니다.
+          {`댓글 투표로 시청자의 선택이 결정됩니다`}
         </h2>
       </div>
       <div
         css={{
-          width: 380,
-          height: 296,
-          marginInline: 4,
+          width: 320,
+          height: 249,
+          marginInline: 2,
           padding: 40,
           backgroundImage: `url(${cargoonBox})`,
           backgroundSize: "cover",
@@ -50,7 +52,9 @@ function Description() {
           ":hover": { zIndex: 1, transform: `rotate(0.013turn) scale(1.03)` },
         }}
       >
-        <h2 css={{ ...textStyles.title2 }}>집단지성 보드게임을 즐겨보세요.</h2>
+        <h2
+          css={{ ...textStyles.title2 }}
+        >{`집단지성으로 보드게임을 즐겨보세요`}</h2>
       </div>
     </StyledDescription>
   );

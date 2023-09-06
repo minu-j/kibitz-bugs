@@ -50,10 +50,8 @@ function GomokuBoard() {
     } else {
       if (topVote[0] || topVote[1]) {
         setTopVote([0, 0]);
-      }
-      if (totalCount) {
-        setVoteCount(new Array(16).fill(null).map(() => new Array(16).fill(0)));
         setTotalCount(0);
+        setVoteCount(new Array(16).fill(null).map(() => new Array(16).fill(0)));
       }
     }
   }, 500);
