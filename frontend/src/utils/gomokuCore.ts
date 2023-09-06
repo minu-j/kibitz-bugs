@@ -19,7 +19,7 @@ export const gomokuCore = (board, color) => {
         if (board[y][x]) {
           continue;
         }
-        if (is_five(board, x, y, white_stone)) {
+        if (more_than_five(board, x, y, white_stone)) {
           coords.add(y + " " + x);
         }
       }
@@ -72,6 +72,16 @@ function is_six(board, x, y, stone) {
   for (let i = 0; i < 4; i++) {
     const cnt = get_stone_count(board, x, y, stone, i);
     if (cnt > 5) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function more_than_five(board, x, y, stone) {
+  for (let i = 0; i < 4; i++) {
+    const cnt = get_stone_count(board, x, y, stone, i);
+    if (cnt >= 5) {
       return true;
     }
   }
