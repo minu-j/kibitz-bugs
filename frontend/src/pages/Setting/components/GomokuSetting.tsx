@@ -10,6 +10,8 @@ import { userState } from "@/recoil/user/atoms";
 import { gomokuState } from "@/recoil/gomoku/atoms";
 import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { SettingRow } from ".";
+import click from "@assets/audios/click.mp3";
+import hover from "@assets/audios/hover.mp3";
 
 function GomokuSetting({ onClick }: { onClick(): void }) {
   const user = useRecoilValue(userState);
@@ -27,6 +29,9 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
 
   useCheckUserAuth();
 
+  const clickSound = new Audio(click);
+  const hoverSound = new Audio(hover);
+
   // 색 서로 바꾸기
   const switchColors = () => {
     setSetting((prevSetting) => {
@@ -37,6 +42,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
       };
       return newSetting;
     });
+    clickSound.play();
   };
 
   return (
@@ -82,9 +88,12 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
       <SettingRow
         left={
           <img
-            onClick={() => {
-              switchColors();
+            onMouseEnter={() => hoverSound.play()}
+            onMouseLeave={() => {
+              hoverSound.pause();
+              hoverSound.currentTime = 0;
             }}
+            onClick={() => switchColors()}
             css={{
               cursor: "pointer",
               transition: `all, 0.3s`,
@@ -97,9 +106,12 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
         label={`선공`}
         right={
           <img
-            onClick={() => {
-              switchColors();
+            onMouseEnter={() => hoverSound.play()}
+            onMouseLeave={() => {
+              hoverSound.pause();
+              hoverSound.currentTime = 0;
             }}
+            onClick={() => switchColors()}
             css={{
               cursor: "pointer",
               transition: `all, 0.3s`,

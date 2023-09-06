@@ -7,6 +7,7 @@ import {
 } from "@/recoil/gomoku/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { gomokuCore } from "@/utils/gomokuCore";
+import move from "@assets/audios/move.mp3";
 
 const useMoveStone = () => {
   const [board, setBoard] = useRecoilState(gomokuBoardState);
@@ -15,9 +16,11 @@ const useMoveStone = () => {
   const turn = useRecoilValue(gomokuTurnState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
   const setResult = useSetRecoilState(gomokuResultState);
+  const moveSound = new Audio(move);
 
   const moveStone = (i: number, j: number, stone: 1 | 2) => {
     setRecent([i, j]);
+    moveSound.play();
     if (board.finish.has(`${i} ${j}`)) {
       setBoard((prevBoard) => {
         const newBoard = JSON.parse(JSON.stringify(prevBoard.board));

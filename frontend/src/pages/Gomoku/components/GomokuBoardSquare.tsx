@@ -52,12 +52,8 @@ function GomokuBoardSquare({
           moveStone(i, j, turn);
         }
       }}
-      onMouseEnter={() => {
-        setMouseOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseOver(false);
-      }}
+      onMouseEnter={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
       css={{
         width: size,
         height: size,

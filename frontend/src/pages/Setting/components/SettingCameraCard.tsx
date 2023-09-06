@@ -20,6 +20,13 @@ function SettingCameraCard() {
             css={{ ...textStyles.contents }}
           >{`카메라를 여기에 놓아주세요`}</h4>
         </div>
+        <div
+          css={{
+            position: "absolute",
+            right: 10,
+            bottom: 10,
+          }}
+        ></div>
       </Card>
     </StyledSettingCameraCard>
   );
