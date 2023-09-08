@@ -7,11 +7,16 @@ import { useEffect, useRef } from "react";
 import { processCoord } from "@/utils/processCoord";
 import {
   gomokuBoardState,
+  gomokuNowPlayerState,
   gomokuResultState,
   gomokuVoteState,
 } from "@/recoil/gomoku/atoms";
 import { str2numCoord } from "@/utils/str2numCoord";
 import { chatQueueState } from "@/recoil/chat/atoms";
+import { colorStyles } from "@/styles";
+
+// 투표한 시청자 이름 관리 셋
+const votedViewers = new Set();
 
 function GomokuChatCard() {
   const user = useRecoilValue(userState);
@@ -31,13 +36,24 @@ function GomokuChatCard() {
     resultRef.current = result;
   }, [result]);
 
-  const addVote = (coord: string) => {
-    if (coord && !resultRef.current) {
+  const nowPlayer = useRecoilValue(gomokuNowPlayerState);
+  const nowPlayerRef = useRef(nowPlayer);
+  useEffect(() => {
+    nowPlayerRef.current = nowPlayer;
+    // 시청자 차례로 넘어갈 때 투표된 아이디 초기화
+    if (nowPlayer === 2) {
+      votedViewers.clear();
+    }
+  }, [nowPlayer]);
+
+  const addVote = (user: string, coord: string) => {
+    if (coord && !resultRef.current && nowPlayerRef.current === 2) {
       const [i, j] = str2numCoord(coord);
       // 해당 보드에 돌이 없어야 투표에 반영
       if (
         !boardRef.current.board[i][j] &&
-        !boardRef.current.forbidden.has(`${i} ${j}`)
+        !boardRef.current.forbidden.has(`${i} ${j}`) &&
+        !votedViewers.has(user)
       ) {
         setVote((prevVote) => {
           const newCount = prevVote.count;
@@ -49,8 +65,12 @@ function GomokuChatCard() {
           const newTotal = prevVote.total;
           return { count: newCount, total: newTotal + 1 };
         });
+        votedViewers.add(user);
+        return "success";
       }
+      return "error";
     }
+    return "normal";
   };
 
   // Called every time a message comes in
@@ -64,7 +84,7 @@ function GomokuChatCard() {
       return;
     } // Ignore messages from the bot
 
-    addVote(processCoord(msg));
+    const status = addVote(user["user-id"]!, processCoord(msg));
 
     setChatQueue((prevChatQueue) => {
       const newChatQueue = [...prevChatQueue];
@@ -76,6 +96,7 @@ function GomokuChatCard() {
         {
           name: user["display-name"],
           content: msg.trim(),
+          status: status,
         },
       ];
     });
@@ -111,6 +132,36 @@ function GomokuChatCard() {
 
   return (
     <StyledGomokuChatCard>
+      {!result && nowPlayer === 2 ? (
+        <div
+          css={{
+            margin: 10,
+            borderRadius: `0px 10px 0px 10px`,
+            color: colorStyles.danger,
+            fontWeight: 900,
+            backgroundColor: "black",
+            padding: 10,
+            position: "absolute",
+            top: 0,
+            right: 0,
+            zIndex: 100,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <div
+            css={{
+              width: 8,
+              height: 8,
+              borderRadius: 8,
+              backgroundColor: colorStyles.danger,
+              marginRight: 4,
+              animation: `flicker 0.6s alternate infinite`,
+            }}
+          ></div>
+          {`지금 투표중`}
+        </div>
+      ) : null}
       <Card>
         <div
           css={{
@@ -146,9 +197,36 @@ function GomokuChatCard() {
               <span
                 css={{
                   wordBreak: "break-all",
+                  color:
+                    msg.status === "success"
+                      ? "green"
+                      : msg.status === "error"
+                      ? colorStyles.lightGray
+                      : "",
+                  fontWeight: msg.status === "success" ? 900 : "",
+                  // textDecoration: msg.status === "error" ? "line-through" : "",
                 }}
               >
                 {msg.content}
+                <span
+                  css={{
+                    fontSize: 12,
+                    color:
+                      msg.status === "success"
+                        ? "green"
+                        : msg.status === "error"
+                        ? colorStyles.danger
+                        : "",
+                    fontWeight: 400,
+                    marginLeft: 4,
+                  }}
+                >
+                  {msg.status === "success"
+                    ? "✓ 투표됨"
+                    : msg.status === "error"
+                    ? "x"
+                    : ""}
+                </span>
               </span>
             </div>
           ))}

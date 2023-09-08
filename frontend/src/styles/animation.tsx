@@ -4,6 +4,14 @@ function GlobalAnimations() {
   return (
     <Global
       styles={css`
+        @keyframes flicker {
+          0% {
+            filter: opacity(0);
+          }
+          100% {
+            filter: opacity(1);
+          }
+        }
         @keyframes rotatedPointer {
           from {
             transform: translateX(5%) rotate(0.5turn);
