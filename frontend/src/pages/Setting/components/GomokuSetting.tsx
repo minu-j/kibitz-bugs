@@ -111,7 +111,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
               hoverSound.pause();
               hoverSound.currentTime = 0;
             }}
-            onClick={() => switchColors()}
+            onClick={switchColors}
             css={{
               cursor: "pointer",
               transition: `all, 0.3s`,
@@ -120,6 +120,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             src={setting.viewerColor === 1 ? blackStone : whiteStone}
           />
         }
+        onClick={switchColors}
       />
       <SettingRow
         left={

@@ -190,9 +190,13 @@ function GomokuChatCard() {
                   marginRight: 4,
                   fontWeight: "bold",
                   flexShrink: 0,
+                  maxWidth: 110,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                {`${msg.name} :`}
+                {msg.name}
               </span>
               <span
                 css={{
@@ -204,10 +208,9 @@ function GomokuChatCard() {
                       ? colorStyles.lightGray
                       : "",
                   fontWeight: msg.status === "success" ? 900 : "",
-                  // textDecoration: msg.status === "error" ? "line-through" : "",
                 }}
               >
-                {msg.content}
+                {`: ${msg.content}`}
                 <span
                   css={{
                     fontSize: 12,
