@@ -101,7 +101,7 @@ function GomokuBoardSquare({
               fontWeight: "bold",
               color: stone === 1 ? "white" : "black",
               position: "absolute",
-              zIndex: 100,
+              zIndex: 2,
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -40%)",
