@@ -38,6 +38,7 @@ function Login() {
             width: "60%",
           }}
           src={Logo}
+          alt={`logo image`}
         />
         <h1 css={{ ...textStyles.title2 }}>{"키비츠 벅스"}</h1>
       </div>

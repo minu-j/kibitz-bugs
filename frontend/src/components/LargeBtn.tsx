@@ -49,6 +49,7 @@ function LargeBtn(props: ILargeBtnProps) {
           transform: "translate(-50%, -50%)",
         }}
         src={isPressed ? clickedLargeButtonSrc : largeButtonSrc}
+        alt={`${props.label} button`}
       />
       <p
         css={{
