@@ -32,6 +32,7 @@ function SettingChatCard() {
         {
           name: user["display-name"],
           content: msg.trim(),
+          status: "normal",
         },
       ];
     });
