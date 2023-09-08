@@ -23,7 +23,7 @@ public class LoginService {
                 .build()
         );
 
-        telegramService.sendMessage("스트리머 " + savedLogin.getNickname() + "이/가 로그인하였습니다.%0A" +
+        telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
                 "https://www.twitch.tv/" + savedLogin.getName());
 
         return LoginResDto.builder()

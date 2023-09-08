@@ -7,6 +7,8 @@ import com.kibitzbugs.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GameService {
@@ -24,8 +26,21 @@ public class GameService {
                 .build()
         );
 
-        telegramService.sendMessage("스트리머 " + savedGame.getNickname() + "이/가 게임을 완료했습니다.%0A" +
-                "https://www.twitch.tv/" + savedGame.getName());
+        String result = savedGame.getWin() ? "승" : "패";
+
+        List<Game> games = gameRepository.findGamesByStreamerId(savedGame.getStreamerId());
+        int winCnt = 0;
+        int loseCnt = 0;
+        for (Game game : games) {
+            if (game.getWin()) {
+                winCnt++;
+            } else {
+                loseCnt++;
+            }
+        }
+
+        telegramService.sendMessage("[게임종료] " + savedGame.getNickname() + " (" + result + ")%0A"
+                                        + "현재 전적: " + winCnt + "승 " + loseCnt + "패");
 
         return GameResDto.builder()
                 .id(savedGame.getId())
