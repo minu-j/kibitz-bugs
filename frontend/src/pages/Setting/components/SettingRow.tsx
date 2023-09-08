@@ -1,15 +1,17 @@
 import { IconType } from "react-icons";
 import settingBox from "../../../assets/images/settingBox.svg";
 import { textStyles } from "../../../styles";
+import React from "react";
 
 interface ISettingRowProps {
   left: JSX.Element | JSX.Element[];
   icon: IconType;
   label: string;
   right: JSX.Element | JSX.Element[];
+  onClick?(e: React.MouseEvent): void;
 }
 
-function SettingRow({ left, icon, label, right }: ISettingRowProps) {
+function SettingRow({ left, icon, label, right, onClick }: ISettingRowProps) {
   const Icon = icon;
   return (
     <div
@@ -26,12 +28,14 @@ function SettingRow({ left, icon, label, right }: ISettingRowProps) {
     >
       {left}
       <div
+        onClick={onClick ? onClick : () => {}}
         css={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           width: 60,
+          ":hover": { cursor: onClick ? "pointer" : "normal" },
         }}
       >
         <Icon size={32} />

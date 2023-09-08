@@ -96,16 +96,20 @@ function SettingChatCard() {
                   marginRight: 4,
                   fontWeight: "bold",
                   flexShrink: 0,
+                  maxWidth: 110,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                {`${msg.name} :`}
+                {msg.name}
               </span>
               <span
                 css={{
                   wordBreak: "break-all",
                 }}
               >
-                {msg.content}
+                {`: ${msg.content}`}
               </span>
             </div>
           ))}
