@@ -1,4 +1,4 @@
-import { getUsers } from "@/api/helix";
+import { getChannelFollowers, getUsers } from "@/api/helix";
 import { postLogin } from "@/api/login";
 import { getAccessToken } from "@/api/oauth";
 import { IAuthorizationBody } from "@/api/oauth/type";
@@ -61,12 +61,22 @@ function Auth() {
                 accessToken: accessToken,
                 refreshToken: refreshToken,
               });
-              // DB에 로그인 기록 전송
-              postLogin({
-                id: id,
-                name: name,
-                nickname: nickname,
-                imgUrl: imgUrl,
+              getChannelFollowers(
+                {
+                  accessToken: `Bearer ${accessToken}`,
+                  clientId: client_id,
+                },
+                { broadcaster_id: id },
+              ).then((res) => {
+                if (res.data.total >= 10) {
+                  // DB에 로그인 기록 전송
+                  postLogin({
+                    id: id,
+                    name: name,
+                    nickname: nickname,
+                    imgUrl: imgUrl,
+                  });
+                }
               });
               //setting 페이지로 이동
               navigate("/setting");
