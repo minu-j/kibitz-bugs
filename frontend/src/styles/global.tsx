@@ -29,6 +29,10 @@ function GlobalStyles() {
         button:hover {
           cursor: pointer;
         }
+
+        body {
+          overflow: hidden;
+        }
       `}
     />
   );

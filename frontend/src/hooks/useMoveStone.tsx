@@ -33,6 +33,9 @@ const useMoveStone = () => {
       setBoard((prevBoard) => {
         const newBoard = JSON.parse(JSON.stringify(prevBoard.board));
         newBoard[i][j] = stone;
+        // 0: 평소
+        // 1: 흑만 못 둬
+        // 2: 225 다 차서 무승부
         const [nextForbiddenMoves, nextFinishMoves] = gomokuCore(
           newBoard,
           turn === 1 ? 2 : 1,
