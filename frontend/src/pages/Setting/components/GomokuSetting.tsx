@@ -13,13 +13,16 @@ import { SettingRow } from ".";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
 
+const streamerTimeValues: number[] = [
+  -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
+];
+const viewerTimeValues: number[] = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+
 function GomokuSetting({ onClick }: { onClick(): void }) {
   const user = useRecoilValue(userState);
   const [setting, setSetting] = useRecoilState(gomokuState);
 
   // 시간설정
-  const streamerTimeValues: number[] = [-1, 10, 30, 60];
-  const viewerTimeValues: number[] = [10, 15, 20, 30];
   const setStreamerTime = (value: number) => {
     setSetting({ ...setting, streamerTime: value });
   };
