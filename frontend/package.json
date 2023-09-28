@@ -19,6 +19,7 @@
     "react-audio-player": "^0.17.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
     "react-i18next": "^13.2.2",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
