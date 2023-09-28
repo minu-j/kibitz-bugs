@@ -10,6 +10,7 @@ import {
   ResetStyles,
 } from "./styles";
 import "@locales/i18n";
+import GA from "react-ga";
 
 function App() {
   //////////////////////////////////////////////////////////
@@ -30,6 +31,10 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const GAID = import.meta.env.VITE_GA_TRACKING_ID;
+  GA.initialize(GAID);
+  GA.pageview(window.location.pathname);
 
   return (
     <StyledApp>
