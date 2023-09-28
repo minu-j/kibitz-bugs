@@ -10,7 +10,7 @@ import {
   ResetStyles,
 } from "./styles";
 import "@locales/i18n";
-import GA from "react-ga";
+import ReactGA from "react-ga4";
 
 function App() {
   //////////////////////////////////////////////////////////
@@ -26,15 +26,13 @@ function App() {
   useEffect(() => {
     // 화면 크기 변경 시 이벤트 핸들러 연결
     window.addEventListener("resize", handleResize);
+    const GAID = import.meta.env.VITE_GA_TRACKING_ID;
+    ReactGA.initialize(GAID);
     return () => {
       // 컴포넌트가 언마운트될 때 이벤트 핸들러 제거
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const GAID = import.meta.env.VITE_GA_TRACKING_ID;
-  GA.initialize(GAID);
-  GA.pageview(window.location.pathname);
 
   return (
     <StyledApp>
