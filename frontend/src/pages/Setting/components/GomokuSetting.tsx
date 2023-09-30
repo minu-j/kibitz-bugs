@@ -18,6 +18,9 @@ const streamerTimeValues: number[] = [
 ];
 const viewerTimeValues: number[] = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
+const clickSound = new Audio(click);
+const hoverSound = new Audio(hover);
+
 function GomokuSetting({ onClick }: { onClick(): void }) {
   const user = useRecoilValue(userState);
   const [setting, setSetting] = useRecoilState(gomokuState);
@@ -31,9 +34,6 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
   };
 
   useCheckUserAuth();
-
-  const clickSound = new Audio(click);
-  const hoverSound = new Audio(hover);
 
   // 색 서로 바꾸기
   const switchColors = () => {

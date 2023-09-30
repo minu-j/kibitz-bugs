@@ -1,20 +1,17 @@
 import styled from "@emotion/styled";
-import { IconType } from "react-icons";
-
-import smallButton from "../assets/images/smallButton.svg";
+import { textStyles } from "@/styles";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
 
 interface ISmallBtnProps {
-  icon: IconType;
+  label: string;
   onClick(e: React.MouseEvent): void;
 }
 
 const clickSound = new Audio(click);
 const hoverSound = new Audio(hover);
 
-function SmallBtn({ icon, onClick }: ISmallBtnProps) {
-  const Icon = icon;
+function SmallBtn({ label, onClick }: ISmallBtnProps) {
   return (
     <StyledSmallBtn
       onMouseEnter={() => hoverSound.play()}
@@ -27,21 +24,22 @@ function SmallBtn({ icon, onClick }: ISmallBtnProps) {
         clickSound.play();
       }}
       css={{
-        width: "40px",
+        width: "100%",
         height: "40px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundImage: `url(${smallButton})`,
         backgroundSize: "cover",
+        textAlign: "center",
       }}
     >
-      <Icon
+      <p
         css={{
-          width: "30px",
-          height: "30px",
+          ...textStyles.contents,
         }}
-      />
+      >
+        {label}
+      </p>
     </StyledSmallBtn>
   );
 }
@@ -50,7 +48,10 @@ export default SmallBtn;
 
 const StyledSmallBtn = styled.div`
   cursor: pointer;
+  border: black 3px solid;
+  border-radius: 8px;
   transition: all 0.1s;
+  padding: 8px;
   &:hover {
     filter: brightness(0.95);
     transform: scale(1.05);

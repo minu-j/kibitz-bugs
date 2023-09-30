@@ -8,11 +8,11 @@ import { useEffect } from "react";
 import { postGame } from "@/api/game";
 import win from "@assets/audios/win.mp3";
 
+const winSound = new Audio(win);
+
 function GomokuResultCard() {
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
-
-  const winSound = new Audio(win);
 
   useEffect(() => {
     winSound.play();
