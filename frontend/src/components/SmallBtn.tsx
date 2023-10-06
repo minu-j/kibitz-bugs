@@ -25,6 +25,7 @@ function SmallBtn({ label, onClick }: ISmallBtnProps) {
       }}
       css={{
         width: "100%",
+        backgroundColor: "white",
         height: "40px",
         display: "flex",
         justifyContent: "center",

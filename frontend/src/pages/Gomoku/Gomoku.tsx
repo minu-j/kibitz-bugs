@@ -1,7 +1,5 @@
-import styled from "@emotion/styled";
 import {
   GomokuBoard,
-  GomokuCameraCard,
   GomokuChatCard,
   GomokuInfoCard,
   GomokuResultCard,
@@ -9,28 +7,49 @@ import {
 import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { useRecoilValue } from "recoil";
 import { gomokuResultState } from "@/recoil/gomoku/atoms";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useResetGomoku from "@/hooks/useResetGomoku";
+import { Alert, AspectRatioLayout, CameraCard, SmallBtn } from "@/components";
 
 function Gomoku() {
   useCheckUserAuth();
   const result = useRecoilValue(gomokuResultState);
 
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
+  const resetGomoku = useResetGomoku();
+
   return (
-    <StyledGomoku>
+    <AspectRatioLayout>
+      {showAlert ? (
+        <Alert
+          body="게임 설정으로 돌아가시겠습니까?"
+          onClick={() => {
+            resetGomoku();
+            navigate("/setting");
+          }}
+          onCancleClick={() => {
+            setShowAlert(false);
+          }}
+        />
+      ) : null}
       <GomokuBoard />
-      <div css={{ width: 380, display: "flex", flexDirection: "column" }}>
+      <aside css={{ width: 380, display: "flex", flexDirection: "column" }}>
         {result ? <GomokuResultCard /> : <GomokuInfoCard />}
         <GomokuChatCard />
-        <GomokuCameraCard />
-      </div>
-    </StyledGomoku>
+        <CameraCard played />
+        <div css={{ position: "fixed", top: 20, right: 20 }}>
+          <SmallBtn
+            label="종료"
+            onClick={() => {
+              setShowAlert(true);
+            }}
+          />
+        </div>
+      </aside>
+    </AspectRatioLayout>
   );
 }
 
 export default Gomoku;
-
-const StyledGomoku = styled.main`
-  padding: 44px 80px;
-  width: 1280px;
-  height: 720px;
-  display: flex;
-`;

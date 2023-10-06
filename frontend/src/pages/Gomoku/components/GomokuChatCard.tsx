@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { Card } from "@components";
+import { ChatCard } from "@components";
 import tmi from "tmi.js";
 import { userState } from "@/recoil/user/atoms";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect, useRef } from "react";
 import { processCoord } from "@/utils/processCoord";
 import {
@@ -12,16 +12,14 @@ import {
   gomokuVoteState,
 } from "@/recoil/gomoku/atoms";
 import { str2numCoord } from "@/utils/str2numCoord";
-import { chatQueueState } from "@/recoil/chat/atoms";
+import usePushChatQueue from "@/hooks/usePushChatQueue";
 import { colorStyles } from "@/styles";
+import { chatQueueState } from "@/recoil/chat/atoms";
 
 // 투표한 시청자 이름 관리 셋
 const votedViewers = new Set();
-
 function GomokuChatCard() {
   const user = useRecoilValue(userState);
-  const MAX_CHAT_Q_LENGTH: number = 15;
-  const [chatQueue, setChatQueue] = useRecoilState(chatQueueState);
   const setVote = useSetRecoilState(gomokuVoteState);
 
   const board = useRecoilValue(gomokuBoardState);
@@ -73,6 +71,9 @@ function GomokuChatCard() {
     return "normal";
   };
 
+  const pushChatQueue = usePushChatQueue();
+  const chatQueue = useRecoilValue(chatQueueState);
+
   // Called every time a message comes in
   const onMessageHandler = (
     channel: string,
@@ -86,19 +87,10 @@ function GomokuChatCard() {
 
     const status = addVote(user["user-id"]!, processCoord(msg));
 
-    setChatQueue((prevChatQueue) => {
-      const newChatQueue = [...prevChatQueue];
-      if (newChatQueue.length > MAX_CHAT_Q_LENGTH) {
-        newChatQueue.splice(0, 1);
-      }
-      return [
-        ...newChatQueue,
-        {
-          name: user["display-name"],
-          content: msg.trim(),
-          status: status,
-        },
-      ];
+    pushChatQueue({
+      name: user["display-name"],
+      content: msg.trim(),
+      status: status,
     });
   };
 
@@ -132,109 +124,8 @@ function GomokuChatCard() {
 
   return (
     <StyledGomokuChatCard>
-      {!result && nowPlayer === 2 ? (
-        <div
-          css={{
-            margin: 10,
-            borderRadius: `0px 10px 0px 10px`,
-            color: colorStyles.danger,
-            fontWeight: 900,
-            backgroundColor: "black",
-            padding: 10,
-            position: "absolute",
-            top: 0,
-            right: 0,
-            zIndex: 100,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            css={{
-              width: 8,
-              height: 8,
-              borderRadius: 8,
-              backgroundColor: colorStyles.danger,
-              marginRight: 4,
-              animation: `flicker 0.6s alternate infinite`,
-            }}
-          ></div>
-          {`지금 투표중`}
-        </div>
-      ) : null}
-      <Card>
-        <div
-          css={{
-            padding: 16,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "end",
-            overflow: "hidden",
-          }}
-        >
-          {chatQueue.map((msg, idx) => (
-            <div
-              key={`chat-key-${idx}`}
-              css={{
-                padding: 4,
-                width: "100%",
-                display: "flex",
-                justifyContent: "start",
-                alignItems: "start",
-              }}
-            >
-              <span
-                css={{
-                  marginRight: 4,
-                  fontWeight: "bold",
-                  flexShrink: 0,
-                  maxWidth: 110,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {msg.name}
-              </span>
-              <span
-                css={{
-                  wordBreak: "break-all",
-                  color:
-                    msg.status === "success"
-                      ? "green"
-                      : msg.status === "error"
-                      ? colorStyles.lightGray
-                      : "",
-                  fontWeight: msg.status === "success" ? 900 : "",
-                }}
-              >
-                {`: ${msg.content}`}
-                <span
-                  css={{
-                    fontSize: 12,
-                    color:
-                      msg.status === "success"
-                        ? "green"
-                        : msg.status === "error"
-                        ? colorStyles.danger
-                        : "",
-                    fontWeight: 400,
-                    marginLeft: 4,
-                  }}
-                >
-                  {msg.status === "success"
-                    ? "✓ 투표됨"
-                    : msg.status === "error"
-                    ? "x"
-                    : ""}
-                </span>
-              </span>
-            </div>
-          ))}
-        </div>
-      </Card>
+      {!result && nowPlayer === 2 ? NowVoteFlag : null}
+      <ChatCard chatQueue={chatQueue} />
     </StyledGomokuChatCard>
   );
 }
@@ -244,3 +135,34 @@ export default GomokuChatCard;
 const StyledGomokuChatCard = styled.section`
   padding: 8px;
 `;
+
+const NowVoteFlag = (
+  <div
+    css={{
+      margin: 10,
+      borderRadius: `0px 10px 0px 10px`,
+      color: colorStyles.danger,
+      fontWeight: 900,
+      backgroundColor: "black",
+      padding: 10,
+      position: "absolute",
+      top: 0,
+      right: 0,
+      zIndex: 100,
+      display: "flex",
+      alignItems: "center",
+    }}
+  >
+    <div
+      css={{
+        width: 8,
+        height: 8,
+        borderRadius: 8,
+        backgroundColor: colorStyles.danger,
+        marginRight: 4,
+        animation: `flicker 0.6s alternate infinite`,
+      }}
+    ></div>
+    {`지금 투표중`}
+  </div>
+);

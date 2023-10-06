@@ -1,6 +1,5 @@
 import { IconType } from "react-icons";
-import settingBox from "../../../assets/images/settingBox.svg";
-import { textStyles } from "../../../styles";
+import { colorStyles, textStyles } from "../../../styles";
 import React from "react";
 
 interface ISettingRowProps {
@@ -16,14 +15,16 @@ function SettingRow({ left, icon, label, right, onClick }: ISettingRowProps) {
   return (
     <div
       css={{
-        backgroundImage: `url(${settingBox})`,
-        backgroundSize: "cover",
+        border: "3px solid",
+        borderColor: colorStyles.primary,
+        borderRadius: 8,
+        backgroundColor: "white",
         width: "500px",
-        height: "120px",
+        height: "112px",
         display: "flex",
         justifyContent: "space-evenly",
         alignItems: "center",
-        marginBlock: "8px 8px",
+        marginBlock: "4px",
       }}
     >
       {left}

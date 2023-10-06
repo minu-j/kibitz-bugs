@@ -19,7 +19,7 @@ export default Card;
 
 const StyledCard = styled.div`
   width: 100%;
-  aspect-ratio: 16 / 8.4;
+  aspect-ratio: 16 / 8.35;
   & > svg {
     fill: white;
   }

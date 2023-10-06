@@ -31,7 +31,7 @@ function GlobalStyles() {
         }
 
         body {
-          overflow: hidden;
+          overflow-x: hidden;
         }
       `}
     />
