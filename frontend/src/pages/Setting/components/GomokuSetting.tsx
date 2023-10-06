@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { textStyles } from "@styles";
 import vs from "@assets/images/vs.svg";
 import { TbArrowsDiff, TbAlarm } from "react-icons/tb";
-import { Dropdown, LargeBtn } from "@components";
+import { Dropdown, LargeBtn, SmallBtn } from "@components";
 import blackStone from "@assets/images/blackStone.svg";
 import whiteStone from "@assets/images/whiteStone.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -12,6 +12,7 @@ import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { SettingRow } from ".";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
+import useFullscreen from "@/hooks/useFullscreen";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
@@ -34,6 +35,8 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
   };
 
   useCheckUserAuth();
+
+  const [isFullScreen, toggleFullScreen] = useFullscreen();
 
   // 색 서로 바꾸기
   const switchColors = () => {
@@ -159,12 +162,29 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           </div>
         }
       />
-      <LargeBtn
-        label="게임시작!"
-        onClick={() => {
-          onClick();
-        }}
-      />
+      <div
+        css={{ display: "flex", width: 500, justifyContent: "space-between" }}
+      >
+        <div
+          css={{
+            display: "flex",
+            gap: 16,
+            alignItems: "center",
+          }}
+        >
+          <p css={textStyles.button}>화면모드</p>
+          <SmallBtn
+            label={isFullScreen() ? "창모드" : "전체화면"}
+            onClick={() => toggleFullScreen()}
+          ></SmallBtn>
+        </div>
+        <LargeBtn
+          label="게임시작!"
+          onClick={() => {
+            onClick();
+          }}
+        />
+      </div>
     </StyledGomokuSetting>
   );
 }

@@ -1,37 +1,24 @@
-import styled from "@emotion/styled";
-import {
-  GomokuSetting,
-  SettingCameraCard,
-  SettingChatCard,
-  SettingInfoCard,
-} from "./components";
+import { GomokuSetting, SettingChatCard, SettingInfoCard } from "./components";
 import { useState } from "react";
-import { Countdown } from "@/components";
+import { AspectRatioLayout, CameraCard, Countdown } from "@/components";
 
 function Setting() {
   const [showCount, setShowCount] = useState<boolean>(false);
 
   return (
-    <StyledSetting>
+    <AspectRatioLayout>
       {showCount ? (
         <Countdown />
       ) : (
         <GomokuSetting onClick={() => setShowCount(true)} />
       )}
-      <div css={{ width: 380, display: "flex", flexDirection: "column" }}>
+      <aside css={{ width: 380, display: "flex", flexDirection: "column" }}>
         <SettingInfoCard />
         <SettingChatCard />
-        <SettingCameraCard />
-      </div>
-    </StyledSetting>
+        <CameraCard />
+      </aside>
+    </AspectRatioLayout>
   );
 }
 
 export default Setting;
-
-const StyledSetting = styled.main`
-  padding: 44px 80px;
-  width: 1280px;
-  height: 720px;
-  display: flex;
-`;

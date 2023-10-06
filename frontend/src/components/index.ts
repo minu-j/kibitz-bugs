@@ -1,9 +1,12 @@
 export { default as Alert } from "./Alert";
+export { default as AspectRatioLayout } from "./AspectRatioLayout";
 export { default as Background } from "./Background";
+export { default as CameraCard } from "./CameraCard";
 export { default as Card } from "./Card";
+export { default as ChatCard } from "./ChatCard";
 export { default as Countdown } from "./Countdown";
 export { default as Dropdown } from "./Dropdown";
-export { default as Footer } from "./Footer";
+export { default as Footer } from "../pages/Login/components/Footer";
 export { default as LargeBtn } from "./LargeBtn";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as SmallBtn } from "./SmallBtn";

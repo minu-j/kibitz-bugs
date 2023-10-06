@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-interface IMessage {
+export interface IMessage {
   name: string | undefined;
   content: string;
   status: "success" | "error" | "normal";

@@ -9,10 +9,15 @@ export const textStyles = {
     fontWeight: "bold",
     fontSize: "2rem",
   },
+  title3: {
+    fontFamily: "Cafe24Supermagic",
+    fontWeight: "bold",
+    fontSize: "1.4rem",
+  },
   contents: {
     fontFamily: "Cafe24Supermagic",
     fontWeight: "bold",
-    fontSize: "1.2rem",
+    fontSize: "1rem",
   },
   button: {
     fontFamily: "Cafe24Supermagic",
