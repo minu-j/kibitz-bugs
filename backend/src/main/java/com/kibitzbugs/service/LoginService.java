@@ -1,5 +1,6 @@
 package com.kibitzbugs.service;
 
+import com.kibitzbugs.dto.login.LoginCntResDto;
 import com.kibitzbugs.dto.login.LoginReqDto;
 import com.kibitzbugs.dto.login.LoginResDto;
 import com.kibitzbugs.entity.Login;
@@ -35,6 +36,12 @@ public class LoginService {
                 .streamerId(savedLogin.getStreamerId())
                 .nickname(savedLogin.getNickname())
                 .imgUrl(savedLogin.getImgUrl())
+                .build();
+    }
+
+    public LoginCntResDto getLoginCnt() {
+        return LoginCntResDto.builder()
+                .cnt(loginRepository.count())
                 .build();
     }
 

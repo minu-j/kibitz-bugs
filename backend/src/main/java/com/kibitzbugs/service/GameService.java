@@ -1,5 +1,6 @@
 package com.kibitzbugs.service;
 
+import com.kibitzbugs.dto.game.GameCntResDto;
 import com.kibitzbugs.dto.game.GameReqDto;
 import com.kibitzbugs.dto.game.GameResDto;
 import com.kibitzbugs.entity.Game;
@@ -35,6 +36,12 @@ public class GameService {
                 .nickname(savedGame.getNickname())
                 .imgUrl(savedGame.getImgUrl())
                 .win(savedGame.getWin())
+                .build();
+    }
+
+    public GameCntResDto getGameCnt() {
+        return GameCntResDto.builder()
+                .cnt(gameRepository.count())
                 .build();
     }
 
