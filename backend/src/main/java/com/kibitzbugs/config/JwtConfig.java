@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
-public class TelegramConfig {
+public class JwtConfig {
 
-    @Bean(name = "telegram")
+    @Bean(name = "jwt")
     public PropertiesFactoryBean propertiesFactoryBean() {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         ClassPathResource classPathResource = new ClassPathResource("private.properties");

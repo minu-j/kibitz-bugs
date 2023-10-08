@@ -1,8 +1,8 @@
 package com.kibitzbugs.service;
 
 import com.kibitzbugs.dto.game.GameCntResDto;
-import com.kibitzbugs.dto.game.GameReqDto;
-import com.kibitzbugs.dto.game.GameResDto;
+import com.kibitzbugs.dto.game.GameHistoryReqDto;
+import com.kibitzbugs.dto.game.GameHistoryResDto;
 import com.kibitzbugs.entity.Game;
 import com.kibitzbugs.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +16,20 @@ public class GameService {
 
     final private GameRepository gameRepository;
 
-    public GameResDto createGameHistory(GameReqDto gameReqDto) {
+    public GameHistoryResDto createGameHistory(GameHistoryReqDto gameHistoryReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
-                .streamerId(gameReqDto.getId())
-                .name(gameReqDto.getName())
-                .nickname(gameReqDto.getNickname())
-                .imgUrl(gameReqDto.getImgUrl())
-                .win(gameReqDto.getWin())
+                .streamerId(gameHistoryReqDto.getId())
+                .name(gameHistoryReqDto.getName())
+                .nickname(gameHistoryReqDto.getNickname())
+                .imgUrl(gameHistoryReqDto.getImgUrl())
+                .win(gameHistoryReqDto.getWin())
                 .build()
         );
 
         String result = savedGame.getWin() ? "승" : "패";
         log.info("[Game] " + savedGame.getNickname() + " (" + result + ")");
 
-        return GameResDto.builder()
+        return GameHistoryResDto.builder()
                 .id(savedGame.getId())
                 .streamerId(savedGame.getStreamerId())
                 .name(savedGame.getName())
@@ -44,5 +44,7 @@ public class GameService {
                 .cnt(gameRepository.count())
                 .build();
     }
+
+
 
 }

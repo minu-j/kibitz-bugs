@@ -1,8 +1,8 @@
 package com.kibitzbugs.service;
 
 import com.kibitzbugs.dto.login.LoginCntResDto;
-import com.kibitzbugs.dto.login.LoginReqDto;
-import com.kibitzbugs.dto.login.LoginResDto;
+import com.kibitzbugs.dto.login.LoginHistoryReqDto;
+import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.entity.Login;
 import com.kibitzbugs.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class LoginService {
     final private LoginRepository loginRepository;
     final private TelegramService telegramService;
 
-    public LoginResDto createLoginHistory(LoginReqDto loginReqDto) {
+    public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto) {
         Login savedLogin = loginRepository.save(Login.builder()
-                .streamerId(loginReqDto.getId())
-                .name(loginReqDto.getName())
-                .nickname(loginReqDto.getNickname())
-                .imgUrl(loginReqDto.getImgUrl())
+                .streamerId(loginHistoryReqDto.getId())
+                .name(loginHistoryReqDto.getName())
+                .nickname(loginHistoryReqDto.getNickname())
+                .imgUrl(loginHistoryReqDto.getImgUrl())
                 .build()
         );
 
@@ -30,7 +30,7 @@ public class LoginService {
                 "https://www.twitch.tv/" + savedLogin.getName());
         log.info("[Login] " + savedLogin.getNickname());
 
-        return LoginResDto.builder()
+        return LoginHistoryResDto.builder()
                 .id(savedLogin.getId())
                 .name(savedLogin.getName())
                 .streamerId(savedLogin.getStreamerId())
