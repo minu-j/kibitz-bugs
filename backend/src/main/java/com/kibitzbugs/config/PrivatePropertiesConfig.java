@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
-public class JwtConfig {
+public class PrivatePropertiesConfig {
 
-    @Bean(name = "jwt")
+    @Bean(name = "private")
     public PropertiesFactoryBean propertiesFactoryBean() {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         ClassPathResource classPathResource = new ClassPathResource("private.properties");

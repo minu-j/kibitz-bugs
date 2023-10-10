@@ -9,10 +9,10 @@ import java.net.URL;
 @Service
 public class TelegramService {
 
-    @Value("#{telegram['telegram.token']}")
+    @Value("#{private['telegram.token']}")
     private String token;
 
-    @Value("#{telegram['telegram.chat-id']}")
+    @Value("#{private['telegram.chat-id']}")
     private String chatId;
 
     public void sendMessage(String text){

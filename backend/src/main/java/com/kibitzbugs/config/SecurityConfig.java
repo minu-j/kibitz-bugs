@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,8 +32,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/login/**").permitAll()
-                .antMatchers("/api/v1/game/**").permitAll()
+                .antMatchers("/api/v1/auth/code").permitAll()
+                .antMatchers("/api/v1/login/cnt", "/api/v1/game/cnt").permitAll()
+                .antMatchers("/api/v1/swagger-ui/**", "/api/v1/swagger-resources/**", "/v3/api-docs", "/webjars/**").hasRole("admin")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

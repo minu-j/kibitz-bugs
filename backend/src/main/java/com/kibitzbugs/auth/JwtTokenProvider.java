@@ -17,9 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -27,10 +29,10 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("#{jwt['jwt.secret']}")
+    @Value("#{private['jwt.secret']}")
     private String secret;
 
-    @Value("#{jwt['jwt.validity.in.seconds']}")
+    @Value("#{private['jwt.validity.in.seconds']}")
     private Integer tokenValidityInSeconds;
 
     private Key key;
@@ -41,10 +43,11 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String refreshToken) {
-        Claims claims = Jwts.claims().setSubject(refreshToken);
+        Claims claims = Jwts.claims();
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
+                .setSubject(refreshToken)
                 .setIssuedAt(now)
                 .setExpiration(new Date((now.getTime() + tokenValidityInSeconds)))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -52,7 +55,13 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("JWT-TOKEN");
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals("REFRESH-TOKEN")) {
+                return cookie.getValue();
+            }
+        }
+        throw new AuthenticationServiceException("REFRESH-TOKEN이 없습니다.");
     }
 
     public boolean validateToken(String jwtToken) {
