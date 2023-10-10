@@ -59,7 +59,7 @@ public class SwaggerConfig {
         );
         add(new ResponseBuilder()
                 .code("405")
-                .description("(요청한 메소드)은/는 지원되지 않는 메소드입니다. [지원하는 메소드]에서 선택해주세요.")
+                .description("(요청한 메소드)은/는 지원하지 않는 메소드입니다. [지원하는 메소드]에서 선택해주세요.")
                 .isDefault(true)
                 .build()
         );

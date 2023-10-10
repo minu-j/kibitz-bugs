@@ -16,6 +16,7 @@ public class GameService {
 
     final private GameRepository gameRepository;
 
+    // 게임 기록 생성
     public GameHistoryResDto createGameHistory(GameHistoryReqDto gameHistoryReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
                 .streamerId(gameHistoryReqDto.getId())
@@ -39,6 +40,7 @@ public class GameService {
                 .build();
     }
 
+    // 총 게임 카운트 조회
     public GameCntResDto getGameCnt() {
         return GameCntResDto.builder()
                 .cnt(gameRepository.count())

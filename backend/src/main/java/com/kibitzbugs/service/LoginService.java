@@ -17,6 +17,7 @@ public class LoginService {
     final private LoginRepository loginRepository;
     final private TelegramService telegramService;
 
+    // 로그인 기록 생성
     public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto) {
         Login savedLogin = loginRepository.save(Login.builder()
                 .streamerId(loginHistoryReqDto.getId())
@@ -39,6 +40,7 @@ public class LoginService {
                 .build();
     }
 
+    // 총 로그인 카운트 조회
     public LoginCntResDto getLoginCnt() {
         return LoginCntResDto.builder()
                 .cnt(loginRepository.count())

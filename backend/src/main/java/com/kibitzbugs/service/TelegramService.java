@@ -15,6 +15,7 @@ public class TelegramService {
     @Value("#{private['telegram.chat-id']}")
     private String chatId;
 
+    // 유저 로그인 시 알림
     public void sendMessage(String text){
         try {
             URL url = new URL("https://api.telegram.org/bot" + token + "/sendmessage?chat_id=" + chatId + "&text=" + text);

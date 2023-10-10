@@ -7,8 +7,6 @@ import lombok.ToString;
 
 @Getter
 @Builder
-@ToString
-@JsonSerialize
 public class TwitchAuthCodeReqDto {
     private String client_id;
     private String client_secret;

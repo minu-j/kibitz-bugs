@@ -9,7 +9,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
 public class TwitchAuthCodeResDto {
 
     private String access_token;

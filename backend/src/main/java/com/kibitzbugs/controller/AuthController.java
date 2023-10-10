@@ -2,6 +2,7 @@ package com.kibitzbugs.controller;
 
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
+import com.kibitzbugs.dto.auth.RefreshTokenResDto;
 import com.kibitzbugs.service.AuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -64,14 +65,16 @@ public class AuthController {
                             response = String.class),
             })
     })
-    public ResponseEntity<Object> refreshAccessToken(Principal principal) {
+    public ResponseEntity<Object> refreshAccessToken(HttpServletResponse response, Principal principal) {
         
         // 액세스 토큰 갱신
-        String accessToken = authService.refreshAccessToken(principal);
+        RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken(principal);
 
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();
-        headers.add("ACCESS-TOKEN", accessToken);
+        headers.add("ACCESS-TOKEN", refreshTokenResDto.getAccessToken());
+
+        setCookie(response, refreshTokenResDto.getJwtRefreshToken());
         
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
