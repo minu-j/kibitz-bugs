@@ -62,12 +62,9 @@ public class AuthController {
                             name = "ACCESS-TOKEN",
                             description = "Access Token",
                             response = String.class),
-            }),
-            @ApiResponse(code = 401, message = "유저 인증에 실패하였습니다.")
+            })
     })
     public ResponseEntity<Object> refreshAccessToken(Principal principal) {
-
-        System.out.println(principal);
         
         // 액세스 토큰 갱신
         String accessToken = authService.refreshAccessToken(principal);

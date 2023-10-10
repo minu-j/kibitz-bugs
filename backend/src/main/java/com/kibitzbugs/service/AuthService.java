@@ -58,7 +58,7 @@ public class AuthService {
 
             return AuthenticateUserResDto.builder()
                     .accessToken(responseEntity.getBody().getAccess_token())
-                    .jwtRefreshToken(jwtTokenProvider.createToken(responseEntity.getBody().getRefresh_token(), responseEntity.getBody().get))
+                    .jwtRefreshToken(jwtTokenProvider.createToken(responseEntity.getBody().getRefresh_token()))
                     .build();
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
