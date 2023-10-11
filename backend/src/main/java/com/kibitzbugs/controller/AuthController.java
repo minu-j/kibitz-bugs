@@ -112,9 +112,9 @@ public class AuthController {
     private void setCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from("REFRESH-TOKEN", refreshToken)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("None")
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
     }
