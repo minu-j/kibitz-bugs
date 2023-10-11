@@ -45,7 +45,7 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "code가 유효하지 않습니다.")
     })
     // 응답 헤더 ACCESS-TOKEN, 쿠키 REFRESH-TOKEN 추가
-    public ResponseEntity<Object> authenticateUser(HttpServletResponse response,
+    public ResponseEntity<LoginHistoryResDto> authenticateUser(HttpServletResponse response,
                                                    @Valid @RequestBody AuthenticateUserReqDto authenticateUserReqDto) {
 
         // code로 액세스 토큰 및 리프레시 토큰 얻기
@@ -84,10 +84,19 @@ public class AuthController {
                     description = "OK",
                     headers = {@Header(name = "ACCESS_TOKEN", description = "Twitch Access Token")})
     })
-    public ResponseEntity<Object> refreshAccessToken(HttpServletResponse response) {
+    public ResponseEntity<LoginHistoryResDto> refreshAccessToken(HttpServletResponse response) {
         
         // 액세스 토큰 갱신
         RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken();
+
+        // 액세스 토큰으로 유저 정보 얻기
+        TwitchUserInfoResDto.Data userInfo = loginService.getTwitchUserInfo(refreshTokenResDto.getAccessToken());
+        LoginHistoryResDto loginHistoryResDto = LoginHistoryResDto.builder()
+                .streamerId(userInfo.getId())
+                .name(userInfo.getLogin())
+                .nickname(userInfo.getDescription())
+                .imgUrl(userInfo.getProfile_image_url())
+                .build();
 
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();
@@ -96,7 +105,7 @@ public class AuthController {
         // 쿠키에 리프레시 토큰 담기
         setCookie(response, refreshTokenResDto.getJwtRefreshToken());
         
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
 
 

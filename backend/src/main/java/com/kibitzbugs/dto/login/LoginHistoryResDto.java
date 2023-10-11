@@ -8,9 +8,6 @@ import lombok.Getter;
 @Getter
 public class LoginHistoryResDto {
 
-    @Schema(description = "로그인 기록 PK", example = "123")
-    private Long id;
-
     @Schema(description = "스트리머 식별 id", example = "123456789")
     private String streamerId;
 
