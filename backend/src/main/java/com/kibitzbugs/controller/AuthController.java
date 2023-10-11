@@ -1,12 +1,15 @@
 package com.kibitzbugs.controller;
 
+import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
+import com.kibitzbugs.dto.auth.TwitchUserInfoResDto;
+import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.service.AuthService;
+import com.kibitzbugs.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -29,6 +31,8 @@ import java.util.Arrays;
 public class AuthController {
 
     private final AuthService authService;
+    private final LoginService loginService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/code")
     @Operation(summary = "유저 인증", description = "트위치 로그인 시 code로 유저 인증")
@@ -43,15 +47,29 @@ public class AuthController {
     public ResponseEntity<Object> authenticateUser(HttpServletResponse response,
                                                    @Valid @RequestBody AuthenticateUserReqDto authenticateUserReqDto) {
 
-        // code로 액세스 토큰 및 JWT 리프레시 토큰 얻기
+        // code로 액세스 토큰 및 리프레시 토큰 얻기
         AuthenticateUserResDto authenticateUserResDto = authService.authenticateUser(authenticateUserReqDto.getCode());
+
+        // 액세스 토큰으로 유저 정보 얻기
+        TwitchUserInfoResDto.Data userInfo = loginService.getTwitchUserInfo(authenticateUserResDto.getAccessToken());
+
+        // 로그인 기록 저장 및 알림
+        loginService.createLoginHistory(LoginHistoryReqDto.builder()
+                .id(userInfo.getId())
+                .nickname(userInfo.getDisplay_name())
+                .name(userInfo.getLogin())
+                .imgUrl(userInfo.getProfile_image_url())
+                .build());
+
+        // 리프레시 토큰과 유저 아이디로 JWT 생성
+        String jwtToken = jwtTokenProvider.createToken(authenticateUserResDto.getRefreshToken(), userInfo.getLogin());
         
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();
         headers.add("ACCESS-TOKEN", authenticateUserResDto.getAccessToken());
 
-        // 쿠키에 리프레시 JWT 토큰 담기
-        setCookie(response, authenticateUserResDto.getJwtRefreshToken());
+        // 쿠키에 JWT 토큰 담기
+        setCookie(response, jwtToken);
         
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
@@ -74,6 +92,7 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("ACCESS-TOKEN", refreshTokenResDto.getAccessToken());
 
+        // 쿠키에 리프레시 토큰 담기
         setCookie(response, refreshTokenResDto.getJwtRefreshToken());
         
         return new ResponseEntity<>(headers, HttpStatus.OK);

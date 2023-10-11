@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/code").permitAll()
                 .antMatchers("/api/v1/login/cnt", "/api/v1/game/cnt").permitAll()
-                .antMatchers("/api/v1/swagger-ui", "/api/v1/swagger-ui/*", "/api/v1/swagger-resources/**", "/v3/api-docs", "/v3/api-docs/**", "/webjars/**").permitAll()
+                .antMatchers("/api/v1/swagger-ui", "/api/v1/swagger-ui/**", "/api/v1/swagger-resources/**", "/v3/api-docs", "/v3/api-docs/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

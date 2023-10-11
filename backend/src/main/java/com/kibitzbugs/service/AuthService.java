@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -14,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +59,7 @@ public class AuthService {
 
             return AuthenticateUserResDto.builder()
                     .accessToken(responseEntity.getBody().getAccess_token())
-                    .jwtRefreshToken(jwtTokenProvider.createToken(responseEntity.getBody().getRefresh_token()))
+                    .refreshToken(responseEntity.getBody().getRefresh_token())
                     .build();
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
@@ -72,13 +72,13 @@ public class AuthService {
     // 인증된 유저 정보의 리프레시 토큰으로 갱신된 액세스 토큰 발급
     public RefreshTokenResDto refreshAccessToken() {
 
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         TwitchRefreshTokenReqDto twitchRefreshTokenReqDto = TwitchRefreshTokenReqDto.builder()
                 .client_id(clientId)
                 .client_secret(clientSecret)
                 .grant_type("refresh_token")
-                .refresh_token(principal.getName())
+                .refresh_token(authentication.getName())
                 .build();
 
         URI uri = UriComponentsBuilder
@@ -95,9 +95,15 @@ public class AuthService {
                     twitchRefreshTokenReqDto,
                     TwitchRefreshTokenResDto.class);
 
+            // 액세스 토큰과 리프레시 토큰 얻기
+            TwitchRefreshTokenResDto twitchRefreshTokenResDto = responseEntity.getBody();
+
+            // 리프레시 토큰 갱신
+            String jwtToken = jwtTokenProvider.createToken(twitchRefreshTokenResDto.getRefresh_token(), authentication.getAuthorities());
+
             return new RefreshTokenResDto(
                     responseEntity.getBody().getAccess_token(),
-                    jwtTokenProvider.createToken(responseEntity.getBody().getRefresh_token()));
+                    jwtToken);
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
                 throw new AuthenticationServiceException("Refresh Token이 유효하지 않습니다.");

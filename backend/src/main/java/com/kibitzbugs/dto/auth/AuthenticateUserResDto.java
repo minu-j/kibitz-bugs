@@ -8,6 +8,6 @@ import lombok.Getter;
 public class AuthenticateUserResDto {
 
     private String accessToken;
-    private String jwtRefreshToken;
+    private String refreshToken;
 
 }
