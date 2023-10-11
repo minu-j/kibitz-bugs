@@ -48,7 +48,6 @@ public class LoginService {
 //        log.info("[Login] " + savedLogin.getNickname());
 
         return LoginHistoryResDto.builder()
-                .id(savedLogin.getId())
                 .name(savedLogin.getName())
                 .streamerId(savedLogin.getStreamerId())
                 .nickname(savedLogin.getNickname())
