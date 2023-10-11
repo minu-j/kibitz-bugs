@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.MethodNotAllowedException;
 
 import java.util.Arrays;
 import java.util.Objects;

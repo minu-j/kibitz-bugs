@@ -4,7 +4,13 @@ import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
 import com.kibitzbugs.service.AuthService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,35 +20,30 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.security.Principal;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Api(tags = "Auth")
+@Tag(name = "Auth")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/code")
-    @ApiOperation(value = "유저 인증", notes = "트위치 로그인 시 code로 유저 인증")
+    @Operation(summary = "유저 인증", description = "트위치 로그인 시 code로 유저 인증")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", responseHeaders = {
-                    @io.swagger.annotations.ResponseHeader(
-                            name = "ACCESS-TOKEN",
-                            description = "Access Token",
-                            response = String.class),
-            }),
-            @ApiResponse(code = 401, message = "code가 유효하지 않습니다.")
+            @ApiResponse(responseCode = "200",
+                    description = "OK",
+                    headers = {@Header(name = "ACCESS_TOKEN", description = "Twitch Access Token"),
+                            @Header(name = "Set-Cookie", description = "JWT Refresh Token")}),
+            @ApiResponse(responseCode = "401", description = "code가 유효하지 않습니다.")
     })
-    @ApiImplicitParam(
-            name = "REFRESH-TOKEN",
-            value = "Refresh Token",
-            dataTypeClass = String.class,
-            paramType = "cookie"
-    )
+    // 응답 헤더 ACCESS-TOKEN, 쿠키 REFRESH-TOKEN 추가
     public ResponseEntity<Object> authenticateUser(HttpServletResponse response,
                                                    @Valid @RequestBody AuthenticateUserReqDto authenticateUserReqDto) {
+
+        // code로 액세스 토큰 및 JWT 리프레시 토큰 얻기
         AuthenticateUserResDto authenticateUserResDto = authService.authenticateUser(authenticateUserReqDto.getCode());
         
         // 헤더에 액세스 토큰 담기
@@ -56,19 +57,18 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    @ApiOperation(value = "액세스 토큰 갱신", notes = "액세스 토큰 만료 시 새로운 액세스 토큰 발급")
+    @Operation(summary = "액세스 토큰 갱신",
+            description = "액세스 토큰 만료 시 새로운 액세스 토큰 발급",
+            security = {@SecurityRequirement(name = "Basic Auth")})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", responseHeaders = {
-                    @io.swagger.annotations.ResponseHeader(
-                            name = "ACCESS-TOKEN",
-                            description = "Access Token",
-                            response = String.class),
-            })
+            @ApiResponse(responseCode = "200",
+                    description = "OK",
+                    headers = {@Header(name = "ACCESS_TOKEN", description = "Twitch Access Token")})
     })
-    public ResponseEntity<Object> refreshAccessToken(HttpServletResponse response, Principal principal) {
+    public ResponseEntity<Object> refreshAccessToken(HttpServletResponse response) {
         
         // 액세스 토큰 갱신
-        RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken(principal);
+        RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken();
 
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();

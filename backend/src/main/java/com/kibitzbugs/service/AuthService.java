@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -69,7 +70,9 @@ public class AuthService {
     }
 
     // 인증된 유저 정보의 리프레시 토큰으로 갱신된 액세스 토큰 발급
-    public RefreshTokenResDto refreshAccessToken(Principal principal) {
+    public RefreshTokenResDto refreshAccessToken() {
+
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
 
         TwitchRefreshTokenReqDto twitchRefreshTokenReqDto = TwitchRefreshTokenReqDto.builder()
                 .client_id(clientId)

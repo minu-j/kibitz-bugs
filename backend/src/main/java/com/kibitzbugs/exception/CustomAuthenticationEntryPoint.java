@@ -24,7 +24,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding("UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write(objectMapper.writeValueAsString(new ExceptionResponse("유저 인증에 실패하였습니다.")));
+        response.getWriter().write(objectMapper.writeValueAsString(new ExceptionResponse("인증되지 않은 유저입니다.")));
     }
 
 }

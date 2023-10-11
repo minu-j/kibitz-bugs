@@ -21,7 +21,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -42,6 +41,7 @@ public class JwtTokenProvider {
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
+    // 리프레시 토큰으로 JWT토큰 생성
     public String createToken(String refreshToken) {
         Claims claims = Jwts.claims();
         Date now = new Date();
@@ -54,6 +54,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // 요청의 쿠키에서 JWT 토큰 확인 후 JWT 토큰 반환
     public String resolveToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
@@ -64,6 +65,7 @@ public class JwtTokenProvider {
         throw new AuthenticationServiceException("REFRESH-TOKEN이 없습니다.");
     }
 
+    // JWT토큰 유효성 검증
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken);
@@ -73,6 +75,7 @@ public class JwtTokenProvider {
         }
     }
 
+    // JWT토큰으로 리프레시 토큰 얻기
     public String getRefreshToken(String jwtToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken).getBody().getSubject();
@@ -81,6 +84,7 @@ public class JwtTokenProvider {
         }
     }
 
+    // 유저 인증 후 인증 객체 반환
     public Authentication getAuthentication(String jwtToken) {
         Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
         UserDetails userDetails = new User(getRefreshToken(jwtToken), "", authorities);

@@ -24,9 +24,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            // 쿠키에 리프레시 토큰이 있는 경우
             Cookie[] cookies = request.getCookies();
             boolean flag = false;
+
+            // 쿠키에 리프레시 토큰이 있는 경우
             if (cookies != null) {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("REFRESH-TOKEN")) {

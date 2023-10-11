@@ -1,7 +1,6 @@
 package com.kibitzbugs.dto.game;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,26 +9,25 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
-@ApiModel(value = "게임 기록 요청")
 public class GameHistoryReqDto {
     @NotBlank
-    @ApiModelProperty(value = "스트리머 식별 id", example = "123456789", required = true)
+    @Schema(description = "스트리머 식별 id", example = "123456789", requiredMode = Schema.RequiredMode.REQUIRED)
     private String id;
 
     @NotBlank
-    @ApiModelProperty(value = "스트리머 계정 아이디", example = "ysu6691", required = true)
+    @Schema(description = "스트리머 계정 아이디", example = "ysu6691", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
     @NotBlank
-    @ApiModelProperty(value = "스트리머 닉네임", example = "훈수남", required = true)
+    @Schema(description = "스트리머 닉네임", example = "훈수남", requiredMode = Schema.RequiredMode.REQUIRED)
     private String nickname;
 
     @NotBlank
-    @ApiModelProperty(value = "스트리머 이미지", example = "https://imgurl", required = true)
+    @Schema(description = "스트리머 이미지", example = "https://imgurl", requiredMode = Schema.RequiredMode.REQUIRED)
     private String imgUrl;
 
 
     @NotNull
-    @ApiModelProperty(value = "승/패", example = "true", required = true)
+    @Schema(description = "승/패", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     private Boolean win;
 }

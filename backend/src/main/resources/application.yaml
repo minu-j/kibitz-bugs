@@ -1,0 +1,22 @@
+# log
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+  
+# swagger
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+springdoc:
+  packages-to-scan: com.kibitzbugs.controller
+  paths-to-match: /api/**
+  swagger-ui:
+    path: /api/v1/swagger-ui
+    disable-swagger-default-url: true
+    operations-sorter: alpha
+    tags-sorter: alpha
+    defaultModelsExpandDepth: -1
