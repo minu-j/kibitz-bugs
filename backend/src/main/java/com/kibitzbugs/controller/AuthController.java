@@ -6,6 +6,7 @@ import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
 import com.kibitzbugs.dto.auth.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
+import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.service.AuthService;
 import com.kibitzbugs.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,7 +55,7 @@ public class AuthController {
         TwitchUserInfoResDto.Data userInfo = loginService.getTwitchUserInfo(authenticateUserResDto.getAccessToken());
 
         // 로그인 기록 저장 및 알림
-        loginService.createLoginHistory(LoginHistoryReqDto.builder()
+        LoginHistoryResDto loginHistoryResDto = loginService.createLoginHistory(LoginHistoryReqDto.builder()
                 .id(userInfo.getId())
                 .nickname(userInfo.getDisplay_name())
                 .name(userInfo.getLogin())
@@ -70,8 +71,8 @@ public class AuthController {
 
         // 쿠키에 JWT 토큰 담기
         setCookie(response, jwtToken);
-        
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+
+        return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
