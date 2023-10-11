@@ -1,6 +1,7 @@
 package com.kibitzbugs.config;
 
 import com.kibitzbugs.auth.JwtTokenProvider;
+import com.kibitzbugs.auth.Role;
 import com.kibitzbugs.exception.CustomAccessDeniedHandler;
 import com.kibitzbugs.exception.CustomAuthenticationEntryPoint;
 import com.kibitzbugs.filter.JwtAuthenticationFilter;
@@ -14,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -33,7 +34,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/code").permitAll()
                 .antMatchers("/api/v1/login/cnt", "/api/v1/game/cnt").permitAll()
-                .antMatchers("/api/v1/swagger-ui", "/api/v1/swagger-ui/**", "/api/v1/swagger-resources/**", "/v3/api-docs", "/v3/api-docs/**", "/webjars/**").permitAll()
+                .antMatchers("/api/v1/swagger-ui", "/api/v1/swagger-ui/**", "/api/v1/swagger-resources/**", "/v3/api-docs", "/v3/api-docs/**", "/webjars/**").hasRole(Role.admin())
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
