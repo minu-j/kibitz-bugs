@@ -18,6 +18,10 @@ const browserRouter = createBrowserRouter([
     path: "/gomoku",
     element: <Gomoku />,
   },
+  {
+    path: "/*",
+    element: <Auth />,
+  },
 ]);
 
 export default browserRouter;

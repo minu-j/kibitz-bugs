@@ -4,7 +4,8 @@ const useTwitchLogin = () => {
   const twitchLogin = () => {
     const AUTH_URL = import.meta.env.VITE_TWITCH_AUTH_URL;
     const CLIENT_ID = import.meta.env.VITE_TWITCH_CLIENT_ID;
-    const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+    // const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+    const BASE_URL = "https://localhost:5173/";
 
     const scopes = [
       "openid",
@@ -17,8 +18,7 @@ const useTwitchLogin = () => {
     const queryParams = {
       response_type: "code",
       client_id: CLIENT_ID,
-      // redirect_uri: BASE_URL + "auth",
-      redirect_uri: "http://localhost:5173/" + "auth",
+      redirect_uri: BASE_URL + "auth",
       scope: scopes.join(" "),
     };
     location.replace(

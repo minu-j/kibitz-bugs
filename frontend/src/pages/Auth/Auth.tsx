@@ -1,10 +1,7 @@
-import { postAuthCode } from "@/api/auth";
-import { getChannelFollowers, getUsers } from "@/api/helix";
-import { postLogin } from "@/api/login";
-import { getAccessToken } from "@/api/oauth";
-import { IAuthorizationBody } from "@/api/oauth/type";
+import { postAuthCode, postAuthRefresh } from "@/api/auth";
 import { LoadingSpinner } from "@/components";
 import { userState } from "@/recoil/user/atoms";
+import { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -17,8 +14,23 @@ function Auth() {
   const setUser = useSetRecoilState(userState);
 
   const handleLoginError = () => {
-    alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+    alert("인증 오류가 발생했습니다. 다시 시도해주세요.");
     navigate("/");
+  };
+  const userLogin = (res: AxiosResponse) => {
+    const token = res.headers["access-token"];
+    if (token) {
+      setUser({
+        id: res.data.streamerId,
+        name: res.data.name,
+        nickname: res.data.nickname,
+        imgUrl: res.data.imgUrl,
+        accessToken: token,
+      });
+      navigate("/setting");
+    } else {
+      handleLoginError();
+    }
   };
 
   useEffect(() => {
@@ -26,23 +38,15 @@ function Auth() {
     if (code) {
       postAuthCode(code)
         .then((res) => {
-          const token = res.headers["access-token"];
-          if (token) {
-            setUser({
-              id: res.data.streamerId,
-              name: res.data.name,
-              nickname: res.data.nickname,
-              imgUrl: res.data.imgUrl,
-              accessToken: token,
-            });
-            navigate("/setting");
-          } else {
-            handleLoginError();
-          }
+          userLogin(res);
         })
         .catch(() => handleLoginError());
     } else {
-      handleLoginError();
+      postAuthRefresh()
+        .then((res) => {
+          userLogin(res);
+        })
+        .catch(() => handleLoginError());
     }
   }, []);
 

@@ -1,4 +1,3 @@
-import { postAuthRefresh } from "@/api/auth";
 import { userState } from "@/recoil/user/atoms";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,23 +8,10 @@ function useCheckUserAuth() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
-  // // 새로고침 방지
-  // const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-  //   e.preventDefault();
-  //   e.returnValue = "";
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
   // 유저 정보 손실 감지
   useEffect(() => {
     if (!user.accessToken) {
-      postAuthRefresh().then((res) => console.log(res.data));
+      navigate("/auth");
     }
   }, [user]);
 }
