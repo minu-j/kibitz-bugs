@@ -5,29 +5,26 @@ import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
-@RequestMapping("/api/v1/login")
+@RequestMapping("/test/api/v1/login")
 @RequiredArgsConstructor
 @Tag(name = "Login")
 public class LoginController {
 
     final private LoginService loginService;
 
-    @PostMapping("")
-    @Operation(summary = "로그인 기록 생성",
-            description = "트위치 로그인 시 자신의 정보를 저장",
-            security = {@SecurityRequirement(name = "Basic Auth")})
-    public ResponseEntity<LoginHistoryResDto> createLoginHistory(@Valid @RequestBody LoginHistoryReqDto loginHistoryReqDto) {
-        return ResponseEntity.ok(loginService.createLoginHistory(loginHistoryReqDto));
-    }
+//    @PostMapping("")
+//    @Operation(summary = "로그인 기록 생성",
+//            description = "트위치 로그인 시 자신의 정보를 저장",
+//            security = {@SecurityRequirement(name = "Basic Auth")})
+//    public ResponseEntity<LoginHistoryResDto> createLoginHistory(@Valid @RequestBody LoginHistoryReqDto loginHistoryReqDto) {
+//        return ResponseEntity.ok(loginService.createLoginHistory(loginHistoryReqDto));
+//    }
 
     @GetMapping("/cnt")
     @Operation(summary = "로그인 수 조회",

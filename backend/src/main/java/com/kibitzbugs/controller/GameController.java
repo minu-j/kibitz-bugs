@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/game")
+@RequestMapping("/test/api/v1/game")
 @RequiredArgsConstructor
 @Tag(name = "Game")
 public class GameController {

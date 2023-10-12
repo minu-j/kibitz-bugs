@@ -2,10 +2,10 @@ package com.kibitzbugs.auth;
 
 public class Role {
     public static String admin() {
-        return "ADMIN";
+        return "ROLE_ADMIN";
     }
 
     public static String user() {
-        return "USER";
+        return "ROLE_USER";
     }
 }

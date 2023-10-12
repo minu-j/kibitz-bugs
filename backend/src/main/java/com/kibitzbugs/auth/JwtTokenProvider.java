@@ -36,6 +36,12 @@ public class JwtTokenProvider {
     @Value("#{private['jwt.validity.in.seconds']}")
     private Integer tokenValidityInSeconds;
 
+    @Value("#{private['twitch.id.ysu']}")
+    private String ysu;
+
+    @Value("#{private['twitch.id.minu']}")
+    private String minu;
+
     private Key key;
 
     @PostConstruct
@@ -51,7 +57,7 @@ public class JwtTokenProvider {
 
         // 권한 분기
         String role = Role.user();
-        if(twitchId.equals("dbstjddns777") || twitchId.equals("min__u")) {
+        if(twitchId.equals(ysu) || twitchId.equals(minu)) {
             role = Role.admin();
         }
 
@@ -74,7 +80,7 @@ public class JwtTokenProvider {
         // 권한 분기
         String role = Role.user();
         for(GrantedAuthority authority : authorities) {
-            if(authority.getAuthority().equals("admin")) {
+            if(authority.getAuthority().equals(Role.admin())) {
                 role = Role.admin();
             }
         }

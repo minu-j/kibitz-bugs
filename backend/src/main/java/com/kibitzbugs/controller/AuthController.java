@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/test/api/v1/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth")
 public class AuthController {
@@ -60,7 +60,7 @@ public class AuthController {
                 .nickname(userInfo.getDisplay_name())
                 .name(userInfo.getLogin())
                 .imgUrl(userInfo.getProfile_image_url())
-                .build());
+                .build(), authenticateUserResDto.getAccessToken());
 
         // 리프레시 토큰과 유저 아이디로 JWT 생성
         String jwtToken = jwtTokenProvider.createToken(authenticateUserResDto.getRefreshToken(), userInfo.getLogin());
@@ -94,7 +94,7 @@ public class AuthController {
         LoginHistoryResDto loginHistoryResDto = LoginHistoryResDto.builder()
                 .streamerId(userInfo.getId())
                 .name(userInfo.getLogin())
-                .nickname(userInfo.getDescription())
+                .nickname(userInfo.getDisplay_name())
                 .imgUrl(userInfo.getProfile_image_url())
                 .build();
 
@@ -108,13 +108,12 @@ public class AuthController {
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
 
-
     private void setCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from("REFRESH-TOKEN", refreshToken)
                 .path("/")
                 .sameSite("None")
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
     }
