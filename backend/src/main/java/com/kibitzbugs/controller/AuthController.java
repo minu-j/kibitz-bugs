@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -61,7 +60,7 @@ public class AuthController {
                 .nickname(userInfo.getDisplay_name())
                 .name(userInfo.getLogin())
                 .imgUrl(userInfo.getProfile_image_url())
-                .build());
+                .build(), authenticateUserResDto.getAccessToken());
 
         // 리프레시 토큰과 유저 아이디로 JWT 생성
         String jwtToken = jwtTokenProvider.createToken(authenticateUserResDto.getRefreshToken(), userInfo.getLogin());

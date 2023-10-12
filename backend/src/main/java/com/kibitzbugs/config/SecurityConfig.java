@@ -1,7 +1,6 @@
 package com.kibitzbugs.config;
 
 import com.kibitzbugs.auth.JwtTokenProvider;
-import com.kibitzbugs.auth.Role;
 import com.kibitzbugs.exception.CustomAccessDeniedHandler;
 import com.kibitzbugs.exception.CustomAuthenticationEntryPoint;
 import com.kibitzbugs.filter.JwtAuthenticationFilter;

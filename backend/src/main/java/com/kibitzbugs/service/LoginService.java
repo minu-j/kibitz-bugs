@@ -4,6 +4,7 @@ import com.kibitzbugs.dto.auth.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginCntResDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
+import com.kibitzbugs.dto.login.TwitchChannelFollowersResDto;
 import com.kibitzbugs.entity.Login;
 import com.kibitzbugs.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class LoginService {
     private String clientId;
 
     // 로그인 기록 생성
-    public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto) {
+    public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto, String accessToken) {
         Login savedLogin = loginRepository.save(Login.builder()
                 .streamerId(loginHistoryReqDto.getId())
                 .name(loginHistoryReqDto.getName())
@@ -42,10 +43,38 @@ public class LoginService {
                 .build()
         );
 
-        // 팔로워 수 확인
-//        telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
-//                "https://www.twitch.tv/" + savedLogin.getName());
-//        log.info("[Login] " + savedLogin.getNickname());
+        // 팔로워 수 확인 후 알림
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://api.twitch.tv")
+                .path("/helix/channels/followers")
+                .queryParam("broadcaster_id", loginHistoryReqDto.getId())
+                .encode()
+                .build()
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Client-Id", clientId);
+        headers.add("Authorization", "Bearer " + accessToken);
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        try {
+            ResponseEntity<TwitchChannelFollowersResDto> responseEntity = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    requestEntity,
+                    TwitchChannelFollowersResDto.class
+            );
+            if(responseEntity.getBody().getTotal() >= 10) {
+                telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
+                        "https://www.twitch.tv/" + savedLogin.getName());
+            }
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("broadcaster id가 유효하지 않습니다.");
+            }
+        }
+
+        log.info("[Login] " + savedLogin.getNickname());
 
         return LoginHistoryResDto.builder()
                 .name(savedLogin.getName())
