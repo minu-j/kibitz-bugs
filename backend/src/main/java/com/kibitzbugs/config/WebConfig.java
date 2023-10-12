@@ -1,7 +1,6 @@
 package com.kibitzbugs.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
-                .exposedHeaders("ACCESS-TOKEN");
+                .exposedHeaders("ACCESS-TOKEN")
+                .exposedHeaders("Set-Cookie");
     }
 }
