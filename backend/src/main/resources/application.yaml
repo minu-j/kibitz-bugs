@@ -15,7 +15,7 @@ springdoc:
   packages-to-scan: com.kibitzbugs.controller
   paths-to-match: /api/**
   swagger-ui:
-    path: /api/v1/swagger-ui
+    path: /test/api/v1/swagger-ui
     disable-swagger-default-url: true
     operations-sorter: alpha
     tags-sorter: alpha

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/test/api/v1/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth")
 public class AuthController {

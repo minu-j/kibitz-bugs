@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/login")
+@RequestMapping("/test/api/v1/login")
 @RequiredArgsConstructor
 @Tag(name = "Login")
 public class LoginController {
