@@ -95,7 +95,7 @@ public class AuthController {
         LoginHistoryResDto loginHistoryResDto = LoginHistoryResDto.builder()
                 .streamerId(userInfo.getId())
                 .name(userInfo.getLogin())
-                .nickname(userInfo.getDescription())
+                .nickname(userInfo.getDisplay_name())
                 .imgUrl(userInfo.getProfile_image_url())
                 .build();
 
@@ -108,7 +108,6 @@ public class AuthController {
         
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
-
 
     private void setCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from("REFRESH-TOKEN", refreshToken)
