@@ -1,7 +1,9 @@
-package com.kibitzbugs.dto.auth;
+package com.kibitzbugs.dto.thirdparty.twitch;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder

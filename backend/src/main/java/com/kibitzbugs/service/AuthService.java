@@ -2,6 +2,10 @@ package com.kibitzbugs.service;
 
 import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.dto.auth.*;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchAuthCodeReqDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchAuthCodeResDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchRefreshTokenReqDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchRefreshTokenResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,6 +78,8 @@ public class AuthService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        RestTemplate restTemplate = new RestTemplate();
+
         TwitchRefreshTokenReqDto twitchRefreshTokenReqDto = TwitchRefreshTokenReqDto.builder()
                 .client_id(clientId)
                 .client_secret(clientSecret)
@@ -88,7 +94,6 @@ public class AuthService {
                 .build()
                 .toUri();
 
-        RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<TwitchRefreshTokenResDto> responseEntity = restTemplate.postForEntity(
                     uri,

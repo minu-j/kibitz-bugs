@@ -1,5 +1,6 @@
 package com.kibitzbugs.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
+@Slf4j
 public class TelegramService {
 
     @Value("#{private['telegram.token']}")
@@ -23,7 +25,7 @@ public class TelegramService {
             connection.setRequestMethod("GET");
             connection.getInputStream();
         } catch(Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

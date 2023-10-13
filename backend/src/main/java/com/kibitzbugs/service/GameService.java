@@ -8,6 +8,7 @@ import com.kibitzbugs.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class GameService {
     final private GameRepository gameRepository;
 
     // 게임 기록 생성
+    @Transactional
     public GameHistoryResDto createGameHistory(GameHistoryReqDto gameHistoryReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
                 .streamerId(gameHistoryReqDto.getId())

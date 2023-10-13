@@ -4,7 +4,7 @@ import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
-import com.kibitzbugs.dto.auth.TwitchUserInfoResDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.service.AuthService;
