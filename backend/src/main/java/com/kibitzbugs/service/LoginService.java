@@ -21,13 +21,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -94,8 +91,9 @@ public class LoginService {
 
     // 총 로그인 카운트 조회
     public LoginCntResDto getLoginCnt() {
+        Optional<Login> optionalLogin = loginRepository.findFirstByOrderByIdDesc();
         return LoginCntResDto.builder()
-                .cnt(loginRepository.count())
+                .cnt(optionalLogin.isPresent() ? optionalLogin.get().getId() : 0)
                 .build();
     }
 
