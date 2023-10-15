@@ -4,7 +4,7 @@
   "sec": "s",
   "pages": {
     "login": {
-      "top description": "Twitch streamer vs. viewers on Gomoku!",
+      "top description": "Play Gomoku(Renju) with the collective intelligence of your twitch viewers.",
       "play on pc": "Play on your PC",
       "click for login": "Login with twitch",
       "login": "Login",
@@ -29,7 +29,8 @@
       "description2": "2. The coordinates with the most votes will be the number of viewers.",
       "description3": "3. If you don't vote in time, you lose.",
       "description4": "4. You can only vote once per turn.",
-      "description5": "5. The rules apply the Renju rule."
+      "description5": "5. The rules apply the Renju rule.",
+      "what is renju": "Renju is an official rule that supplements the rules of Gomoku, which are one-sidedly in favor of the black player. In Renju, there are forbidden moves, and the black player that start first cannot make 3x3, 4x4, or overline (more than 6 stones)."
     },
     "gomoku": {
       "alert title": "Want to go back to settings?",

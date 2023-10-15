@@ -7,7 +7,7 @@ function Footer() {
     <footer
       css={{
         backgroundColor: colorStyles.primary,
-        width: "100%",
+        width: "100vw",
         paddingInline: 24,
         paddingBlock: 32,
         marginTop: 60,

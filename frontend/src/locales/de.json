@@ -1,0 +1,59 @@
+{
+  "streamer": "Streamer",
+  "viewers": "Zuschauer",
+  "sec": "s",
+  "pages": {
+    "login": {
+      "top description": "Spiele Gomoku(Renju) mit der kollektiven Intelligenz deiner Twitch-Zuschauer.",
+      "play on pc": "Auf deinem PC spielen",
+      "click for login": "Mit Twitch anmelden",
+      "login": "Anmelden",
+      "title1": "Einfach chatten, um abzustimmen",
+      "description1": "Die Koordinaten mit den meisten Stimmen werden zur Anzahl der Zuschauer",
+      "title2": "Bereits ein beliebtes Twitch-Spiel",
+      "description2": "Gespielt von mehreren populären Streamern",
+      "login count": "Anmeldungen",
+      "game count": "Spiele"
+    },
+    "setting": {
+      "title": "Einstellungen",
+      "first": "Farbe",
+      "timeout": "Zeitüberschreitung",
+      "screen mode": "Bildschirmmodus",
+      "fullscreen": "Vollbild",
+      "window": "Fenster",
+      "start": "Spiel starten!",
+      "description title": "Beschreibung",
+      "description1": "1. Geben Sie die gewünschten Koordinaten im Chat ein.",
+      "description1-1": "Zum Beispiel.) Koordinatenformate, mit denen ein Ort angegeben werden kann: A1, a10, A10, 8B, 14g, etc.",
+      "description2": "2. Die Koordinaten mit den meisten Stimmen werden zur Anzahl der Zuschauer.",
+      "description3": "3. Wenn Sie nicht rechtzeitig abstimmen, verlieren Sie.",
+      "description4": "4. Sie können nur einmal pro Runde abstimmen.",
+      "description5": "5. Die Regeln gelten nach der Renju-Regel.",
+      "what is renju": "Renju ist eine offizielle Regel, die die Regeln von Gomoku ergänzt, die einseitig zu Gunsten des schwarzen Spielers sind. In Renju gibt es verbotene Züge, und der schwarze Spieler, der als Erster beginnt, darf keine 3x3, 4x4 oder Überreihen (mehr als 6 Steine) machen."
+    },
+    "gomoku": {
+      "alert title": "Möchten Sie zu den Einstellungen zurückkehren?",
+      "exit": "Beenden",
+      "no time limit": "Kein Zeitlimit",
+      "time remaining": "verbleibende Sekunden",
+      "vote now": "Jetzt abstimmen",
+      "winner": "Gewinner"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "Unbegrenzt"
+    },
+    "camera card": {
+      "camera is here": "Platzieren Sie Ihre Kamera hier"
+    },
+    "alert": {
+      "yes": "Ja",
+      "cancel": "Abbrechen"
+    },
+    "chat card": {
+      "voted": "Abgestimmt"
+    }
+  }
+}

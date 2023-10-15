@@ -14,6 +14,7 @@ import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
 import useFullscreen from "@/hooks/useFullscreen";
 import { useTranslation } from "react-i18next";
+import SelectLocales from "@/components/SelectLocales";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
@@ -191,6 +192,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           }}
         />
       </div>
+      <SelectLocales />
     </StyledGomokuSetting>
   );
 }

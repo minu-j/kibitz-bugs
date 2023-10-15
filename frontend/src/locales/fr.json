@@ -1,0 +1,59 @@
+{
+  "streamer": "Streamer",
+  "viewers": "Spectateurs",
+  "sec": "s",
+  "pages": {
+    "login": {
+      "top description": "Jouez à Gomoku(Renju) avec l'intelligence collective de vos spectateurs Twitch.",
+      "play on pc": "Jouez sur votre PC",
+      "click for login": "Connectez-vous avec Twitch",
+      "login": "Connexion",
+      "title1": "Discutez simplement pour voter",
+      "description1": "Les coordonnées avec le plus de votes deviennent le nombre de spectateurs",
+      "title2": "Déjà un jeu Twitch populaire",
+      "description2": "Joué par plusieurs streamers populaires",
+      "login count": "Connexions",
+      "game count": "Parties"
+    },
+    "setting": {
+      "title": "Paramètres",
+      "first": "Couleur",
+      "timeout": "Délai d'attente",
+      "screen mode": "Mode écran",
+      "fullscreen": "Plein écran",
+      "window": "Fenêtre",
+      "start": "Démarrer le jeu !",
+      "description title": "Description",
+      "description1": "1. Entrez les coordonnées souhaitées dans le chat.",
+      "description1-1": "Par exemple.) Formats de coordonnées qui peuvent spécifier un emplacement : A1, a10, A10, 8B, 14g, etc.",
+      "description2": "2. Les coordonnées avec le plus de votes deviendront le nombre de spectateurs.",
+      "description3": "3. Si vous ne votez pas à temps, vous perdez.",
+      "description4": "4. Vous ne pouvez voter qu'une fois par tour.",
+      "description5": "5. Les règles suivent la règle Renju.",
+      "what is renju": "Le Renju est une règle officielle qui complète les règles du Gomoku, qui sont unilatéralement en faveur du joueur noir. Dans le Renju, il y a des coups interdits, et le joueur noir qui commence en premier ne peut pas faire de 3x3, 4x4, ou overline (plus de 6 pierres)."
+    },
+    "gomoku": {
+      "alert title": "Voulez-vous revenir aux paramètres ?",
+      "exit": "Quitter",
+      "no time limit": "Aucune limite de temps",
+      "time remaining": "secondes restantes",
+      "vote now": "Votez maintenant",
+      "winner": "Gagnant"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "Illimité"
+    },
+    "camera card": {
+      "camera is here": "Placez votre caméra ici"
+    },
+    "alert": {
+      "yes": "Oui",
+      "cancel": "Annuler"
+    },
+    "chat card": {
+      "voted": "Voté"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "streamer": "主播",
+  "viewers": "观众",
+  "sec": "秒",
+  "pages": {
+    "login": {
+      "top description": "利用 twitch 观众的集体智慧玩五子棋(Renju)。",
+      "play on pc": "在您的电脑上玩",
+      "click for login": "使用Twitch登录",
+      "login": "登录",
+      "title1": "只需聊天进行投票",
+      "description1": "得到最多投票的坐标将成为观众的数量",
+      "title2": "已经是一个受欢迎的Twitch游戏",
+      "description2": "被一些受欢迎的主播玩过",
+      "login count": "登录次数",
+      "game count": "游戏次数"
+    },
+    "setting": {
+      "title": "设置",
+      "first": "颜色",
+      "timeout": "超时",
+      "screen mode": "屏幕模式",
+      "fullscreen": "全屏",
+      "window": "窗口",
+      "start": "开始游戏！",
+      "description title": "描述",
+      "description1": "1. 在聊天中输入所需的坐标。",
+      "description1-1": "例如。）可以指定位置的坐标格式：A1、a10、A10、8B、14g等。",
+      "description2": "2. 得到最多投票的坐标将成为观众的数量。",
+      "description3": "3. 如果您没有及时投票，您将输掉比赛。",
+      "description4": "4. 每轮只能投一次票。",
+      "description5": "5. 规则适用连珠规则。",
+      "what is renju": "连珠是对五子棋规则的一种正式补充规则，五子棋规则对黑棋一方有利。连珠有禁手，先下的黑方不能下 3x3、4x4 或超线（超过 6 子）。"
+    },
+    "gomoku": {
+      "alert title": "想要返回设置吗？",
+      "exit": "退出",
+      "no time limit": "没有时间限制",
+      "time remaining": "剩余秒数",
+      "vote now": "立即投票",
+      "winner": "赢家"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "无限制"
+    },
+    "camera card": {
+      "camera is here": "将您的摄像头放在这里"
+    },
+    "alert": {
+      "yes": "是",
+      "cancel": "取消"
+    },
+    "chat card": {
+      "voted": "已投票"
+    }
+  }
+}

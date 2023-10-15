@@ -57,6 +57,7 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
             justifyContent: "center",
             alignItems: "center",
             flexGrow: 1,
+            lineHeight: 1.4,
             ...textStyles.contents,
           }}
         >

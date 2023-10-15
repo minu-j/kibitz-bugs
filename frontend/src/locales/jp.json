@@ -1,0 +1,59 @@
+{
+  "streamer": "ストリーマー",
+  "viewers": "視聴者",
+  "sec": "秒",
+  "pages": {
+    "login": {
+      "top description": "Twitchの視聴者とGomoku(Renju)で対戦しよう！",
+      "play on pc": "PCでプレイ",
+      "click for login": "Twitchでログイン",
+      "login": "ログイン",
+      "title1": "チャットで投票",
+      "description1": "最も投票の多い座標が視聴者数になります",
+      "title2": "すでに人気のあるTwitchゲーム",
+      "description2": "数人の人気のあるストリーマーによってプレイされています",
+      "login count": "ログイン数",
+      "game count": "プレイ回数"
+    },
+    "setting": {
+      "title": "設定",
+      "first": "カラー",
+      "timeout": "タイムアウト",
+      "screen mode": "画面モード",
+      "fullscreen": "フルスクリーン",
+      "window": "ウィンドウ",
+      "start": "ゲームスタート！",
+      "description title": "説明",
+      "description1": "1. チャットに希望の座標を入力してください。",
+      "description1-1": "例）位置を指定できる座標フォーマット：A1、a10、A10、8B、14gなど。",
+      "description2": "2. 最も投票の多い座標が視聴者数になります。",
+      "description3": "3. 時間内に投票しないと、負けです。",
+      "description4": "4. 1ターンにつき1回しか投票できません。",
+      "description5": "5. ルールは連珠ルールを適用します。",
+      "what is renju": "連珠は、黒番が一方的に有利な五目並べのルールを補足する公式ルールである。連珠には禁じ手があり、先手の黒番は3×3、4×4、オーバーライン（6石以上）ができない。"
+    },
+    "gomoku": {
+      "alert title": "設定に戻りますか？",
+      "exit": "終了",
+      "no time limit": "制限時間なし",
+      "time remaining": "残り秒数",
+      "vote now": "今すぐ投票",
+      "winner": "勝者"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "無制限"
+    },
+    "camera card": {
+      "camera is here": "ここにカメラを置いてください"
+    },
+    "alert": {
+      "yes": "はい",
+      "cancel": "キャンセル"
+    },
+    "chat card": {
+      "voted": "投票済み"
+    }
+  }
+}
