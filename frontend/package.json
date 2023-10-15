@@ -25,6 +25,7 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "tmi.js": "^1.8.5",
     "use-interval": "^1.4.0",
     "vite-plugin-mkcert": "^1.16.0"

@@ -5,7 +5,7 @@ import { BsGlobeAsiaAustralia } from "react-icons/bs";
 
 function SelectLocales() {
   const [language, SetLanguage] = useState(i18n.language);
-  console.log(i18n.languages);
+
   const handleChangeSelect = (e: ChangeEvent) => {
     const target = e.target as HTMLSelectElement;
     i18n.changeLanguage(target.value);
