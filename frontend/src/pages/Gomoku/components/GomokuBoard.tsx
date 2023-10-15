@@ -69,9 +69,10 @@ function GomokuBoard() {
             justifyContent: "center",
             alignItems: "center",
             transition: "all 0.3s",
-            transform: `translate(${
-              SQUARE_SIZE * topVote[1] - SQUARE_SIZE / 2
-            }px, ${SQUARE_SIZE * topVote[0] - SQUARE_SIZE / 2}px)`,
+            transform: `translate(
+              ${SQUARE_SIZE * topVote[1]}px, 
+              ${SQUARE_SIZE * topVote[0]}px)
+            `,
           }}
         >
           <img
@@ -93,8 +94,8 @@ function GomokuBoard() {
                 <div
                   key={`board-sqare-key-${i}-${j}`}
                   css={{
-                    width: SQUARE_SIZE / 2,
-                    height: SQUARE_SIZE / 2,
+                    width: SQUARE_SIZE,
+                    height: SQUARE_SIZE,
                   }}
                 />
               ) : (
@@ -102,10 +103,12 @@ function GomokuBoard() {
                   key={`board-sqare-key-${i}-${j}`}
                   css={{
                     width: SQUARE_SIZE,
-                    height: SQUARE_SIZE / 2,
+                    height: SQUARE_SIZE,
                     fontWeight: 900,
                     display: "flex",
                     justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: 20,
                   }}
                 >
                   {alphabet[j]}
@@ -120,11 +123,13 @@ function GomokuBoard() {
                 <div
                   key={`board-sqare-key-${i}-${j}`}
                   css={{
-                    width: SQUARE_SIZE / 2,
+                    width: SQUARE_SIZE,
                     height: SQUARE_SIZE,
                     fontWeight: 900,
                     display: "flex",
+                    justifyContent: "center",
                     alignItems: "center",
+                    fontSize: 20,
                   }}
                 >
                   {16 - i}
