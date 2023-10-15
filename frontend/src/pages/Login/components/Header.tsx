@@ -1,7 +1,9 @@
 import Logo from "@assets/images/Logo.png";
 import { textStyles } from "@styles";
+import { useTranslation } from "react-i18next";
 
 function Header() {
+  const { t } = useTranslation();
   return (
     <header
       css={{
@@ -32,7 +34,7 @@ function Header() {
         />
         <h1 css={textStyles.title2}>{"키비츠 벅스"}</h1>
       </div>
-      <h2 css={textStyles.title3}>스트리머와 시청자의 오목 대결!</h2>
+      <h2 css={textStyles.title3}>{t("pages.login.top description")}</h2>
     </header>
   );
 }

@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import { Description, Footer, Header, LoginBtn } from "./components";
 import { Background } from "@/components";
+import SelectLocales from "@/components/SelectLocales";
 
 function Login() {
   return (
     <StyledLogin>
-      {/* <button>언어</button> */}
       <Header />
       <LoginBtn />
+      <SelectLocales />
       <Description />
       <LoginBtn />
       <Footer />

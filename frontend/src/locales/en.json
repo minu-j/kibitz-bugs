@@ -1,10 +1,58 @@
 {
+  "streamer": "Streamer",
+  "viewers": "Viewers",
+  "sec": "s",
   "pages": {
     "login": {
-      "Play on PC": "Play on your PC",
-      "click for login": "Login with one click",
-      "login": "twitch"
+      "top description": "Twitch streamer vs. viewers on Gomoku!",
+      "play on pc": "Play on your PC",
+      "click for login": "Login with twitch",
+      "login": "Login",
+      "title1": "Just chat to vote",
+      "description1": "The coordinates with the most votes become the number of viewers",
+      "title2": "Already a popular Twitch game",
+      "description2": "Played by several popular streamers",
+      "login count": "Logins",
+      "game count": "Plays"
+    },
+    "setting": {
+      "title": "Settings",
+      "first": "Color",
+      "timeout": "Timeout",
+      "screen mode": "Screen Mode",
+      "fullscreen": "FullScreen",
+      "window": "Window",
+      "start": "Game Start!",
+      "description title": "Description",
+      "description1": "1. enter the desired coordinates in chat.",
+      "description1-1": "For example.) Coordinate formats that can specify a location: A1, a10, A10, 8B, 14g, etc.",
+      "description2": "2. The coordinates with the most votes will be the number of viewers.",
+      "description3": "3. If you don't vote in time, you lose.",
+      "description4": "4. You can only vote once per turn.",
+      "description5": "5. The rules apply the Renju rule."
+    },
+    "gomoku": {
+      "alert title": "Want to go back to settings?",
+      "exit": "Exit",
+      "no time limit": "No time limit",
+      "time remaining": "seconds left",
+      "vote now": "Vote Now",
+      "winner": "Winner"
     }
   },
-  "components": {}
+  "components": {
+    "dropdown": {
+      "unlimited": "Unlimited"
+    },
+    "camera card": {
+      "camera is here": "Place your camera here"
+    },
+    "alert": {
+      "yes": "Yes",
+      "cancel": "Cancel"
+    },
+    "chat card": {
+      "voted": "Voted"
+    }
+  }
 }

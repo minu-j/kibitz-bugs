@@ -1,6 +1,7 @@
 import { textStyles } from "@/styles";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
+import { useTranslation } from "react-i18next";
 
 interface IDropdownProps {
   selectedValue: number;
@@ -15,6 +16,7 @@ function Dropdown({
   values,
   handleSelectChange,
 }: IDropdownProps) {
+  const { t } = useTranslation();
   return (
     <select
       onMouseEnter={() => hoverSound.play()}
@@ -37,7 +39,7 @@ function Dropdown({
     >
       {values.map((item, idx) => (
         <option key={`option-key-${idx}`} value={item}>
-          {item === -1 ? "무제한" : `${item}초`}
+          {item === -1 ? t("components.dropdown.unlimited") : item + t("sec")}
         </option>
       ))}
     </select>

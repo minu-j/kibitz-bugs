@@ -22,11 +22,13 @@ import useMoveStone from "@/hooks/useMoveStone";
 import { str2numCoord } from "@/utils/str2numCoord";
 import timer from "@assets/audios/timer.mp3";
 import move from "@assets/audios/move.mp3";
+import { useTranslation } from "react-i18next";
 
 const timerSound = new Audio(timer);
 const moveSound = new Audio(move);
 
 function GomokuInfoCard() {
+  const { t } = useTranslation();
   const user = useRecoilValue(userState);
   const setting = useRecoilValue(gomokuState);
   const turn = useRecoilValue(gomokuTurnState);
@@ -90,7 +92,7 @@ function GomokuInfoCard() {
     <StyledGomokuInfoCard>
       <img css={{ width: 160 }} src={logo} />
       <div css={{ display: "flex", width: "100%", marginBlock: 20 }}>
-        {UserInfo(user.nickname ?? "스트리머", "black")}
+        {UserInfo(user.nickname ?? t("streamer"), "black")}
         <img
           css={{
             width: 60,
@@ -98,7 +100,7 @@ function GomokuInfoCard() {
           }}
           src={vs}
         />
-        {UserInfo("시청자", "white")}
+        {UserInfo(t("viewers"), "white")}
       </div>
       <GomokuProgressBar
         progress={
@@ -115,7 +117,9 @@ function GomokuInfoCard() {
           ...textStyles.contents,
         }}
       >
-        {time === -1 ? `시간제한 없음` : `남은시간 ${time}초`}
+        {time === -1
+          ? t("pages.gomoku.no time limit")
+          : time + " " + t("pages.gomoku.time remaining")}
       </div>
     </StyledGomokuInfoCard>
   );
