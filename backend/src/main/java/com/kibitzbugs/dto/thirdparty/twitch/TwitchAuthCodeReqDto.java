@@ -1,4 +1,4 @@
-package com.kibitzbugs.dto.auth;
+package com.kibitzbugs.dto.thirdparty.twitch;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;

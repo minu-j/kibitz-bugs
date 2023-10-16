@@ -1,10 +1,10 @@
 package com.kibitzbugs.service;
 
-import com.kibitzbugs.dto.auth.TwitchUserInfoResDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchChannelFollowersResDto;
+import com.kibitzbugs.dto.thirdparty.twitch.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginCntResDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
-import com.kibitzbugs.dto.login.TwitchChannelFollowersResDto;
 import com.kibitzbugs.entity.Login;
 import com.kibitzbugs.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +38,10 @@ public class LoginService {
     private String clientId;
 
     // 로그인 기록 생성
+    @Transactional
     public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto, String accessToken) {
+
+        // 유저 로그인 기록 저장
         Login savedLogin = loginRepository.save(Login.builder()
                 .streamerId(loginHistoryReqDto.getId())
                 .name(loginHistoryReqDto.getName())
@@ -44,38 +51,36 @@ public class LoginService {
         );
 
         // 팔로워 수 확인 후 알림
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://api.twitch.tv")
-                .path("/helix/channels/followers")
-                .queryParam("broadcaster_id", loginHistoryReqDto.getId())
-                .encode()
-                .build()
-                .toUri();
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Client-Id", clientId);
         headers.add("Authorization", "Bearer " + accessToken);
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        try {
-            ResponseEntity<TwitchChannelFollowersResDto> responseEntity = restTemplate.exchange(
-                    uri,
-                    HttpMethod.GET,
-                    requestEntity,
-                    TwitchChannelFollowersResDto.class
-            );
-            if(responseEntity.getBody().getTotal() >= 10) {
-                telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
-                        "https://www.twitch.tv/" + savedLogin.getName());
-            }
-        } catch (HttpClientErrorException e) {
-            if(e.getStatusCode().is4xxClientError()) {
-                throw new AuthenticationServiceException("broadcaster id가 유효하지 않습니다.");
-            }
-        }
+
+        WebClient client = WebClient.builder()
+                .baseUrl("https://api.twitch.tv")
+                .build();
+
+        Mono<TwitchChannelFollowersResDto> twitchChannelFollowersResDtoMono
+                = client.get()
+                .uri(uriBuilder -> uriBuilder.path("/helix/channels/followers")
+                        .queryParam("broadcaster_id", loginHistoryReqDto.getId())
+                        .build())
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .bodyToMono(TwitchChannelFollowersResDto.class);
+
+        twitchChannelFollowersResDtoMono.subscribe(
+                twitchChannelFollowersResDto -> {
+                    if (twitchChannelFollowersResDto.getTotal() >= 10) {
+                        telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
+                                "https://www.twitch.tv/" + savedLogin.getName());
+                    }
+                },
+                throwable -> log.error("webflux error: " + throwable.getMessage(), throwable)
+        );
 
         log.info("[Login] " + savedLogin.getNickname());
 
+        // 로그인 기록 반환
         return LoginHistoryResDto.builder()
                 .name(savedLogin.getName())
                 .streamerId(savedLogin.getStreamerId())
@@ -86,8 +91,9 @@ public class LoginService {
 
     // 총 로그인 카운트 조회
     public LoginCntResDto getLoginCnt() {
+        Optional<Login> optionalLogin = loginRepository.findFirstByOrderByIdDesc();
         return LoginCntResDto.builder()
-                .cnt(loginRepository.count())
+                .cnt(optionalLogin.isPresent() ? optionalLogin.get().getId() : 0)
                 .build();
     }
 

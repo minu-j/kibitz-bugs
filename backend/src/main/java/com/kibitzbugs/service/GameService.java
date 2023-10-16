@@ -8,6 +8,9 @@ import com.kibitzbugs.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class GameService {
     final private GameRepository gameRepository;
 
     // 게임 기록 생성
+    @Transactional
     public GameHistoryResDto createGameHistory(GameHistoryReqDto gameHistoryReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
                 .streamerId(gameHistoryReqDto.getId())
@@ -42,8 +46,9 @@ public class GameService {
 
     // 총 게임 카운트 조회
     public GameCntResDto getGameCnt() {
+        Optional<Game> optionalGame = gameRepository.findFirstByOrderByIdDesc();
         return GameCntResDto.builder()
-                .cnt(gameRepository.count())
+                .cnt(optionalGame.isPresent() ? optionalGame.get().getId() : 0)
                 .build();
     }
 
