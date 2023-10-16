@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/test/api/v1/login")
+@RequestMapping("/api/v1/login")
 @RequiredArgsConstructor
 @Tag(name = "Login")
 public class LoginController {
