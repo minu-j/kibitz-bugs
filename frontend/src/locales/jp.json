@@ -4,40 +4,40 @@
   "sec": "秒",
   "pages": {
     "login": {
-      "top description": "Twitchの視聴者とGomoku(Renju)で対戦しよう！",
+      "top description": "Twitchの視聴者と五目並べをプレイ",
       "play on pc": "PCでプレイ",
       "click for login": "Twitchでログイン",
       "login": "ログイン",
-      "title1": "チャットで投票",
-      "description1": "最も投票の多い座標が視聴者数になります",
-      "title2": "すでに人気のあるTwitchゲーム",
-      "description2": "数人の人気のあるストリーマーによってプレイされています",
-      "login count": "ログイン数",
-      "game count": "プレイ回数"
+      "title1": "チャットだけで投票",
+      "description1": "最も得票の多い座標が選択された次の手",
+      "title2": "Twitchで人気",
+      "description2": "10万人以上の視聴者数を誇るいくつかのストリーマーによってプレイされています",
+      "login count": "ストリーマー登録数",
+      "game count": "プレイされたゲーム数"
     },
     "setting": {
-      "title": "設定",
-      "first": "カラー",
+      "title": "ゲーム設定",
+      "first": "最初の手",
       "timeout": "タイムアウト",
       "screen mode": "画面モード",
       "fullscreen": "フルスクリーン",
-      "window": "ウィンドウ",
+      "window": "ウィンドウモード",
       "start": "ゲームスタート！",
-      "description title": "説明",
-      "description1": "1. チャットに希望の座標を入力してください。",
-      "description1-1": "例）位置を指定できる座標フォーマット：A1、a10、A10、8B、14gなど。",
-      "description2": "2. 最も投票の多い座標が視聴者数になります。",
-      "description3": "3. 時間内に投票しないと、負けです。",
-      "description4": "4. 1ターンにつき1回しか投票できません。",
-      "description5": "5. ルールは連珠ルールを適用します。",
-      "what is renju": "連珠は、黒番が一方的に有利な五目並べのルールを補足する公式ルールである。連珠には禁じ手があり、先手の黒番は3×3、4×4、オーバーライン（6石以上）ができない。"
+      "description title": "ゲーム説明",
+      "description1": "1. 視聴者はチャットに希望の座標を入力します。",
+      "description1-1": "例：A1、a10、A10、8B、14gなど。",
+      "description2": "2. 最も得票の多い座標が次の手になります。",
+      "description3": "3. 時間内に投票しない場合、負けになります。",
+      "description4": "4. 1ターンにつき1回だけ投票できます。",
+      "description5": "5. ゲームは連珠ルールに従います。",
+      "what is renju": "連珠は、もともと最初のプレイヤーである黒を有利にする五目並べを均衡させる公式のルールです。連珠では禁じ手があり、黒のプレイヤーは3x3、4x4、または6つ以上の石で作られたラインを形成できません。"
     },
     "gomoku": {
       "alert title": "設定に戻りますか？",
       "exit": "終了",
       "no time limit": "制限時間なし",
       "time remaining": "残り秒数",
-      "vote now": "今すぐ投票",
+      "vote now": "投票中",
       "winner": "勝者"
     }
   },
@@ -46,7 +46,7 @@
       "unlimited": "無制限"
     },
     "camera card": {
-      "camera is here": "ここにカメラを置いてください"
+      "camera is here": "ここにカメラを配置"
     },
     "alert": {
       "yes": "はい",
