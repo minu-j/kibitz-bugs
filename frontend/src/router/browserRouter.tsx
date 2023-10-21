@@ -1,4 +1,4 @@
-import { Auth, Gomoku, Login, Setting } from "@/pages";
+import { Auth, Gomoku, Login, NotFound, Setting } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
 const browserRouter = createBrowserRouter([
@@ -20,7 +20,7 @@ const browserRouter = createBrowserRouter([
   },
   {
     path: "/*",
-    element: <Auth />,
+    element: <NotFound />,
   },
 ]);
 
