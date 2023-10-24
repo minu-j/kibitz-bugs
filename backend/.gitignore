@@ -36,4 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
+### private ###
 src/main/resources/private.properties
+
+### cors ###
+src/main/java/com/kibitzbugs/config/CorsConfig.java
+
+### Cookie ###
+src/main/java/com/kibitzbugs/auth/CookieProvider.java

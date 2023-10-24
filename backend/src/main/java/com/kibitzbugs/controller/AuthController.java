@@ -1,5 +1,6 @@
 package com.kibitzbugs.controller;
 
+import com.kibitzbugs.auth.CookieProvider;
 import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
@@ -18,7 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth")
 public class AuthController {
@@ -34,6 +34,7 @@ public class AuthController {
     private final AuthService authService;
     private final LoginService loginService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final CookieProvider cookieProvider;
 
     @PostMapping("/code")
     @Operation(summary = "유저 인증", description = "트위치 로그인 시 code로 유저 인증")
@@ -70,7 +71,7 @@ public class AuthController {
         headers.add("ACCESS-TOKEN", authenticateUserResDto.getAccessToken());
 
         // 쿠키에 JWT 토큰 담기
-        setCookie(response, jwtToken);
+        cookieProvider.setCookie(response, jwtToken);
 
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
@@ -103,19 +104,9 @@ public class AuthController {
         headers.add("ACCESS-TOKEN", refreshTokenResDto.getAccessToken());
 
         // 쿠키에 리프레시 토큰 담기
-        setCookie(response, refreshTokenResDto.getJwtRefreshToken());
+        cookieProvider.setCookie(response, refreshTokenResDto.getJwtRefreshToken());
         
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
-    }
-
-    private void setCookie(HttpServletResponse response, String refreshToken) {
-        ResponseCookie cookie = ResponseCookie.from("REFRESH-TOKEN", refreshToken)
-                .path("/")
-                .sameSite("None")
-                .httpOnly(true)
-                .secure(true)
-                .build();
-        response.addHeader("Set-Cookie", cookie.toString());
     }
 
 }
