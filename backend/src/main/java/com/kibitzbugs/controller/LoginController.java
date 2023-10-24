@@ -1,8 +1,6 @@
 package com.kibitzbugs.controller;
 
 import com.kibitzbugs.dto.login.LoginCntResDto;
-import com.kibitzbugs.dto.login.LoginHistoryReqDto;
-import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/login")
+@RequestMapping("/login")
 @RequiredArgsConstructor
 @Tag(name = "Login")
 public class LoginController {
