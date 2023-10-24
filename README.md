@@ -1,68 +1,30 @@
 ![cover image](./assets/coverImg.png)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/minu-j/kibitz-bugs?label=release)
+![GitHub Repo stars](https://img.shields.io/github/stars/minu-j/kibitz-bugs)
 
-# Kibitz bugs
+# Kibitz bugs | 키비츠 벅스
 
-🔗 https://kibitz-bugs.xyz/
+### 🔗 https://kibitz-bugs.xyz/
 
-## release note
+### 스트리머 vs 시청자 집단지성 오목 대결!
 
-**v0.2.0**
+"Kibitz bugs"는 트위치 스트리머와 시청자가 함께 즐기는 오목 게임입니다.
 
-2023.10.24.
+시청자는 댓글 투표로 쉽게 게임에 참여할 수 있으며, 스트리머는 시청자의 집단지성과 대결합니다!
 
-- 트위치 인증 절차 개선
-  - 세션 내에서 로그인 유지
-- i18n 다국어 지원
-  - 한국어, 영어, 중국어, 일본어, 독일어, 프랑스어, 이탈리아어, 러시아어
-- Not found page
-- 기타 코드 간소화 및 성능 향상
+> **What is gomoku?**
+>
+> The rules of Gomoku are simple: align five consecutive stones in a line to win. A line can be horizontal, vertical, or diagonal.
 
-**v0.1.3**
+## 🔗 Links
 
-2023.10.6.
+### [🚀 Play now!](https://kibitz-bugs.xyz/)
 
-- 메인 페이지 UI 개선
-- 채팅 기능 리팩토링
-- 인게임 버튼 UI 개선
+### [📺 Watch on Youtube](https://www.youtube.com/playlist?list=PL5gs1D9-S_9g4hkd-Z14JvIV6zTFS3nZx)
 
-**v0.1.2**
+### [📝 Release Notes](https://github.com/minu-j/kibitz-bugs/releases)
 
-2023.10.1.
-
-- 타이머 사운드 추가
-- 인게임 버튼 UI 개선
-
-**v0.1.1**
-
-2023.9.8.
-
-- 중복투표 방지 기능 추가
-- 네트워크 사용량 및 성능 최적화
-  - 11.4MB -> 1.3MB
-- 채팅창 투표 적용 여부 표시기능 추가
-- 기타 성능 최적화
-
-**v0.1.0**
-
-2023.9.6.
-
-- 트위치 OAuth 인증 로그인
-- 시청자 댓글 참여 오목 게임
-  - 오목 알고리즘(렌주룰 완전 지원)
-- 트위치 댓글 연동(tmi.js)
-- 성능 최적화
-  - 투표 집계 스로틀링(500ms)
-  - 애니메이션 최적화
-
-## 📜 개요
-
-"Kibitz bugs"는 스트리머와 시청자가 함께 즐기는 보드게임입니다.
-
-댓글 투표로 시청자의 선택이 결정됩니다.
-
-집단지성으로 스트리머와 두뇌싸움을 펼쳐보세요!
-
-## 🛠️ 주요기술
+## 🛠️ Skills
 
 **Front-end**
 
@@ -90,15 +52,19 @@
 - Nginx
 ```
 
-## ✔ 팀원 역할
+## 👥 Team
 
-| 성명   | 담당             | github                     |
+| 이름   | 담당             | github                     |
 | ------ | ---------------- | -------------------------- |
 | 정민우 | Front-end        | https://github.com/minu-j  |
 | 윤성운 | Back-end & Infra | https://github.com/ysu6691 |
 
-## 🛠️ 스크린샷
+## 📷 Screenshots
 
 ![screenshot 1](./assets/screenshot1.png)
 ![screenshot 2](./assets/screenshot2.png)
 ![screenshot 3](./assets/screenshot3.png)
+
+## ©️ License
+
+© Copyright 2023 - Kibitz Games
