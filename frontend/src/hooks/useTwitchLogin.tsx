@@ -4,8 +4,7 @@ const useTwitchLogin = () => {
   const twitchLogin = () => {
     const AUTH_URL = import.meta.env.VITE_TWITCH_AUTH_URL;
     const CLIENT_ID = import.meta.env.VITE_TWITCH_CLIENT_ID;
-    // const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
-    const BASE_URL = "https://localhost:5173/";
+    const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
     const scopes = [
       "openid",
