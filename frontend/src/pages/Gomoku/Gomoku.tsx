@@ -11,9 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useResetGomoku from "@/hooks/useResetGomoku";
 import { Alert, AspectRatioLayout, CameraCard, SmallBtn } from "@/components";
+import { useTranslation } from "react-i18next";
 
 function Gomoku() {
   useCheckUserAuth();
+  const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
 
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ function Gomoku() {
     <AspectRatioLayout>
       {showAlert ? (
         <Alert
-          body="게임 설정으로 돌아가시겠습니까?"
+          body={t("pages.gomoku.alert title")}
           onClick={() => {
             resetGomoku();
             navigate("/setting");
@@ -41,7 +43,7 @@ function Gomoku() {
         <CameraCard played />
         <div css={{ position: "fixed", top: 20, right: 20 }}>
           <SmallBtn
-            label="종료"
+            label={t("pages.gomoku.exit")}
             onClick={() => {
               setShowAlert(true);
             }}

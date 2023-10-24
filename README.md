@@ -6,6 +6,17 @@
 
 ## release note
 
+**v0.2.0**
+
+2023.10.24.
+
+- 트위치 인증 절차 개선
+  - 세션 내에서 로그인 유지
+- i18n 다국어 지원
+  - 한국어, 영어, 중국어, 일본어, 독일어, 프랑스어, 이탈리아어, 러시아어
+- Not found page
+- 기타 코드 간소화 및 성능 향상
+
 **v0.1.3**
 
 2023.10.6.
@@ -43,10 +54,6 @@
   - 투표 집계 스로틀링(500ms)
   - 애니메이션 최적화
 
-## 🎬 프로젝트 기간
-
-2023.08.15(화) ~
-
 ## 📜 개요
 
 "Kibitz bugs"는 스트리머와 시청자가 함께 즐기는 보드게임입니다.
@@ -63,10 +70,8 @@
 - Vite(React + Typescript)
 - Recoil
 - React-Router-Dom
-- Axios
 - Web-Socket
 - emotion
-- SEO(Open Graph)
 - OAuth(twitch)
 ```
 

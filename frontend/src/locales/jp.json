@@ -1,0 +1,59 @@
+{
+  "streamer": "ストリーマー",
+  "viewers": "視聴者",
+  "sec": "秒",
+  "pages": {
+    "login": {
+      "top description": "ストリーマー対視聴者！五目並べ対決!",
+      "play on pc": "PCでプレイしてください",
+      "click for login": "Twitchのアカウントでログインしてください",
+      "login": "ログイン",
+      "title1": "チャットで投票してください",
+      "description1": "一番多く得票された位置が視聴者の次の手になります",
+      "title2": "Twitchで大人気のゲームです",
+      "description2": "10万人以上のチャネル登録者を持つストリーマーもプレイしました",
+      "login count": "ストリーマーとしてログイン",
+      "game count": "ゲームプレイ"
+    },
+    "setting": {
+      "title": "ゲーム設定",
+      "first": "先攻",
+      "timeout": "制限時間",
+      "screen mode": "画面モード",
+      "fullscreen": "全顔面表示",
+      "window": "ウィンドウモード",
+      "start": "ゲームスタート！",
+      "description title": "ゲーム説明",
+      "description1": "1. 視聴者はチャットで希望の座標を入力します。",
+      "description1-1": "例:A1、a10、A10、8B、14gなど。",
+      "description2": "2. 最も得票された座標が次の手になります。",
+      "description3": "3. 時間内に投票しない場合、負けます。",
+      "description4": "4. 投票は1ターンにつき1回しかできません。",
+      "description5": "5. ゲームは連珠ルールに従います。",
+      "what is renju": "連珠は、もともと最初のプレイヤーである黒を有利にする五目並べを均衡させる公式のルールです。連珠では禁じ手があり、黒のプレイヤーは3x3、4x4、または6つ以上の石で作られたラインを形成できません。"
+    },
+    "gomoku": {
+      "alert title": "設定に戻りますか？",
+      "exit": "終了",
+      "no time limit": "制限時間なし",
+      "time remaining": "残り秒数",
+      "vote now": "投票中",
+      "winner": "勝利"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "無制限"
+    },
+    "camera card": {
+      "camera is here": "カメラはここに置いてください"
+    },
+    "alert": {
+      "yes": "確認",
+      "cancel": "キャンセル"
+    },
+    "chat card": {
+      "voted": "投票完了"
+    }
+  }
+}

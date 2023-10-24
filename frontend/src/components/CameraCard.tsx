@@ -3,8 +3,10 @@ import { Card } from "@components";
 import { textStyles } from "@/styles";
 import { userState } from "@/recoil/user/atoms";
 import { useRecoilValue } from "recoil";
+import { useTranslation } from "react-i18next";
 
 function CameraCard({ played }: { played?: boolean }) {
+  const { t } = useTranslation();
   const user = useRecoilValue(userState);
   return (
     <StyledCameraCard>
@@ -35,7 +37,9 @@ function CameraCard({ played }: { played?: boolean }) {
                 fontSize: 16,
                 position: "absolute",
               }}
-            >{`카메라는 여기에 놓아주세요`}</h4>
+            >
+              {t("components.camera card.camera is here")}
+            </h4>
           )}
         </div>
         <div

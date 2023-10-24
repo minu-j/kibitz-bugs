@@ -15,7 +15,7 @@ function LoginBtn() {
         ...textStyles.contents,
       }}
     >
-      PC로 접속해 플레이하세요.
+      {t("pages.login.play on pc")}
     </p>
   ) : (
     <>

@@ -15,6 +15,7 @@ import { str2numCoord } from "@/utils/str2numCoord";
 import usePushChatQueue from "@/hooks/usePushChatQueue";
 import { colorStyles } from "@/styles";
 import { chatQueueState } from "@/recoil/chat/atoms";
+import { useTranslation } from "react-i18next";
 
 // 투표한 시청자 이름 관리 셋
 const votedViewers = new Set();
@@ -124,7 +125,7 @@ function GomokuChatCard() {
 
   return (
     <StyledGomokuChatCard>
-      {!result && nowPlayer === 2 ? NowVoteFlag : null}
+      {!result && nowPlayer === 2 ? <NowVoteFlag /> : null}
       <ChatCard chatQueue={chatQueue} />
     </StyledGomokuChatCard>
   );
@@ -136,33 +137,36 @@ const StyledGomokuChatCard = styled.section`
   padding: 8px;
 `;
 
-const NowVoteFlag = (
-  <div
-    css={{
-      margin: 10,
-      borderRadius: `0px 10px 0px 10px`,
-      color: colorStyles.danger,
-      fontWeight: 900,
-      backgroundColor: "black",
-      padding: 10,
-      position: "absolute",
-      top: 0,
-      right: 0,
-      zIndex: 100,
-      display: "flex",
-      alignItems: "center",
-    }}
-  >
+const NowVoteFlag = () => {
+  const { t } = useTranslation();
+  return (
     <div
       css={{
-        width: 8,
-        height: 8,
-        borderRadius: 8,
-        backgroundColor: colorStyles.danger,
-        marginRight: 4,
-        animation: `flicker 0.6s alternate infinite`,
+        margin: 10,
+        borderRadius: `0px 10px 0px 10px`,
+        color: colorStyles.danger,
+        fontWeight: 900,
+        backgroundColor: "black",
+        padding: 10,
+        position: "absolute",
+        top: 0,
+        right: 0,
+        zIndex: 100,
+        display: "flex",
+        alignItems: "center",
       }}
-    ></div>
-    {`지금 투표중`}
-  </div>
-);
+    >
+      <div
+        css={{
+          width: 8,
+          height: 8,
+          borderRadius: 8,
+          backgroundColor: colorStyles.danger,
+          marginRight: 4,
+          animation: `flicker 0.6s alternate infinite`,
+        }}
+      ></div>
+      {t("pages.gomoku.vote now")}
+    </div>
+  );
+};

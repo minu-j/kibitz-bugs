@@ -7,9 +7,9 @@ function Footer() {
     <footer
       css={{
         backgroundColor: colorStyles.primary,
-        width: "100%",
+        width: "100vw",
         paddingInline: 24,
-        paddingBlock: 32,
+        paddingBlock: 24,
         marginTop: 60,
         fontSize: 12,
         display: "flex",
@@ -85,7 +85,7 @@ function Footer() {
             display: "flex",
             flexDirection: "column",
             alignItems: "end",
-            gap: 2,
+            gap: 4,
             ["@media (max-width: 576px)"]: {
               alignItems: "center",
             },
@@ -108,11 +108,20 @@ function Footer() {
               minu-j
             </a>
           </div>
-          <p css={{ color: colorStyles.lightGray }}>
-            Image by rawpixel.com on Freepik
+          <p>
+            <span css={{ color: colorStyles.lightGray }}>
+              © Copyright 2023 - Kibitz Games
+            </span>
+            <span css={{ color: colorStyles.lightGray }}>{" · "}</span>
+            <a
+              href="https://kibitz-bugs.xyz/terms/"
+              css={{ color: colorStyles.lightGray }}
+            >
+              개인정보 처리방침
+            </a>
           </p>
-          <p css={{ color: colorStyles.lightGray }}>
-            © Copyright 2023 - Kibitz Games
+          <p css={{ color: colorStyles.lightGray, opacity: 0.3 }}>
+            Image by rawpixel.com on Freepik
           </p>
         </div>
       </div>

@@ -1,0 +1,59 @@
+{
+  "streamer": "主播",
+  "viewers": "观众",
+  "sec": "秒",
+  "pages": {
+    "login": {
+      "top description": "与您的Twitch观众一起玩五子棋",
+      "play on pc": "在您的PC上玩",
+      "click for login": "使用Twitch登录",
+      "login": "登录",
+      "title1": "仅需聊天即可投票",
+      "description1": "获得最多投票的坐标将成为选择的下一步",
+      "title2": "在Twitch上已经很受欢迎",
+      "description2": "由数位有10万以上观众的主播进行游戏",
+      "login count": "主播注册",
+      "game count": "已玩游戏"
+    },
+    "setting": {
+      "title": "游戏设置",
+      "first": "先手",
+      "timeout": "超时",
+      "screen mode": "屏幕模式",
+      "fullscreen": "全屏",
+      "window": "窗口模式",
+      "start": "开始游戏！",
+      "description title": "游戏描述",
+      "description1": "1. 观众在聊天中输入他们想要的坐标。",
+      "description1-1": "例如：A1、a10、A10、8B、14g等。",
+      "description2": "2. 得票最多的坐标将成为下一步。",
+      "description3": "3. 如果您没有及时投票，您将输掉比赛。",
+      "description4": "4. 每回合只能投一次票。",
+      "description5": "5. 该游戏遵循Renju规则。",
+      "what is renju": "Renju是一项官方规则，平衡了五子棋，它原本偏向于先手玩家（黑方）。在Renju中，有禁手规则；黑方玩家不能形成3x3、4x4或超过6颗棋子的连线。"
+    },
+    "gomoku": {
+      "alert title": "返回设置吗？",
+      "exit": "退出",
+      "no time limit": "无时间限制",
+      "time remaining": "剩余时间",
+      "vote now": "投票进行中",
+      "winner": "获胜者"
+    }
+  },
+  "components": {
+    "dropdown": {
+      "unlimited": "无限制"
+    },
+    "camera card": {
+      "camera is here": "在这里放置摄像头"
+    },
+    "alert": {
+      "yes": "是",
+      "cancel": "取消"
+    },
+    "chat card": {
+      "voted": "已投票"
+    }
+  }
+}

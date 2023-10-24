@@ -1,8 +1,10 @@
 import { colorStyles } from "@/styles";
 import { Card } from ".";
 import { IMessage } from "@/recoil/chat/atoms";
+import { useTranslation } from "react-i18next";
 
 function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
+  const { t } = useTranslation();
   return (
     <Card>
       <div
@@ -67,7 +69,7 @@ function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
                 }}
               >
                 {msg.status === "success"
-                  ? "✓ 투표됨"
+                  ? "✓ " + t("components.chat card.voted")
                   : msg.status === "error"
                   ? "x"
                   : ""}

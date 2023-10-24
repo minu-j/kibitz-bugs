@@ -7,10 +7,12 @@ import { textStyles } from "@/styles";
 import { useEffect } from "react";
 import { postGame } from "@/api/game";
 import win from "@assets/audios/win.mp3";
+import { useTranslation } from "react-i18next";
 
 const winSound = new Audio(win);
 
 function GomokuResultCard() {
+  const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
 
@@ -46,10 +48,10 @@ function GomokuResultCard() {
           animation: `popIn 0.3s 0s both`,
         }}
       >
-        승리
+        {t("pages.gomoku.winner")}
       </h2>
       <h3 css={{ ...textStyles.title1, animation: `popIn 1s 0.3s both` }}>
-        {result === 1 ? `${user.nickname}` : "시청자"}
+        {result === 1 ? `${user.nickname}` : t("viewers")}
       </h3>
     </StyledGomokuResultCard>
   );
