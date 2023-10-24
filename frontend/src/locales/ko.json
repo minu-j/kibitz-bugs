@@ -1,10 +1,60 @@
 {
+  "streamer": "스트리머",
+  "viewers": "시청자",
+  "sec": "초",
   "pages": {
     "login": {
-      "Play on PC": "PC로 접속해 플레이하세요",
-      "click for login": "클릭 한 번으로 로그인 하기",
-      "login": "twitch 로그인"
+      "top description": "스트리머와 시청자의 집단지성 오목 대결!",
+      "play on pc": "PC로 접속해 플레이하세요",
+      "click for login": "twitch 계정으로 로그인하세요",
+      "login": "로그인",
+      "title1": "채팅으로 투표하세요",
+      "description1": "가장 많이 투표된 좌표가 시청자의 수가 됩니다.",
+      "title2": "이미 인기있는 트위치 게임입니다",
+      "description2": "여러 유명 스트리머가 플레이했습니다",
+      "login count": "스트리머 로그인",
+      "game count": "게임 플레이"
+    },
+    "setting": {
+      "title": "게임 설정",
+      "first": "선공",
+      "timeout": "제한시간",
+      "screen mode": "화면모드",
+      "fullscreen": "전체화면",
+      "window": "창모드",
+      "start": "게임시작!",
+      "description title": "게임 설명",
+      "description1": "1. 시청자는 채팅으로 원하는 좌표를 입력합니다.",
+      "description1-1": "예) A1, a10, A10, 8B, 14g 등 위치를 특정할 수 있는 좌표 형식",
+      "description2": "2. 가장 많은 표를 획득한 좌표가 시청자의 수가 됩니다.",
+      "description3": "3. 시간 내 투표하지 않으면 패합니다.",
+      "description4": "4. 중복투표는 불가합니다.",
+      "description5": "5. 규칙은 렌주룰을 적용합니다.",
+      "what is renju": "렌주룰(Renju)이란 흑돌에게 일방적으로 유리한 오목(Gomoku)의 규칙을 보완한 공식 룰입니다. 렌주룰에서는 금수(forbidden moves)가 존재하며, 먼저 시작하는 흑돌은 3x3, 4x4, 장목(6목 이상의 수)를 둘 수 없습니다."
+    },
+    "gomoku": {
+      "alert title": "게임 설정으로 돌아가시겠습니까?",
+      "exit": "종료",
+      "no time limit": "제한시간 없음",
+      "time remaining": "초 남았습니다",
+      "vote now": "지금 투표 중",
+      "winner": "승리"
     }
   },
-  "components": {}
+  "components": {
+    "dropdown": {
+      "unlimited": "무제한",
+      "sec": "초"
+    },
+    "camera card": {
+      "camera is here": "카메라는 여기에 놓아주세요"
+    },
+    "alert": {
+      "yes": "확인",
+      "cancel": "취소"
+    },
+    "chat card": {
+      "voted": "투표됨"
+    }
+  }
 }

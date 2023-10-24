@@ -6,13 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
-public class TelegramConfig {
+public class PrivatePropertiesConfig {
 
-    @Bean(name = "telegram")
+    @Bean(name = "private")
     public PropertiesFactoryBean propertiesFactoryBean() {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         ClassPathResource classPathResource = new ClassPathResource("private.properties");
-
         propertiesFactoryBean.setLocation(classPathResource);
         return propertiesFactoryBean;
     }

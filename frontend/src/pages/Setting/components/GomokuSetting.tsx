@@ -13,6 +13,8 @@ import { SettingRow } from ".";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
 import useFullscreen from "@/hooks/useFullscreen";
+import { useTranslation } from "react-i18next";
+import SelectLocales from "@/components/SelectLocales";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
@@ -23,6 +25,7 @@ const clickSound = new Audio(click);
 const hoverSound = new Audio(hover);
 
 function GomokuSetting({ onClick }: { onClick(): void }) {
+  const { t } = useTranslation();
   const user = useRecoilValue(userState);
   const [setting, setSetting] = useRecoilState(gomokuState);
 
@@ -36,7 +39,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
 
   useCheckUserAuth();
 
-  const [isFullScreen, toggleFullScreen] = useFullscreen();
+  const fullScreen = useFullscreen();
 
   // 색 서로 바꾸기
   const switchColors = () => {
@@ -53,7 +56,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
 
   return (
     <StyledGomokuSetting>
-      <h1 css={{ ...textStyles.title1 }}>{`게임설정`}</h1>
+      <h1 css={{ ...textStyles.title1 }}>{t("pages.setting.title")}</h1>
       <div
         css={{
           display: "flex",
@@ -88,7 +91,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             ...textStyles.title2,
           }}
         >
-          {`시청자`}
+          {t("viewers")}
         </h2>
       </div>
       <SettingRow
@@ -109,7 +112,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           />
         }
         icon={TbArrowsDiff}
-        label={`선공`}
+        label={t("pages.setting.first")}
         right={
           <img
             onMouseEnter={() => hoverSound.play()}
@@ -145,7 +148,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           </div>
         }
         icon={TbAlarm}
-        label={`제한시간`}
+        label={t("pages.setting.timeout")}
         right={
           <div
             css={{
@@ -172,19 +175,24 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             alignItems: "center",
           }}
         >
-          <p css={textStyles.button}>화면모드</p>
+          <p css={textStyles.button}>{t("pages.setting.screen mode")}</p>
           <SmallBtn
-            label={isFullScreen() ? "창모드" : "전체화면"}
-            onClick={() => toggleFullScreen()}
+            label={
+              fullScreen.isFullscreen
+                ? t("pages.setting.window")
+                : t("pages.setting.fullscreen")
+            }
+            onClick={() => fullScreen.toggleFullscreen()}
           ></SmallBtn>
         </div>
         <LargeBtn
-          label="게임시작!"
+          label={t("pages.setting.start")}
           onClick={() => {
             onClick();
           }}
         />
       </div>
+      <SelectLocales />
     </StyledGomokuSetting>
   );
 }

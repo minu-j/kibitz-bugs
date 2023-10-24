@@ -2,6 +2,7 @@ import { textStyles } from "@/styles";
 import cargoonBox from "@assets/images/cartoonBox.svg";
 import click from "@assets/audios/click.mp3";
 import hover from "@assets/audios/hover.mp3";
+import { useTranslation } from "react-i18next";
 
 interface IAlertProps {
   body: string;
@@ -13,6 +14,7 @@ const clickSound = new Audio(click);
 const hoverSound = new Audio(hover);
 
 function Alert({ body, onClick, onCancleClick }: IAlertProps) {
+  const { t } = useTranslation();
   return (
     <div
       css={{
@@ -55,6 +57,7 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
             justifyContent: "center",
             alignItems: "center",
             flexGrow: 1,
+            lineHeight: 1.4,
             ...textStyles.contents,
           }}
         >
@@ -81,7 +84,7 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
               clickSound.play();
             }}
           >
-            확인
+            {t("components.alert.yes")}
           </button>
           {onCancleClick ? (
             <button
@@ -105,7 +108,7 @@ function Alert({ body, onClick, onCancleClick }: IAlertProps) {
                 clickSound.play();
               }}
             >
-              취소
+              {t("components.alert.cancel")}
             </button>
           ) : null}
         </div>

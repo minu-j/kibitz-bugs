@@ -1,10 +1,59 @@
 {
+  "streamer": "Streamer",
+  "viewers": "Viewers",
+  "sec": "s",
   "pages": {
     "login": {
-      "Play on PC": "Play on your PC",
-      "click for login": "Login with one click",
-      "login": "twitch"
+      "top description": "Play Gomoku with your Twitch viewers",
+      "play on pc": "Play on your PC",
+      "click for login": "Login with Twitch",
+      "login": "Login",
+      "title1": "Just chat to vote",
+      "description1": "The coordinate with the most votes is the chosen move",
+      "title2": "Already popular on Twitch",
+      "description2": "Played by several streamers with 100k+ viewers",
+      "login count": "Streamer Signups",
+      "game count": "Games Played"
+    },
+    "setting": {
+      "title": "Game Settings",
+      "first": "First Move",
+      "timeout": "Timeout",
+      "screen mode": "Screen Mode",
+      "fullscreen": "Fullscreen",
+      "window": "Windowed",
+      "start": "Game Start!",
+      "description title": "Game Description",
+      "description1": "1. Viewers enter their desired coordinate in chat.",
+      "description1-1": "Examples: A1, a10, A10, 8B, 14g, etc.",
+      "description2": "2. The coordinate with the most votes is the next move.",
+      "description3": "3. If you don't vote in time, you lose.",
+      "description4": "4. You can only vote once per turn.",
+      "description5": "5. The game follows the Renju rule.",
+      "what is renju": "Renju is an official rule that balances Gomoku, which originally favors the starting player, black. In Renju, there are forbidden moves; the black player cannot make 3x3, 4x4, or a line with more than 6 stones."
+    },
+    "gomoku": {
+      "alert title": "Go back to settings?",
+      "exit": "Exit",
+      "no time limit": "No time limit",
+      "time remaining": "seconds left",
+      "vote now": "Voting in Progress",
+      "winner": "Winner"
     }
   },
-  "components": {}
+  "components": {
+    "dropdown": {
+      "unlimited": "Unlimited"
+    },
+    "camera card": {
+      "camera is here": "Place your camera here"
+    },
+    "alert": {
+      "yes": "Yes",
+      "cancel": "Cancel"
+    },
+    "chat card": {
+      "voted": "Voted"
+    }
+  }
 }

@@ -1,4 +1,7 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export interface TGomokuState {
   streamerColor: 1 | 2;
@@ -15,6 +18,7 @@ export const gomokuState = atom<TGomokuState>({
     streamerTime: -1,
     viewerTime: 15,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export interface TGomokuBoardState {
