@@ -111,7 +111,7 @@ function Description() {
               gap: 8,
             }}
           >
-            <p css={textStyles.title2}>{loginCnt}+</p>
+            <p css={textStyles.title2}>{(loginCnt / 1000).toFixed(1)}k+</p>
             <p css={textStyles.contents}>{t("pages.login.login count")}</p>
           </div>
           <div
@@ -122,7 +122,7 @@ function Description() {
               gap: 8,
             }}
           >
-            <p css={textStyles.title2}>{gameCnt}+</p>
+            <p css={textStyles.title2}>{(gameCnt / 1000).toFixed(1)}k+</p>
             <p css={textStyles.contents}>{t("pages.login.game count")}</p>
           </div>
         </div>
