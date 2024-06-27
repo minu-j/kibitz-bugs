@@ -7,7 +7,7 @@ import {
   GlobalStyles,
   ResetStyles,
 } from "./styles";
-import "@locales/i18n";
+import "@/features/locales";
 import ReactGA from "react-ga4";
 
 function App() {

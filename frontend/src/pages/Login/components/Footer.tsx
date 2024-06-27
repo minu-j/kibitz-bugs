@@ -107,21 +107,24 @@ function Footer() {
               {" "}
               minu-j
             </a>
+            <span css={{ color: colorStyles.lightGray }}>{" "}</span>
           </div>
-          <p>
+            <div>
             <span css={{ color: colorStyles.lightGray }}>
-              © Copyright 2023 - Kibitz Games
+              Copyright © 2024 All Rights Reserved
             </span>
-            <span css={{ color: colorStyles.lightGray }}>{" · "}</span>
+            </div>
+          <p>
+          <a css={{ color: colorStyles.lightGray, opacity: 0.3 }}>
+            Image by rawpixel.com on Freepik
+          </a>
+              <span css={{ color: colorStyles.lightGray }}>{"  ·  "}</span>
             <a
               href="https://kibitz-bugs.xyz/terms/"
               css={{ color: colorStyles.lightGray }}
             >
               개인정보 처리방침
             </a>
-          </p>
-          <p css={{ color: colorStyles.lightGray, opacity: 0.3 }}>
-            Image by rawpixel.com on Freepik
           </p>
         </div>
       </div>

@@ -1,28 +1,27 @@
 import styled from "@emotion/styled";
-import logo from "@assets/images/Logo.png";
-import vs from "@assets/images/vs.svg";
-import whiteStone from "@assets/images/whiteStone.svg";
-import blackStone from "@assets/images/blackStone.svg";
-import arrow from "@assets/images/arrow.svg";
+import logo from "@/assets/images/Logo.png";
+import vs from "@/assets/images/vs.svg";
+import whiteStone from "@/assets/images/whiteStone.svg";
+import blackStone from "@/assets/images/blackStone.svg";
+import arrow from "@/assets/images/arrow.svg";
 
 import { colorStyles, textStyles } from "@/styles";
 import { GomokuProgressBar } from ".";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { userState } from "@/recoil/user/atoms";
-import {
-  gomokuNowPlayerState,
-  gomokuResultState,
-  gomokuState,
-  gomokuTurnState,
-  gomokuVoteState,
-} from "@/recoil/gomoku/atoms";
 import { useEffect, useState } from "react";
 import useInterval from "use-interval";
-import useMoveStone from "@/hooks/useMoveStone";
-import { str2numCoord } from "@/utils/str2numCoord";
-import timer from "@assets/audios/timer.mp3";
-import move from "@assets/audios/move.mp3";
+import timer from "@/assets/audios/timer.mp3";
+import move from "@/assets/audios/move.mp3";
 import { useTranslation } from "react-i18next";
+import {userState} from "@/features/auth/recoil/user/atoms.ts";
+import {
+    gomokuNowPlayerState, gomokuResultState,
+    gomokuState,
+    gomokuTurnState,
+    gomokuVoteState
+} from "@/features/game/recoil/gomoku/atoms.ts";
+import {str2numCoord} from "@/features/game/utils/str2numCoord.ts";
+import {useMoveStone} from "@/features/game/hooks";
 
 const timerSound = new Audio(timer);
 const moveSound = new Audio(move);

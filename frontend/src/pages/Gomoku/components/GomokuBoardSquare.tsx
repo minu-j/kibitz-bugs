@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { colorStyles, textStyles } from "@styles";
-import target from "@assets/images/target.svg";
-import blackStone from "@assets/images/blackStone.svg";
-import whiteStone from "@assets/images/whiteStone.svg";
-import recentMark from "@assets/images/recentMark.svg";
-import forbiddenMark from "@assets/images/forbiddenMark.svg";
 import { useRecoilValue } from "recoil";
+import { colorStyles, textStyles } from "@/styles";
+import target from "@/assets/images/target.svg";
+import blackStone from "@/assets/images/blackStone.svg";
+import whiteStone from "@/assets/images/whiteStone.svg";
+import recentMark from "@/assets/images/recentMark.svg";
+import forbiddenMark from "@/assets/images/forbiddenMark.svg";
 import {
-  gomokuNowPlayerState,
-  gomokuRecordState,
-  gomokuResultState,
-  gomokuTurnState,
-} from "@/recoil/gomoku/atoms";
-import useMoveStone from "@/hooks/useMoveStone";
-import { num2strCoord } from "@/utils/num2strCoord";
+    gomokuNowPlayerState,
+    gomokuRecordState,
+    gomokuResultState,
+    gomokuTurnState
+} from "@/features/game/recoil/gomoku/atoms.ts";
+import {num2strCoord} from "@/features/game/utils/num2strCoord.ts";
+import {useMoveStone} from "@/features/game/hooks";
 
 interface IGomokuBoardSquareProps {
   size: number;

@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { ChatCard } from "@components";
 import tmi from "tmi.js";
-import { userState } from "@/recoil/user/atoms";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
-import usePushChatQueue from "@/hooks/usePushChatQueue";
-import { chatQueueState } from "@/recoil/chat/atoms";
+import {userState} from "@/features/auth/recoil/user/atoms.ts";
+import {chatQueueState} from "@/features/chat/recoil/chat/atoms.ts";
+import {usePushChatQueue} from "@/features/chat/hooks";
+import {ChatCard} from "@/components/card";
 
 function SettingChatCard() {
   const user = useRecoilValue(userState);
@@ -14,7 +14,7 @@ function SettingChatCard() {
 
   // Called every time a message comes in
   const onMessageHandler = (
-    channel: string,
+    _: string,
     user: tmi.ChatUserstate,
     msg: string,
     self: boolean,

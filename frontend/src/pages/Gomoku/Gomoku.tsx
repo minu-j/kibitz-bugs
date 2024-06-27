@@ -4,14 +4,17 @@ import {
   GomokuInfoCard,
   GomokuResultCard,
 } from "./components";
-import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { useRecoilValue } from "recoil";
-import { gomokuResultState } from "@/recoil/gomoku/atoms";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import useResetGomoku from "@/hooks/useResetGomoku";
-import { Alert, AspectRatioLayout, CameraCard, SmallBtn } from "@/components";
 import { useTranslation } from "react-i18next";
+import {useCheckUserAuth} from "@/features/auth/hooks";
+import {gomokuResultState} from "@/features/game/recoil/gomoku/atoms.ts";
+import {useResetGomoku} from "@/features/game/hooks";
+import {AspectRatioLayout} from "@/components/layout";
+import {Alert} from "@/components/ui";
+import {CameraCard} from "@/components/card";
+import {SmallBtn} from "@/components/button";
 
 function Gomoku() {
   useCheckUserAuth();

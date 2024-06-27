@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import GomokuBoardSquare from "./GomokuBoardSquare";
 import { useRecoilValue } from "recoil";
-import {
-  gomokuBoardState,
-  gomokuNowPlayerState,
-  gomokuRecentState,
-  gomokuResultState,
-  gomokuVoteState,
-} from "@/recoil/gomoku/atoms";
 import { useState } from "react";
 import useInterval from "use-interval";
-import target from "@assets/images/target.svg";
-import { str2numCoord } from "@/utils/str2numCoord";
+import target from "@/assets/images/target.svg";
+import {
+  gomokuBoardState, gomokuNowPlayerState,
+  gomokuRecentState,
+  gomokuResultState,
+  gomokuVoteState
+} from "@/features/game/recoil/gomoku/atoms.ts";
+import {str2numCoord} from "@/features/game/utils/str2numCoord.ts";
 
 function GomokuBoard() {
   const SQUARE_SIZE: number = 40;
@@ -89,7 +88,7 @@ function GomokuBoard() {
       {board.board.map((row, i) =>
         !i ? (
           <div key={`board-sqare-key-${i}`} css={{ display: "flex" }}>
-            {row.map((col, j) =>
+            {row.map((_, j) =>
               !j ? (
                 <div
                   key={`board-sqare-key-${i}-${j}`}

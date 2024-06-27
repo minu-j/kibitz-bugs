@@ -1,21 +1,21 @@
 import styled from "@emotion/styled";
-import { ChatCard } from "@components";
 import tmi from "tmi.js";
-import { userState } from "@/recoil/user/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect, useRef } from "react";
-import { processCoord } from "@/utils/processCoord";
+import { colorStyles } from "@/styles";
+import { useTranslation } from "react-i18next";
+import {userState} from "@/features/auth/recoil/user/atoms.ts";
 import {
   gomokuBoardState,
   gomokuNowPlayerState,
   gomokuResultState,
-  gomokuVoteState,
-} from "@/recoil/gomoku/atoms";
-import { str2numCoord } from "@/utils/str2numCoord";
-import usePushChatQueue from "@/hooks/usePushChatQueue";
-import { colorStyles } from "@/styles";
-import { chatQueueState } from "@/recoil/chat/atoms";
-import { useTranslation } from "react-i18next";
+  gomokuVoteState
+} from "@/features/game/recoil/gomoku/atoms.ts";
+import {str2numCoord} from "@/features/game/utils/str2numCoord.ts";
+import {processCoord} from "@/features/game/utils/processCoord.ts";
+import {chatQueueState} from "@/features/chat/recoil/chat/atoms.ts";
+import {usePushChatQueue} from "@/features/chat/hooks";
+import {ChatCard} from "@/components/card";
 
 // 투표한 시청자 이름 관리 셋
 const votedViewers = new Set();
@@ -77,7 +77,7 @@ function GomokuChatCard() {
 
   // Called every time a message comes in
   const onMessageHandler = (
-    channel: string,
+    _: string,
     user: tmi.ChatUserstate,
     msg: string,
     self: boolean,

@@ -1,13 +1,13 @@
-import { gomokuResultState } from "@/recoil/gomoku/atoms";
 import styled from "@emotion/styled";
 import { useRecoilValue } from "recoil";
-import logo from "@assets/images/Logo.png";
-import { userState } from "@/recoil/user/atoms";
+import logo from "@/assets/images/Logo.png";
 import { textStyles } from "@/styles";
 import { useEffect } from "react";
-import { postGame } from "@/api/game";
-import win from "@assets/audios/win.mp3";
+import win from "@/assets/audios/win.mp3";
 import { useTranslation } from "react-i18next";
+import {postGame} from "@/features/game/api";
+import {userState} from "@/features/auth/recoil/user/atoms.ts";
+import {gomokuResultState} from "@/features/game/recoil/gomoku/atoms.ts";
 
 const winSound = new Audio(win);
 

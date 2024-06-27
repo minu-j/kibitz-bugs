@@ -1,5 +1,5 @@
-import Logo from "@assets/images/Logo.png";
-import { textStyles } from "@styles";
+import Logo from "@/assets/images/Logo.png";
+import { textStyles } from "@/styles";
 import { useTranslation } from "react-i18next";
 
 function Header() {

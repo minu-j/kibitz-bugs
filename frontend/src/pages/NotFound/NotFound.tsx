@@ -1,6 +1,7 @@
-import { Background, LargeBtn } from "@/components";
-import { textStyles } from "@/styles";
 import { useNavigate } from "react-router-dom";
+import { textStyles } from "@/styles";
+import {LargeBtn} from "@/components/button";
+import {Background} from "@/components/ui";
 
 function NotFound() {
   const navigate = useNavigate();

@@ -1,20 +1,21 @@
 import styled from "@emotion/styled";
-import { textStyles } from "@styles";
-import vs from "@assets/images/vs.svg";
+import { textStyles } from "@/styles";
+import vs from "@/assets/images/vs.svg";
 import { TbArrowsDiff, TbAlarm } from "react-icons/tb";
-import { Dropdown, LargeBtn, SmallBtn } from "@components";
-import blackStone from "@assets/images/blackStone.svg";
-import whiteStone from "@assets/images/whiteStone.svg";
+import blackStone from "@/assets/images/blackStone.svg";
+import whiteStone from "@/assets/images/whiteStone.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { userState } from "@/recoil/user/atoms";
-import { gomokuState } from "@/recoil/gomoku/atoms";
-import useCheckUserAuth from "@/hooks/useCheckUserAuth";
 import { SettingRow } from ".";
-import click from "@assets/audios/click.mp3";
-import hover from "@assets/audios/hover.mp3";
-import useFullscreen from "@/hooks/useFullscreen";
+import click from "@/assets/audios/click.mp3";
+import hover from "@/assets/audios/hover.mp3";
 import { useTranslation } from "react-i18next";
-import SelectLocales from "@/components/SelectLocales";
+import useFullscreen from "@/hooks/useFullscreen";
+import {useCheckUserAuth} from "@/features/auth/hooks";
+import {userState} from "@/features/auth/recoil/user/atoms.ts";
+import {gomokuState} from "@/features/game/recoil/gomoku/atoms.ts";
+import SelectLocales from "@/features/locales/components/SelectLocales.tsx";
+import {Dropdown} from "@/components/ui";
+import {LargeBtn, SmallBtn} from "@/components/button";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,

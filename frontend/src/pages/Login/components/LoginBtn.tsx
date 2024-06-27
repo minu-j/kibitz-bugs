@@ -1,8 +1,8 @@
 import { isMobile } from "react-device-detect";
-import { LargeBtn } from "@components";
-import { textStyles } from "@styles";
+import { textStyles } from "@/styles";
 import { useTranslation } from "react-i18next";
-import useTwitchLogin from "@/hooks/useTwitchLogin";
+import {LargeBtn} from "@/components/button";
+import {useTwitchLogin} from "@/features/login/hooks";
 
 function LoginBtn() {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ function LoginBtn() {
         ...textStyles.contents,
       }}
     >
-      {t("pages.login.play on pc")}
+      {t("pages.login.login")}
     </p>
   ) : (
     <>
@@ -25,7 +25,7 @@ function LoginBtn() {
           ...textStyles.contents,
         }}
       >
-        {t("pages.login.click for login")}
+        {t("pages.login.login")}
       </p>
       <LargeBtn label={t("pages.login.login")} onClick={() => twitchLogin()} />
     </>

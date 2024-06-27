@@ -1,12 +1,12 @@
-import { getGameCnt } from "@/api/game";
-import { getLoginCnt } from "@/api/login";
-import { ChatCard } from "@/components";
-import { IMessage } from "@/recoil/chat/atoms";
 import { textStyles } from "@/styles";
-import playScreen from "@assets/videos/playScreen.mp4";
+import playScreen from "@/assets/videos/playScreen.mp4";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useInterval from "use-interval";
+import {getGameCnt} from "@/features/game/api";
+import {IMessage} from "@/features/chat/recoil/chat";
+import {ChatCard} from "@/components/card";
+import {getLoginCnt} from "@/features/login/api";
 
 function Description() {
   const { t } = useTranslation();

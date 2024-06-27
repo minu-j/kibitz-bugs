@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import progressBar from "@assets/images/progressBar.svg";
+import progressBar from "@/assets/images/progressBar.svg";
 
 function GomokuProgressBar({ progress }: { progress: number }) {
   return (

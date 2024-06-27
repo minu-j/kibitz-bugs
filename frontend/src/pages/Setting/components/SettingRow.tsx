@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { colorStyles, textStyles } from "../../../styles";
+import { colorStyles, textStyles } from "@/styles";
 import React from "react";
 
 interface ISettingRowProps {
