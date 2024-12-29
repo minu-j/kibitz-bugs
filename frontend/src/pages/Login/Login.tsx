@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { Description, Footer, Header, LoginBtn } from "./components";
+
 import SelectLocales from "@/features/locales/components/SelectLocales.tsx";
-import {Background} from "@/components/ui";
+import { Background } from "@/shared/ui";
+import { Header, LoginBtn, Description, Footer } from "./ui";
 
 function Login() {
   return (

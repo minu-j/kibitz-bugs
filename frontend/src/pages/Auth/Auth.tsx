@@ -2,9 +2,9 @@ import { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import {postAuthCode, postAuthRefresh} from "@/features/auth/api";
-import {userState} from "@/features/auth/recoil/user/atoms.ts";
-import {LoadingSpinner} from "@/components/ui";
+import { postAuthCode, postAuthRefresh } from "@/features/auth/api";
+import { userState } from "@/features/auth/recoil/user/atoms.ts";
+import { LoadingSpinner } from "@/shared/ui/loading";
 
 function Auth() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
-import {instance} from "@/api";
-import {IGameBody} from "@/features/game/api/type";
+import { instance } from "@/shared/api";
+import { IGameBody } from "@/features/game/api/type";
 
 /**
  * [GET] DB 게임 플레이 횟수 데이터 요청

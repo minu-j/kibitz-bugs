@@ -1,4 +1,4 @@
-import {instance} from "@/api";
+import { instance } from "@/shared/api";
 
 /**
  * [GET] DB 로그인 횟수 데이터 요청

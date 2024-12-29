@@ -46,5 +46,6 @@
     "vite": "^4.4.5",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0"
-  }
+  },
+  "packageManager": "npm@10.8.3+sha256.b7dc7eb48d7479b93668e913c7ad686ab2aa71c705d4a56b5323d1bffdba2972"
 }

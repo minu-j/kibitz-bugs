@@ -1,8 +1,7 @@
-import { GomokuSetting, SettingChatCard, SettingInfoCard } from "./components";
+import { GomokuSetting, SettingChatCard, SettingInfoCard } from "./ui";
 import { useState } from "react";
-import {AspectRatioLayout} from "@/components/layout";
+import { AspectRatioLayout, CameraCard } from "@/shared/ui";
 import Countdown from "@/features/game/components/Countdown.tsx";
-import {CameraCard} from "@/components/card";
 
 function Setting() {
   const [showCount, setShowCount] = useState<boolean>(false);

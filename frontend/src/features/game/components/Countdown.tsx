@@ -1,4 +1,4 @@
-import { textStyles } from "@/styles";
+import { textStyles } from "@/app/styles";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

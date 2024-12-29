@@ -1,4 +1,4 @@
-import {instance} from "@/api";
+import { instance } from "@/shared/api";
 
 /**
  * [POST] code로 token을 받아오는 요청

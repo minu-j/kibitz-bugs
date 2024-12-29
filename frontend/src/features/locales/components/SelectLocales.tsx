@@ -1,17 +1,14 @@
-import { textStyles } from "@/styles";
+import { textStyles } from "@/app/styles";
 import i18n from "i18next";
 import { ChangeEvent, useState } from "react";
 import { BsGlobeAsiaAustralia } from "react-icons/bs";
 
-const localeOptions =[
-    {label: '한국어', value: 'ko'},
-    {label: 'English', value: 'en'},
-    {label: '中文', value: 'cn'},
-    {label: '日本語', value: 'jp'},
-    {label: 'Deutsch', value: 'de'},
-    {label: 'Français', value: 'fr'},
-    {label: 'Русский', value: 'ru'},
-]
+const localeOptions = [
+  { label: "한국어", value: "ko" },
+  { label: "English", value: "en" },
+  { label: "中文", value: "cn" },
+  { label: "日本語", value: "jp" },
+];
 
 function SelectLocales() {
   const [language, SetLanguage] = useState(i18n.language);
@@ -51,7 +48,11 @@ function SelectLocales() {
         name="languages"
         id="lang"
       >
-        {localeOptions.map(({label, value}) => <option key={`locale-option-${value}`} value={value}>{label}</option>)}
+        {localeOptions.map(({ label, value }) => (
+          <option key={`locale-option-${value}`} value={value}>
+            {label}
+          </option>
+        ))}
       </select>
     </div>
   );
