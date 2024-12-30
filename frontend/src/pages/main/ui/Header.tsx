@@ -1,5 +1,5 @@
-import Logo from "@/assets/images/Logo.png";
-import { textStyles } from "@/app/styles";
+import { logo } from "@/shared/resource/images";
+import { textStyles } from "@/shared/ui";
 import { useTranslation } from "react-i18next";
 
 function Header() {
@@ -29,7 +29,7 @@ function Header() {
           css={{
             width: "100%",
           }}
-          src={Logo}
+          src={logo}
           alt={`logo image`}
         />
         <h1 css={textStyles.title2}>{"키비츠 벅스"}</h1>

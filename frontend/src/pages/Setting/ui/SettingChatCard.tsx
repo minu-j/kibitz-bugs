@@ -2,9 +2,8 @@ import styled from "@emotion/styled";
 import tmi from "tmi.js";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
-import { userState } from "@/features/auth/recoil/user/atoms.ts";
-import { chatQueueState } from "@/features/chat/recoil/chat/atoms.ts";
-import { usePushChatQueue } from "@/features/chat/hooks";
+import { userState } from "@/entities/auth";
+import { chatQueueState, usePushChatQueue } from "@/features/chat";
 import { ChatCard } from "@/shared/ui";
 
 function SettingChatCard() {

@@ -1,4 +1,4 @@
-import { colorStyles, textStyles } from "@/app/styles";
+import { colorStyles, textStyles } from "@/shared/ui";
 import { BsGithub } from "react-icons/bs";
 
 function Footer() {

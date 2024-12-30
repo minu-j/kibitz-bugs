@@ -1,20 +1,16 @@
 import styled from "@emotion/styled";
-import { textStyles } from "@/app/styles";
-import vs from "@/assets/images/vs.svg";
+
+import { vs, blackStone, whiteStone } from "@/shared/resource/images";
 import { TbArrowsDiff, TbAlarm } from "react-icons/tb";
-import blackStone from "@/assets/images/blackStone.svg";
-import whiteStone from "@/assets/images/whiteStone.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SettingRow } from ".";
-import click from "@/assets/audios/click.mp3";
-import hover from "@/assets/audios/hover.mp3";
+import { click, hover } from "@/shared/resource/audios";
 import { useTranslation } from "react-i18next";
-import useFullscreen from "@/shared/hooks/useFullscreen";
-import { useCheckUserAuth } from "@/features/auth/hooks";
-import { userState } from "@/features/auth/recoil/user/atoms.ts";
-import { gomokuState } from "@/features/game/recoil/gomoku/atoms";
-import SelectLocales from "@/features/locales/components/SelectLocales.tsx";
-import { Dropdown, LargeBtn, SmallBtn } from "@/shared/ui";
+import { useFullscreen } from "@/shared/lib";
+import { useCheckUserAuth, userState } from "@/entities/auth";
+import { gomokuState } from "@/entities/game";
+import { Dropdown, LargeBtn, SmallBtn, textStyles } from "@/shared/ui";
+import { SelectLocales } from "@/shared/i18n";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,

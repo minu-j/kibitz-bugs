@@ -1,6 +1,5 @@
-import { textStyles } from "@/app/styles";
-import click from "@/assets/audios/click.mp3";
-import hover from "@/assets/audios/hover.mp3";
+import { textStyles } from "@/shared/ui";
+import { click, hover } from "@/shared/resource/audios";
 import { useTranslation } from "react-i18next";
 
 interface IDropdownProps {

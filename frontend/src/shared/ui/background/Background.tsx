@@ -1,4 +1,4 @@
-import backgroundImg from "@/assets/images/background.jpg";
+import backgroundImg from "./background.jpg";
 
 function Background() {
   return (

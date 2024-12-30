@@ -1,8 +1,7 @@
-import { textStyles } from "@/app/styles";
-import cargoonBox from "@/assets/images/cartoonBox.svg";
-import click from "@/assets/audios/click.mp3";
-import hover from "@/assets/audios/hover.mp3";
+import cargoonBox from "./cartoonBox.svg";
+import { click, hover } from "@/shared/resource/audios";
 import { useTranslation } from "react-i18next";
+import { textStyles } from "@/shared/ui";
 
 interface IAlertProps {
   body: string;

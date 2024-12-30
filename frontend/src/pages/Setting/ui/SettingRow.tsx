@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
-import { colorStyles, textStyles } from "@/app/styles";
 import React from "react";
+import { colorStyles, textStyles } from "@/shared/ui";
 
 interface ISettingRowProps {
   left: JSX.Element | JSX.Element[];

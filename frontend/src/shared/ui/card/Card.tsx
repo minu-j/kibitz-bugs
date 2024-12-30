@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import BumpyBox from "@/assets/images/bumpyBox.svg";
+import BumpyBox from "./bumpyBox.svg";
 
 interface ICardProps {
   children: string | JSX.Element | JSX.Element[];

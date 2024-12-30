@@ -1,6 +1,6 @@
-import { colorStyles } from "@/app/styles";
+import { colorStyles } from "@/shared/ui";
 import { useTranslation } from "react-i18next";
-import { IMessage } from "@/features/chat/recoil/chat";
+import { IMessage } from "@/shared/types";
 import Card from "./Card";
 
 function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {

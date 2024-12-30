@@ -1,4 +1,4 @@
-import loadingSpinner from "@/assets/images/loadingSpinner.svg";
+import loadingSpinner from "./loadingSpinner.svg";
 import { Background } from "@/shared/ui";
 
 function LoadingSpinner() {

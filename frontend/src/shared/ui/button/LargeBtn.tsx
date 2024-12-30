@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-import largeButtonSrc from "@/assets/images/largeButton.svg";
-import clickedLargeButtonSrc from "@/assets/images/clickedLargeButton.svg";
-import { textStyles } from "@/app/styles";
-import click from "@/assets/audios/click.mp3";
-import hover from "@/assets/audios/hover.mp3";
+import largeButtonSrc from "./largeButton.svg";
+import clickedLargeButtonSrc from "./clickedLargeButton.svg";
+import { textStyles } from "@/shared/ui";
+import { click, hover } from "@/shared/resource/audios";
 
 interface ILargeBtnProps {
   label: string;

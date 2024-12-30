@@ -1,12 +1,12 @@
-import { textStyles } from "@/app/styles";
-import playScreen from "@/assets/videos/playScreen.mp4";
+import { playScreen } from "@/shared/resource/videos";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useInterval from "use-interval";
-import { getGameCnt } from "@/features/game/api";
-import { IMessage } from "@/features/chat/recoil/chat";
-import { ChatCard } from "@/shared/ui";
+import { getGameCnt } from "@/entities/game/api";
+
+import { ChatCard, textStyles } from "@/shared/ui";
 import { getLoginCnt } from "@/features/login/api";
+import { IMessage } from "@/shared/types";
 
 function Description() {
   const { t } = useTranslation();

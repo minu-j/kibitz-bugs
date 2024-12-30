@@ -1,8 +1,7 @@
 import { isMobile } from "react-device-detect";
-import { textStyles } from "@/app/styles";
 import { useTranslation } from "react-i18next";
-import { LargeBtn } from "@/shared/ui";
-import { useTwitchLogin } from "@/features/login/hooks";
+import { LargeBtn, textStyles } from "@/shared/ui";
+import { useTwitchLogin } from "@/features/login";
 
 function LoginBtn() {
   const { t } = useTranslation();

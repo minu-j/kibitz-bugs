@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import { textStyles } from "@/app/styles";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { BsQuestionCircleFill } from "react-icons/bs";
-import { Alert } from "@/shared/ui";
+import { Alert, textStyles } from "@/shared/ui";
 
 function SettingInfoCard() {
   const { t } = useTranslation();

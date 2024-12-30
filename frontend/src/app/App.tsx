@@ -7,7 +7,7 @@ import {
   GlobalStyles,
   ResetStyles,
 } from "./styles";
-import "@/features/locales";
+import "@/shared/i18n";
 import ReactGA from "react-ga4";
 import router from "../pages";
 
