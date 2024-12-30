@@ -7,7 +7,7 @@
 
 <p align="center" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
   <a href="https://github.com/minu-j/kibitz-bugs/releases" target="_blank"><img src="https://img.shields.io/github/v/tag/minu-j/kibitz-bugs?label=release" alt="Release" /></a>
-  <a href="https://github.com/minu-j/kibitz-bugs/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/minu-j/kibitz-bugs" alt="GitHub Repo stars" /></a>
+  <a href="https://github.com/minu-j/kibitz-bugs/blob/master/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/minu-j/kibitz-bugs" alt="GitHub Repo stars" /></a>
   <a href="https://github.com/minu-j/kibitz-bugs/stargazers" target="_blank"><img src="https://img.shields.io/github/stars/minu-j/kibitz-bugs" alt="GitHub Repo stars" /></a>
 </p>
 
