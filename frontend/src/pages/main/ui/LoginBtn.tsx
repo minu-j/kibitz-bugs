@@ -15,7 +15,7 @@ function LoginBtn() {
         ...textStyles.contents,
       }}
     >
-      {t("pages.login.login")}
+      {t("pages.login.play on pc")}
     </p>
   ) : (
     <>
@@ -25,7 +25,7 @@ function LoginBtn() {
           ...textStyles.contents,
         }}
       >
-        {t("pages.login.login")}
+        {t("pages.login.click for login")}
       </p>
       <LargeBtn label={t("pages.login.login")} onClick={() => twitchLogin()} />
     </>

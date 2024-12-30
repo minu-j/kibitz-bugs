@@ -4,9 +4,9 @@ import SelectLocales from "@/features/locales/components/SelectLocales.tsx";
 import { Background } from "@/shared/ui";
 import { Header, LoginBtn, Description, Footer } from "./ui";
 
-function Login() {
+function Main() {
   return (
-    <StyledLogin>
+    <StyledMain>
       <Header />
       <LoginBtn />
       <SelectLocales />
@@ -14,13 +14,13 @@ function Login() {
       <LoginBtn />
       <Footer />
       <Background />
-    </StyledLogin>
+    </StyledMain>
   );
 }
 
-export default Login;
+export default Main;
 
-const StyledLogin = styled.main`
+const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
