@@ -12,8 +12,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'https://kibitz-bugs.xyz/',
+      "/api": {
+        target: "https://kibitz-bugs.xyz/",
         changeOrigin: true,
       },
     },
