@@ -10,7 +10,7 @@ import { win } from "@/shared/resource/audios";
 
 const winSound = new Audio(win);
 
-function GomokuResultCard() {
+function GomokuResult() {
   const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
@@ -56,7 +56,7 @@ function GomokuResultCard() {
   );
 }
 
-export default GomokuResultCard;
+export default GomokuResult;
 
 const StyledGomokuResultCard = styled.section`
   padding: 8px;

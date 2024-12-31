@@ -3,14 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CameraCard, useCheckUserAuth } from "@/entities/auth";
-import {
-  GomokuBoard,
-  GomokuChatCard,
-  GomokuInfoCard,
-  GomokuResultCard,
-} from "@/features/chat";
+import { GomokuChatCard } from "@/features/chat";
 import { useResetGomoku, gomokuResultState } from "@/entities/game";
 import { AspectRatioLayout, Alert, SmallBtn } from "@/shared/ui";
+import { GomokuBoard } from "@/widgets/gomoku-board";
+import { GomokuTimer, GomokuResult } from "@/features/gameplay";
 
 function Gomoku() {
   useCheckUserAuth();
@@ -37,7 +34,7 @@ function Gomoku() {
       ) : null}
       <GomokuBoard />
       <aside css={{ width: 380, display: "flex", flexDirection: "column" }}>
-        {result ? <GomokuResultCard /> : <GomokuInfoCard />}
+        {result ? <GomokuResult /> : <GomokuTimer />}
         <GomokuChatCard />
         <CameraCard played />
         <div css={{ position: "fixed", top: 20, right: 20 }}>
