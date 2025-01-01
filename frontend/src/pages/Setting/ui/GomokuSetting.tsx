@@ -171,7 +171,6 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             alignItems: "center",
           }}
         >
-          <p css={textStyles.button}>{t("pages.setting.screen mode")}</p>
           <SmallBtn
             label={
               fullScreen.isFullscreen

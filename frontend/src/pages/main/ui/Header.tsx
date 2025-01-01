@@ -170,6 +170,9 @@ function Header() {
           <img
             css={{
               width: "70%",
+              "@media (min-width: 641px)": {
+                top: 40,
+              },
             }}
             src={CartoonLogo}
             alt={`logo image`}
@@ -180,7 +183,7 @@ function Header() {
         css={{
           position: "absolute",
           "@media (min-width: 641px)": {
-            bottom: -70,
+            bottom: -100,
             left: -180,
           },
           "@media (max-width: 640px)": {

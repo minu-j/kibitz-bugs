@@ -1,6 +1,6 @@
 import { isMobile } from "react-device-detect";
 import { useTranslation } from "react-i18next";
-import { useTwitchLogin } from "@/features/login";
+import { useLogin } from "@/features/login";
 import twitchLogoBig from "./twitch_logo_big.svg";
 import chzzkLogoBig from "./chzzk_logo_big.svg";
 import youtubeLogoBig from "./youtube_logo_big.svg";
@@ -19,7 +19,7 @@ const hoverSound = new Audio(hover);
 
 function LoginBtnGroup() {
   const { t } = useTranslation();
-  const twitchLogin = useTwitchLogin();
+  const { twitchLogin, soopLogin, chzzkLogin, youtubeLogin } = useLogin();
 
   const [index, setIndex] = useState(0);
   const [hoverId, setHoverId] = useState<number | undefined>(undefined);
@@ -37,7 +37,7 @@ function LoginBtnGroup() {
       bgColor: "#000000",
       fgColor: "#00FFA3",
       logoImg: chzzkLogoBig,
-      onClick: () => {},
+      onClick: () => chzzkLogin(),
       alt: "chzzk login button",
     },
     {
@@ -45,7 +45,7 @@ function LoginBtnGroup() {
       bgColor: "#17191C",
       fgColor: "#0387FE",
       logoImg: soopLogoBig,
-      onClick: () => {},
+      onClick: () => soopLogin(),
       alt: "soop login button",
     },
     {
@@ -53,7 +53,7 @@ function LoginBtnGroup() {
       bgColor: "#FFFFFF",
       fgColor: "#000000",
       logoImg: youtubeLogoBig,
-      onClick: () => {},
+      onClick: () => youtubeLogin(),
       alt: "youtube login button",
     },
     {

@@ -1,1 +1,1 @@
-export { default as useTwitchLogin } from "./useTwitchLogin";
+export { default as useLogin } from "./useLogin";

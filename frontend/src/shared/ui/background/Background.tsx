@@ -4,8 +4,6 @@ function Background() {
   return (
     <div
       css={{
-        opacity: 0.4,
-        mixBlendMode: "darken",
         position: "fixed",
         top: 0,
         left: 0,

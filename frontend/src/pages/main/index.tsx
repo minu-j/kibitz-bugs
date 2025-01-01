@@ -1,12 +1,13 @@
 import { Header, Description, Footer } from "./ui";
 import { SelectLocales } from "@/shared/i18n";
-import LoginBtnGroup from "@/entities/auth/ui/LoginBtnGroup";
+import { LoginBtnGroup } from "@/features/login";
 import { background } from "@/shared/resource/images";
 
 function Main() {
   return (
     <main
       css={{
+        backgroundSize: "100% auto",
         backgroundImage: `url("${background}")`,
         overflowX: "hidden",
         minWidth: "375px",
