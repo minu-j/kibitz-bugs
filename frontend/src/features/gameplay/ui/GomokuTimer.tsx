@@ -22,8 +22,14 @@ function GomokuTimer() {
   return (
     <StyledGomokuInfoCard>
       <img css={{ width: 160 }} src={logo} />
-      <div css={{ display: "flex", width: "100%", marginBlock: 20 }}>
-        {UserInfo(user.nickname ?? t("streamer"), "black")}
+      <div
+        css={{
+          display: "flex",
+          width: "100%",
+          marginBlock: 16,
+        }}
+      >
+        {UserInfo(user.nickname ?? t("streamer"), "left")}
         <img
           css={{
             width: 60,
@@ -31,7 +37,8 @@ function GomokuTimer() {
           }}
           src={vs}
         />
-        {UserInfo(t("viewers"), "white")}
+
+        {UserInfo(setting.viewerNickname ?? t("viewers"), "right")}
       </div>
       <GomokuProgressBar
         progress={
@@ -55,7 +62,7 @@ function GomokuTimer() {
     </StyledGomokuInfoCard>
   );
 
-  function UserInfo(label: string, color: "black" | "white") {
+  function UserInfo(label: string, side: "left" | "right") {
     return (
       <div
         css={{
@@ -66,7 +73,7 @@ function GomokuTimer() {
           width: "100%",
         }}
       >
-        {color === "black" ? (
+        {side === "left" ? (
           <>
             {nowPlayer === 1 ? (
               <img
@@ -109,12 +116,20 @@ function GomokuTimer() {
             textAlign: "center",
             textOverflow: "ellipsis",
             overflow: "hidden",
-            marginTop: 10,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: 4,
             ...textStyles.contents,
+            marginTop: 6,
           }}
         >
           {label}
         </h2>
+        {/* <span css={{ ...textStyles.contents, fontSize: 18, marginTop: 4 }}>
+          1명
+        </span> */}
       </div>
     );
   }

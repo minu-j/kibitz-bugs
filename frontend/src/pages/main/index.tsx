@@ -5,32 +5,35 @@ import { background } from "@/shared/resource/images";
 
 function Main() {
   return (
-    <main
-      css={{
-        backgroundSize: "100% auto",
-        backgroundImage: `url("${background}")`,
-        overflowX: "hidden",
-        minWidth: "375px",
-      }}
-    >
-      <Header />
-      <div
+    <div>
+      <main
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
+          position: "relative",
+          backgroundSize: "100% auto",
+          backgroundImage: `url("${background}")`,
+          overflowX: "hidden",
+          minWidth: "375px",
         }}
       >
-        <div css={{ marginBottom: "20px" }}>
+        <Header />
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div css={{ marginBottom: "20px" }}>
+            <LoginBtnGroup />
+          </div>
+          <SelectLocales />
+          <Description />
           <LoginBtnGroup />
+          <Footer />
         </div>
-        <SelectLocales />
-        <Description />
-        <LoginBtnGroup />
-        <Footer />
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 

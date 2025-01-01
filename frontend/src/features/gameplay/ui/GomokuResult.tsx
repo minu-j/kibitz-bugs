@@ -5,7 +5,7 @@ import { textStyles } from "@/shared/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { userState } from "@/entities/auth";
-import { postGame, gomokuResultState } from "@/entities/game";
+import { postGame, gomokuResultState, gomokuState } from "@/entities/game";
 import { win } from "@/shared/resource/audios";
 
 const winSound = new Audio(win);
@@ -14,6 +14,7 @@ function GomokuResult() {
   const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
   const user = useRecoilValue(userState);
+  const setting = useRecoilValue(gomokuState);
 
   useEffect(() => {
     winSound.play();
@@ -49,8 +50,19 @@ function GomokuResult() {
       >
         {t("pages.gomoku.winner")}
       </h2>
-      <h3 css={{ ...textStyles.title1, animation: `popIn 1s 0.3s both` }}>
-        {result === 1 ? `${user.nickname}` : t("viewers")}
+      <h3
+        css={{
+          ...textStyles.title1,
+          animation: `popIn 1s 0.3s both`,
+          maxWidth: "100%",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {result === 1
+          ? `${user.nickname}`
+          : setting.viewerNickname ?? t("viewers")}
       </h3>
     </StyledGomokuResultCard>
   );

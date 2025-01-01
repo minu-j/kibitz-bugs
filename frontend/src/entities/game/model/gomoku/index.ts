@@ -11,6 +11,7 @@ const gomokuState = atom<TGomokuState>({
     viewerColor: 2,
     streamerTime: -1,
     viewerTime: 15,
+    viewerNickname: "",
   },
   effects_UNSTABLE: [persistAtom],
 });

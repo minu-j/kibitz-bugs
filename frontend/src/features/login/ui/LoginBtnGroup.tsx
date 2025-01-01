@@ -40,6 +40,7 @@ function LoginBtnGroup() {
       logoImg: chzzkLogoBig,
       onClick: () => chzzkLogin(),
       alt: "chzzk login button",
+      active: false,
     },
     {
       id: 1,
@@ -49,6 +50,7 @@ function LoginBtnGroup() {
       logoImg: soopLogoBig,
       onClick: () => soopLogin(),
       alt: "soop login button",
+      active: false,
     },
     {
       id: 2,
@@ -58,6 +60,7 @@ function LoginBtnGroup() {
       logoImg: youtubeLogoBig,
       onClick: () => youtubeLogin(),
       alt: "youtube login button",
+      active: false,
     },
     {
       id: 3,
@@ -67,6 +70,7 @@ function LoginBtnGroup() {
       logoImg: twitchLogoBig,
       onClick: () => twitchLogin(),
       alt: "twitch login button",
+      active: true,
     },
   ];
 
@@ -100,108 +104,124 @@ function LoginBtnGroup() {
       </p>
       <div
         css={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          display: "flex",
+          flexWrap: "wrap",
           gap: "10px",
+          justifyContent: "center",
+
+          "@media (max-width: 768px)": {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            maxWidth: "312px",
+            margin: "0 auto",
+          },
         }}
       >
-        {buttons.map((button, idx) => (
-          <button
-            key={`${button.alt}-${idx}`}
-            onClick={() => {
-              button.onClick();
-              clickSound.play();
-            }}
-            onMouseEnter={() => {
-              setHoverId(button.id);
-              hoverSound.play();
-            }}
-            onMouseLeave={() => {
-              setHoverId(undefined);
-              hoverSound.pause();
-              hoverSound.currentTime = 0;
-            }}
-            css={{
-              padding: "0",
-              width: "151px",
-              height: "60px",
-              position: "relative",
-              border: `3px solid ${button.fgColor}`,
-              borderRadius: "10px",
-              overflow: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: button.buttonBgColor,
-              transition: "scale 0.1s",
-              "&:hover": {
-                scale: "1.03",
-              },
-            }}
-          >
-            <div
-              css={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                scale: "1.15",
-              }}
-            >
-              {hoverId === button.id ? (
-                <>
-                  {index === 0 ? (
-                    <div
-                      css={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: button.bgColor,
-                        maskImage: `url(${buttonBg1})`,
-                        maskSize: "100% 100%",
-                      }}
-                    />
-                  ) : index === 1 ? (
-                    <div
-                      css={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: button.bgColor,
-                        maskImage: `url(${buttonBg2})`,
-                        maskSize: "100% 100%",
-                      }}
-                    />
+        {buttons.map(
+          (button, idx) =>
+            button.active && (
+              <button
+                key={`${button.alt}-${idx}`}
+                onClick={() => {
+                  button.onClick();
+                  clickSound.play();
+                }}
+                onMouseEnter={() => {
+                  setHoverId(button.id);
+                  hoverSound.play();
+                }}
+                onMouseLeave={() => {
+                  setHoverId(undefined);
+                  hoverSound.pause();
+                  hoverSound.currentTime = 0;
+                }}
+                css={{
+                  padding: "0",
+                  width: "151px",
+                  height: "60px",
+                  position: "relative",
+                  border: `3px solid ${button.fgColor}`,
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: button.buttonBgColor,
+                  transition: "scale 0.1s",
+                  "&:hover": {
+                    scale: "1.03",
+                  },
+                }}
+              >
+                <div
+                  css={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    scale: "1.15",
+                  }}
+                >
+                  {hoverId === button.id ? (
+                    <>
+                      {index === 0 ? (
+                        <div
+                          css={{
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: button.bgColor,
+                            maskImage: `url(${buttonBg1})`,
+                            maskSize: "100% 100%",
+                          }}
+                        />
+                      ) : index === 1 ? (
+                        <div
+                          css={{
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: button.bgColor,
+                            maskImage: `url(${buttonBg2})`,
+                            maskSize: "100% 100%",
+                          }}
+                        />
+                      ) : (
+                        <div
+                          css={{
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: button.bgColor,
+                            maskImage: `url(${buttonBg3})`,
+                            maskSize: "100% 100%",
+                          }}
+                        />
+                      )}
+                    </>
                   ) : (
                     <div
                       css={{
                         width: "100%",
                         height: "100%",
                         backgroundColor: button.bgColor,
-                        maskImage: `url(${buttonBg3})`,
+                        maskImage: `url(${
+                          button.id === 0
+                            ? buttonBg1
+                            : button.id === 1
+                            ? buttonBg2
+                            : buttonBg3
+                        })`,
                         maskSize: "100% 100%",
                       }}
                     />
                   )}
-                </>
-              ) : (
-                <div
-                  css={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: button.bgColor,
-                    maskImage: `url(${
-                      button.id === 0
-                        ? buttonBg1
-                        : button.id === 1
-                        ? buttonBg2
-                        : buttonBg3
-                    })`,
-                    maskSize: "100% 100%",
-                  }}
+                </div>
+                <img
+                  src={button.logoImg}
+                  alt={button.alt}
+                  css={{ width: "70%" }}
                 />
-              )}
-            </div>
-            <img src={button.logoImg} alt={button.alt} css={{ width: "70%" }} />
-          </button>
-        ))}
+              </button>
+            ),
+        )}
       </div>
     </div>
   );

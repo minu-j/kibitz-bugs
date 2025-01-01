@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Auth from "./auth/twitch";
+import Auth from "./auth";
 import Gomoku from "./gomoku";
 import Main from "./main";
 import Setting from "./setting";
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
-    path: "/auth/:provider",
+    path: "/auth",
     element: <Auth />,
   },
   {
