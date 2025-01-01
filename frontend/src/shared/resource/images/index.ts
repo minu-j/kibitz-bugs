@@ -2,3 +2,8 @@ export { default as blackStone } from "./blackStone.svg";
 export { default as whiteStone } from "./whiteStone.svg";
 export { default as vs } from "./vs.svg";
 export { default as logo } from "./logo.png";
+export { default as chzzkLogo } from "./chzzk-logo.png";
+export { default as twitchLogo } from "./twitch-logo.png";
+export { default as youtubeLogo } from "./youtube-logo.png";
+export { default as soopLogo } from "./soop-logo.png";
+export { default as background } from "./background.png";

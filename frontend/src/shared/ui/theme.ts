@@ -31,3 +31,16 @@ export const colorStyles = {
   danger: "#F23737",
   lightGray: "#BCBDC0",
 };
+
+export const textShadowStyles = {
+  outline: `
+    -2px -2px 0 #F2F2F3,  
+     2px -2px 0 #F2F2F3,
+    -2px  2px 0 #F2F2F3,
+     2px  2px 0 #F2F2F3,
+    -1px -1px 0 #F2F2F3,  
+     1px -1px 0 #F2F2F3,
+    -1px  1px 0 #F2F2F3,
+     1px  1px 0 #F2F2F3
+  `,
+};

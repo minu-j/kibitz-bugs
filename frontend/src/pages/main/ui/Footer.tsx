@@ -7,11 +7,11 @@ function Footer() {
     <footer
       css={{
         backgroundColor: colorStyles.primary,
-        width: "100vw",
+        width: "100%",
         paddingInline: 24,
         paddingBlock: 24,
         marginTop: 60,
-        fontSize: 12,
+        fontSize: 14,
         display: "flex",
         justifyContent: "space-between",
         ["@media (max-width: 576px)"]: {
@@ -25,7 +25,7 @@ function Footer() {
           display: "flex",
           flexDirection: "column",
           alignItems: "start",
-          gap: 4,
+          gap: 16,
           ["@media (max-width: 576px)"]: {
             alignItems: "center",
             marginBottom: 24,
@@ -69,23 +69,27 @@ function Footer() {
         <a
           css={{
             color: "white",
+            fontSize: 16,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
           }}
           href="https://github.com/minu-j/kibitz-bugs"
         >
           <BsGithub
             css={{
-              marginRight: 2,
+              fontSize: 24,
               fill: "white",
             }}
           />
-          Github
+          GitHub
         </a>
         <div
           css={{
             display: "flex",
             flexDirection: "column",
             alignItems: "end",
-            gap: 4,
+            gap: 8,
             ["@media (max-width: 576px)"]: {
               alignItems: "center",
             },

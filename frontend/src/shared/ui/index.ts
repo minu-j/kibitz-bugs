@@ -5,4 +5,4 @@ export { ChatCard, Card } from "./card";
 export { Dropdown } from "./dropdown";
 export { LoadingSpinner } from "./loading";
 export { AspectRatioLayout } from "./layout";
-export { textStyles, colorStyles } from "./theme";
+export { textStyles, colorStyles, textShadowStyles } from "./theme";

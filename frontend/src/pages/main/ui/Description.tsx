@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import useInterval from "use-interval";
 import { getGameCnt } from "@/entities/game/api";
 
-import { ChatCard, textStyles } from "@/shared/ui";
+import { ChatCard, textShadowStyles, textStyles } from "@/shared/ui";
 import { getLoginCnt } from "@/features/login/api";
 import { IMessage } from "@/shared/types";
 
@@ -34,7 +34,13 @@ function Description() {
         overflow: "hidden",
       }}
     >
-      <h3 css={{ ...textStyles.title3, marginBottom: 8 }}>
+      <h3
+        css={{
+          ...textStyles.title3,
+          marginBottom: 8,
+          textShadow: textShadowStyles.outline,
+        }}
+      >
         {t("pages.login.title1")}
       </h3>
       <p css={textStyles.contents}>{t("pages.login.description1")}</p>
