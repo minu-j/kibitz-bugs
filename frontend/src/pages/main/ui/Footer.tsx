@@ -1,5 +1,6 @@
-import { colorStyles, textStyles } from "@/shared/ui";
+import { colorStyles } from "@/shared/ui";
 import { BsGithub } from "react-icons/bs";
+import cartoonLogo from "./cartoon_logo.svg";
 
 function Footer() {
   const appVersion = import.meta.env.VITE_REACT_APP_VERSION;
@@ -8,9 +9,9 @@ function Footer() {
       css={{
         backgroundColor: colorStyles.primary,
         width: "100%",
-        paddingInline: 24,
-        paddingBlock: 24,
-        marginTop: 60,
+        paddingInline: 40,
+        paddingBlock: 64,
+        marginTop: 160,
         fontSize: 14,
         display: "flex",
         justifyContent: "space-between",
@@ -25,35 +26,27 @@ function Footer() {
           display: "flex",
           flexDirection: "column",
           alignItems: "start",
-          gap: 16,
+          gap: 80,
           ["@media (max-width: 576px)"]: {
             alignItems: "center",
             marginBottom: 24,
           },
         }}
       >
-        <p
+        <img
           css={{
-            color: "white",
-            ...textStyles.title2,
+            height: 64,
           }}
-        >
-          {"Kibitz bugs"}
-        </p>
-        <p
-          css={{
-            color: "white",
-            ...textStyles.title3,
-          }}
-        >
-          {"키비츠 벅스"}
-        </p>
+          src={cartoonLogo}
+          alt="logo"
+        />
         <p
           css={{
             color: "white",
           }}
         >{`ver.${appVersion}`}</p>
       </div>
+
       <div
         css={{
           display: "flex",

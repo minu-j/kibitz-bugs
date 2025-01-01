@@ -36,6 +36,7 @@ function LoginBtnGroup() {
       id: 0,
       bgColor: "#000000",
       fgColor: "#00FFA3",
+      buttonBgColor: "transparent",
       logoImg: chzzkLogoBig,
       onClick: () => chzzkLogin(),
       alt: "chzzk login button",
@@ -44,6 +45,7 @@ function LoginBtnGroup() {
       id: 1,
       bgColor: "#17191C",
       fgColor: "#0387FE",
+      buttonBgColor: "transparent",
       logoImg: soopLogoBig,
       onClick: () => soopLogin(),
       alt: "soop login button",
@@ -52,6 +54,7 @@ function LoginBtnGroup() {
       id: 2,
       bgColor: "#FFFFFF",
       fgColor: "#000000",
+      buttonBgColor: "#000000",
       logoImg: youtubeLogoBig,
       onClick: () => youtubeLogin(),
       alt: "youtube login button",
@@ -60,6 +63,7 @@ function LoginBtnGroup() {
       id: 3,
       bgColor: "#9246FF",
       fgColor: "#000000",
+      buttonBgColor: "transparent",
       logoImg: twitchLogoBig,
       onClick: () => twitchLogin(),
       alt: "twitch login button",
@@ -128,7 +132,7 @@ function LoginBtnGroup() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "transparent",
+              backgroundColor: button.buttonBgColor,
               transition: "scale 0.1s",
               "&:hover": {
                 scale: "1.03",
@@ -140,7 +144,7 @@ function LoginBtnGroup() {
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                scale: "1.2",
+                scale: "1.15",
               }}
             >
               {hoverId === button.id ? (
