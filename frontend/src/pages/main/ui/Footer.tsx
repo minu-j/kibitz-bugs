@@ -77,11 +77,12 @@ function Footer() {
           />
           <a
             href="https://github.com/minu-j/kibitz-bugs/releases"
+            target="_blank"
             css={{
               color: colorStyles.lightGray,
               fontWeight: "bold",
             }}
-          >{`ver.${appVersion}`}</a>
+          >{`v${appVersion}`}</a>
         </div>
 
         <div
@@ -107,6 +108,7 @@ function Footer() {
               <a
                 css={{ color: colorStyles.lightGray }}
                 href="https://github.com/ysu6691"
+                target="_blank"
               >
                 {" "}
                 ysu6691,
@@ -114,6 +116,7 @@ function Footer() {
               <a
                 css={{ color: colorStyles.lightGray }}
                 href="https://github.com/minu-j"
+                target="_blank"
               >
                 {" "}
                 minu-j
@@ -128,6 +131,7 @@ function Footer() {
             <p>
               <a
                 href="https://kibitz-bugs.xyz/terms/"
+                target="_blank"
                 css={{ color: colorStyles.lightGray }}
               >
                 개인정보 처리방침
@@ -135,11 +139,22 @@ function Footer() {
               <span css={{ color: colorStyles.lightGray }}>{"  ·  "}</span>
               <a
                 href="https://github.com/minu-j/kibitz-bugs/blob/master/LICENSE"
+                target="_blank"
                 css={{ color: colorStyles.lightGray }}
               >
                 라이센스
               </a>
             </p>
+            <a
+              href="https://github.com/minu-j/kibitz-bugs/issues/new?assignees=minu-j&labels=bug"
+              target="_blank"
+              css={{
+                color: colorStyles.lightGray,
+                fontWeight: "bold",
+              }}
+            >
+              {"Report a bug"}
+            </a>
             <a css={{ color: colorStyles.lightGray, opacity: 0.3 }}>
               Image by rawpixel.com on Freepik
             </a>
