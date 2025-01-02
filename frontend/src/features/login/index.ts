@@ -1,1 +1,2 @@
-export { useTwitchLogin } from "./lib";
+export { useLogin } from "./lib";
+export { LoginBtnGroup } from "./ui";

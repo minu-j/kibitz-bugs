@@ -1,134 +1,152 @@
-import { colorStyles, textStyles } from "@/shared/ui";
+import { colorStyles } from "@/shared/ui";
 import { BsGithub } from "react-icons/bs";
+
+import cartoonLogo from "./cartoon_logo.svg";
 
 function Footer() {
   const appVersion = import.meta.env.VITE_REACT_APP_VERSION;
   return (
-    <footer
+    <div
       css={{
-        backgroundColor: colorStyles.primary,
-        width: "100vw",
-        paddingInline: 24,
-        paddingBlock: 24,
-        marginTop: 60,
+        width: "100%",
+        marginTop: 120,
         fontSize: 12,
         display: "flex",
         justifyContent: "space-between",
-        ["@media (max-width: 576px)"]: {
-          flexDirection: "column",
-          alignItems: "center",
-        },
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
-      <div
+      <a
+        href="https://github.com/minu-j/kibitz-bugs"
         css={{
+          fontSize: 32,
           display: "flex",
           flexDirection: "column",
-          alignItems: "start",
-          gap: 4,
-          ["@media (max-width: 576px)"]: {
-            alignItems: "center",
-            marginBottom: 24,
-          },
+          alignItems: "center",
+          textDecoration: "none",
+          gap: 12,
         }}
       >
-        <p
+        <BsGithub
           css={{
-            color: "white",
-            ...textStyles.title2,
+            fontSize: 64,
+            fill: colorStyles.primary,
+          }}
+        />
+        <span
+          css={{
+            color: colorStyles.primary,
+            fontWeight: 800,
+            textDecoration: "none",
           }}
         >
-          {"Kibitz bugs"}
-        </p>
-        <p
-          css={{
-            color: "white",
-            ...textStyles.title3,
-          }}
-        >
-          {"키비츠 벅스"}
-        </p>
-        <p
-          css={{
-            color: "white",
-          }}
-        >{`ver.${appVersion}`}</p>
-      </div>
-      <div
+          GitHub
+        </span>
+      </a>
+      <footer
         css={{
+          backgroundColor: "#161617",
+          paddingInline: 40,
+          paddingTop: 64,
+          width: "100%",
+          paddingBottom: 120,
+          marginTop: 140,
+          fontSize: 12,
           display: "flex",
-          flexDirection: "column",
           justifyContent: "space-between",
-          alignItems: "end",
-          gap: 4,
-          ["@media (max-width: 576px)"]: {
-            alignItems: "center",
-          },
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <a
-          css={{
-            color: "white",
-          }}
-          href="https://github.com/minu-j/kibitz-bugs"
-        >
-          <BsGithub
-            css={{
-              marginRight: 2,
-              fill: "white",
-            }}
-          />
-          Github
-        </a>
         <div
           css={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "end",
-            gap: 4,
-            ["@media (max-width: 576px)"]: {
-              alignItems: "center",
-            },
+            gap: 80,
+            alignItems: "center",
+            marginBottom: 24,
           }}
         >
-          <div>
-            <span css={{ color: colorStyles.lightGray }}>Developed by</span>
-            <a
-              css={{ color: colorStyles.lightGray }}
-              href="https://github.com/ysu6691"
-            >
-              {" "}
-              ysu6691,
-            </a>
-            <a
-              css={{ color: colorStyles.lightGray }}
-              href="https://github.com/minu-j"
-            >
-              {" "}
-              minu-j
-            </a>
-            <span css={{ color: colorStyles.lightGray }}> </span>
-          </div>
-          <div>
-            <span css={{ color: colorStyles.lightGray }}>
-              Copyright © 2024 All Rights Reserved
-            </span>
-          </div>
-          <p>
+          <img
+            css={{
+              height: 64,
+            }}
+            src={cartoonLogo}
+            alt="logo"
+          />
+          <a
+            href="https://github.com/minu-j/kibitz-bugs/releases"
+            css={{
+              color: colorStyles.lightGray,
+              fontWeight: "bold",
+            }}
+          >{`ver.${appVersion}`}</a>
+        </div>
+
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "end",
+
+            gap: 4,
+            alignItems: "center",
+          }}
+        >
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <span css={{ color: colorStyles.lightGray }}>Developed by</span>
+              <a
+                css={{ color: colorStyles.lightGray }}
+                href="https://github.com/ysu6691"
+              >
+                {" "}
+                ysu6691,
+              </a>
+              <a
+                css={{ color: colorStyles.lightGray }}
+                href="https://github.com/minu-j"
+              >
+                {" "}
+                minu-j
+              </a>
+              <span css={{ color: colorStyles.lightGray }}> </span>
+            </div>
+            <div>
+              <span css={{ color: colorStyles.lightGray }}>
+                Copyright © 2024 All Rights Reserved
+              </span>
+            </div>
+            <p>
+              <a
+                href="https://kibitz-bugs.xyz/terms/"
+                css={{ color: colorStyles.lightGray }}
+              >
+                개인정보 처리방침
+              </a>
+              <span css={{ color: colorStyles.lightGray }}>{"  ·  "}</span>
+              <a
+                href="https://github.com/minu-j/kibitz-bugs/blob/master/LICENSE"
+                css={{ color: colorStyles.lightGray }}
+              >
+                라이센스
+              </a>
+            </p>
             <a css={{ color: colorStyles.lightGray, opacity: 0.3 }}>
               Image by rawpixel.com on Freepik
             </a>
-            <span css={{ color: colorStyles.lightGray }}>{"  ·  "}</span>
-            <a
-              href="https://kibitz-bugs.xyz/terms/"
-              css={{ color: colorStyles.lightGray }}
-            >
-              개인정보 처리방침
-            </a>
-          </p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 }
 

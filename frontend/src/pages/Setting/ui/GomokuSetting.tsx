@@ -6,11 +6,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { SettingRow } from ".";
 import { click, hover } from "@/shared/resource/audios";
 import { useTranslation } from "react-i18next";
-import { useFullscreen } from "@/shared/lib";
 import { useCheckUserAuth, userState } from "@/entities/auth";
 import { gomokuState } from "@/entities/game";
-import { Dropdown, LargeBtn, SmallBtn, textStyles } from "@/shared/ui";
-import { SelectLocales } from "@/shared/i18n";
+import { Dropdown, LargeBtn, textStyles } from "@/shared/ui";
 
 const streamerTimeValues: number[] = [
   -1, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
@@ -34,8 +32,6 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
   };
 
   useCheckUserAuth();
-
-  const fullScreen = useFullscreen();
 
   // 색 서로 바꾸기
   const switchColors = () => {
@@ -79,16 +75,27 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           }}
           src={vs}
         />
-        <h2
-          css={{
-            width: "210px",
-            textAlign: "center",
-            animation: `popIn 1s 0.3s both`,
-            ...textStyles.title2,
-          }}
-        >
-          {t("viewers")}
-        </h2>
+        <div css={{ width: "210px", textAlign: "center" }}>
+          <input
+            css={{
+              animation: `popIn 1s 0.2s both`,
+              width: "180px",
+              height: "52px",
+              ...textStyles.title2,
+              textAlign: "center",
+              border: `4px dashed #b8b8b9`,
+              borderRadius: "8px",
+              padding: "0 8px",
+              backgroundColor: "transparent",
+            }}
+            type="text"
+            placeholder={t("viewers")}
+            onChange={(e) => {
+              setSetting({ ...setting, viewerNickname: e.target.value });
+            }}
+            value={setting.viewerNickname}
+          />
+        </div>
       </div>
       <SettingRow
         left={
@@ -162,25 +169,15 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
         }
       />
       <div
-        css={{ display: "flex", width: 500, justifyContent: "space-between" }}
+        css={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBlock: 20,
+          gap: 16,
+          flexDirection: "column",
+        }}
       >
-        <div
-          css={{
-            display: "flex",
-            gap: 16,
-            alignItems: "center",
-          }}
-        >
-          <p css={textStyles.button}>{t("pages.setting.screen mode")}</p>
-          <SmallBtn
-            label={
-              fullScreen.isFullscreen
-                ? t("pages.setting.window")
-                : t("pages.setting.fullscreen")
-            }
-            onClick={() => fullScreen.toggleFullscreen()}
-          ></SmallBtn>
-        </div>
         <LargeBtn
           label={t("pages.setting.start")}
           onClick={() => {
@@ -188,7 +185,6 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
           }}
         />
       </div>
-      <SelectLocales />
     </StyledGomokuSetting>
   );
 }

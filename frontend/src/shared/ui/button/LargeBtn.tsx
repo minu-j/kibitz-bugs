@@ -7,7 +7,9 @@ import { textStyles } from "@/shared/ui";
 import { click, hover } from "@/shared/resource/audios";
 
 interface ILargeBtnProps {
-  label: string;
+  label?: string;
+  buttonImgSrc?: string;
+  clickedButtonImgSrc?: string;
   onClick(e: React.MouseEvent): void;
 }
 
@@ -47,7 +49,11 @@ function LargeBtn(props: ILargeBtnProps) {
           left: "50%",
           transform: "translate(-50%, -50%)",
         }}
-        src={isPressed ? clickedLargeButtonSrc : largeButtonSrc}
+        src={
+          isPressed
+            ? props.clickedButtonImgSrc ?? clickedLargeButtonSrc
+            : props.buttonImgSrc ?? largeButtonSrc
+        }
         alt={`${props.label} button`}
       />
       <p
@@ -73,5 +79,9 @@ const StyledLargeBtn = styled.div`
   &:hover {
     filter: brightness(0.9);
     transform: scale(1.03);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;

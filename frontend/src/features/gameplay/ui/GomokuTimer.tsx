@@ -3,92 +3,33 @@ import { logo, vs, whiteStone, blackStone } from "@/shared/resource/images";
 import arrow from "./arrow.svg";
 
 import { colorStyles, textStyles } from "@/shared/ui";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useEffect, useState } from "react";
-import useInterval from "use-interval";
-import { timer, move } from "@/shared/resource/audios";
+import { useRecoilValue } from "recoil";
+
 import { useTranslation } from "react-i18next";
 import { userState } from "@/entities/auth";
-import {
-  useMoveStone,
-  gomokuNowPlayerState,
-  gomokuResultState,
-  gomokuState,
-  gomokuTurnState,
-  gomokuVoteState,
-  str2numCoord,
-} from "@/entities/game";
+import { gomokuNowPlayerState, gomokuState } from "@/entities/game";
 import GomokuProgressBar from "./GomokuProgressBar";
+import { useGameplay } from "@/features/gameplay";
 
-const timerSound = new Audio(timer);
-const moveSound = new Audio(move);
-
-function GomokuInfoCard() {
+function GomokuTimer() {
   const { t } = useTranslation();
   const user = useRecoilValue(userState);
   const setting = useRecoilValue(gomokuState);
-  const turn = useRecoilValue(gomokuTurnState);
-  const [nowPlayer, setNowPlayer] = useRecoilState(gomokuNowPlayerState);
-  const [time, setTime] = useState(-1);
-  const [vote, setVote] = useRecoilState(gomokuVoteState);
-  const setResult = useSetRecoilState(gomokuResultState);
+  const nowPlayer = useRecoilValue(gomokuNowPlayerState);
 
-  const moveStone = useMoveStone();
-
-  useInterval(() => {
-    if (time === 6 && nowPlayer === 1) {
-      timerSound.play();
-    } else if (time > 6 && timerSound.played) {
-      timerSound.pause();
-      timerSound.currentTime = 0;
-    }
-    if (0 < time) {
-      setTime((ot) => ot - 1);
-    } else if (time === 0) {
-      if (nowPlayer === 1) {
-        setResult(2);
-      } else {
-        if (vote.total) {
-          let maxKey = "";
-          let maxValue = -1;
-
-          for (const [key, value] of vote.count) {
-            if (value > maxValue) {
-              maxKey = key;
-              maxValue = value;
-            }
-          }
-          const [i, j] = str2numCoord(maxKey);
-          moveStone(i, j, setting.viewerColor);
-        } else {
-          setResult(1);
-        }
-      }
-    }
-  }, 1000);
-
-  useEffect(() => {
-    if (setting.streamerColor === turn) {
-      setTime(setting.streamerTime);
-      setNowPlayer(1);
-    } else {
-      setTime(setting.viewerTime);
-      setNowPlayer(2);
-    }
-    moveSound.play();
-    setVote({ count: new Map(), total: 0 });
-
-    return () => {
-      timerSound.pause();
-      timerSound.currentTime = 0;
-    };
-  }, [turn]);
+  const { time } = useGameplay();
 
   return (
     <StyledGomokuInfoCard>
       <img css={{ width: 160 }} src={logo} />
-      <div css={{ display: "flex", width: "100%", marginBlock: 20 }}>
-        {UserInfo(user.nickname ?? t("streamer"), "black")}
+      <div
+        css={{
+          display: "flex",
+          width: "100%",
+          marginBlock: 16,
+        }}
+      >
+        {UserInfo(user.nickname ?? t("streamer"), "left")}
         <img
           css={{
             width: 60,
@@ -96,7 +37,8 @@ function GomokuInfoCard() {
           }}
           src={vs}
         />
-        {UserInfo(t("viewers"), "white")}
+
+        {UserInfo(setting.viewerNickname ?? t("viewers"), "right")}
       </div>
       <GomokuProgressBar
         progress={
@@ -120,7 +62,7 @@ function GomokuInfoCard() {
     </StyledGomokuInfoCard>
   );
 
-  function UserInfo(label: string, color: "black" | "white") {
+  function UserInfo(label: string, side: "left" | "right") {
     return (
       <div
         css={{
@@ -131,7 +73,7 @@ function GomokuInfoCard() {
           width: "100%",
         }}
       >
-        {color === "black" ? (
+        {side === "left" ? (
           <>
             {nowPlayer === 1 ? (
               <img
@@ -174,18 +116,26 @@ function GomokuInfoCard() {
             textAlign: "center",
             textOverflow: "ellipsis",
             overflow: "hidden",
-            marginTop: 10,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: 4,
             ...textStyles.contents,
+            marginTop: 6,
           }}
         >
           {label}
         </h2>
+        {/* <span css={{ ...textStyles.contents, fontSize: 18, marginTop: 4 }}>
+          1명
+        </span> */}
       </div>
     );
   }
 }
 
-export default GomokuInfoCard;
+export default GomokuTimer;
 
 const StyledGomokuInfoCard = styled.section`
   padding: 8px;
