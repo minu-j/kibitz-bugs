@@ -79,7 +79,7 @@ function LoginBtnGroup() {
       css={{
         animation: `floadingUpDown 1s alternate ease-in-out infinite`,
         ...textStyles.contents,
-        textShadow: textShadowStyles.outline,
+        filter: textShadowStyles.shadow,
       }}
     >
       {t("pages.login.play on pc")}
@@ -97,7 +97,7 @@ function LoginBtnGroup() {
         css={{
           animation: `floadingUpDown 1s alternate ease-in-out infinite`,
           ...textStyles.contents,
-          textShadow: textShadowStyles.outline,
+          filter: textShadowStyles.shadow,
         }}
       >
         {t("pages.login.click for login")}

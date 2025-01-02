@@ -20,7 +20,7 @@ function Footer() {
       <a
         href="https://github.com/minu-j/kibitz-bugs"
         css={{
-          fontSize: 32,
+          fontSize: 24,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -30,7 +30,7 @@ function Footer() {
       >
         <BsGithub
           css={{
-            fontSize: 64,
+            fontSize: 40,
             fill: colorStyles.primary,
           }}
         />

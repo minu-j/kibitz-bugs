@@ -1,5 +1,4 @@
 import { textShadowStyles, textStyles } from "@/shared/ui";
-
 import CartoonEffect1 from "./cartoon_effect_1.svg";
 import CartoonEffect2 from "./cartoon_effect_2.svg";
 import CartoonEffect3 from "./cartoon_effect_3.svg";
@@ -73,7 +72,14 @@ function Header() {
           className="animate-img"
           src={CartoonEffect1}
           alt="cartoon effect 1"
-          style={{ animationDelay: "-30s" }}
+          style={{
+            animationDelay: "-30s",
+          }}
+          css={{
+            "@media (max-width: 640px)": {
+              display: "none",
+            },
+          }}
         />
         <img
           className="animate-img"
@@ -86,6 +92,11 @@ function Header() {
           src={CartoonEffect3}
           alt="cartoon effect 3"
           style={{ animationDelay: "-15s" }}
+          css={{
+            "@media (max-width: 640px)": {
+              display: "none",
+            },
+          }}
         />
         <img
           className="animate-img"
@@ -98,6 +109,11 @@ function Header() {
           src={CartoonEffectDot1}
           alt="cartoon effect dot 1"
           style={{ animationDelay: "-25s" }}
+          css={{
+            "@media (max-width: 640px)": {
+              display: "none",
+            },
+          }}
         />
         <img
           className="animate-img"
@@ -110,6 +126,11 @@ function Header() {
           src={CartoonEffectDot3}
           alt="cartoon effect dot 3"
           style={{ animationDelay: "-8s" }}
+          css={{
+            "@media (max-width: 640px)": {
+              display: "none",
+            },
+          }}
         />
         <img
           className="animate-img"
@@ -130,8 +151,11 @@ function Header() {
                 transform: "translate(-50%, -50%) scale(0.995)",
               },
             },
-            width: "50vw",
-            minWidth: 1200,
+            width: 1200,
+            "@media (max-width: 640px)": {
+              width: "160vw",
+              minWidth: "680px",
+            },
           }}
         />
       </div>
@@ -198,12 +222,13 @@ function Header() {
           ...textStyles.title2,
           span: {
             color: "#2D2E38",
-            textShadow: textShadowStyles.outline,
+            filter: textShadowStyles.shadow,
           },
         }}
       >
         <div
           css={{
+            transform: "scale(0.7) rotate(-8deg)",
             "@media (min-width: 641px)": {
               transform: "rotate(-12deg)",
             },

@@ -43,4 +43,11 @@ export const textShadowStyles = {
     -1px  1px 0 #F2F2F3,
      1px  1px 0 #F2F2F3
   `,
+  shadow: `
+    drop-shadow(0 0 2px #F2F2F3)
+    drop-shadow(0 0 2px #F2F2F3)
+    drop-shadow(0 0 2px #F2F2F3)
+    drop-shadow(0 0 3px #F2F2F3)
+    drop-shadow(0 0 6px #F2F2F3)
+  `,
 };
