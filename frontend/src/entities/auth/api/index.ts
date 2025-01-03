@@ -3,10 +3,10 @@ import { instance } from "@/shared/api";
 /**
  * [POST] code로 token을 받아오는 요청
  */
-export async function postAuthCode(code: string) {
+export async function postAuthCode(code: string, provider: string) {
   return instance().post(
     "auth/code",
-    { code: code },
+    { code, provider },
     { withCredentials: true },
   );
 }

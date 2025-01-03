@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userState, postAuthCode, postAuthRefresh } from "@/entities/auth";
 import { LoadingSpinner } from "@/shared/ui";
@@ -8,6 +8,7 @@ import { LoadingSpinner } from "@/shared/ui";
 function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { provider } = useParams();
   const queryParams = new URLSearchParams(location.search);
 
   const setUser = useSetRecoilState(userState);
@@ -32,21 +33,27 @@ function Auth() {
     }
   };
 
-  useEffect(() => {
+  const postAuth = async () => {
     const code = queryParams.get("code");
-    if (code) {
-      postAuthCode(code)
-        .then((res) => {
-          userLogin(res);
-        })
-        .catch(() => handleLoginError());
+    if (code && provider) {
+      try {
+        const res = await postAuthCode(code, provider);
+        userLogin(res);
+      } catch (error) {
+        handleLoginError();
+      }
     } else {
-      postAuthRefresh()
-        .then((res) => {
-          userLogin(res);
-        })
-        .catch(() => handleLoginError());
+      try {
+        const res = await postAuthRefresh();
+        userLogin(res);
+      } catch (error) {
+        handleLoginError();
+      }
     }
+  };
+
+  useEffect(() => {
+    postAuth();
   }, []);
 
   return <LoadingSpinner />;

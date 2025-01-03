@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Auth from "./auth";
 import Gomoku from "./gomoku";
 import Main from "./main";
 import Setting from "./setting";
 import NotFound from "./not-found";
+import AuthProvider from "./auth/[provider]";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +12,8 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
-    path: "/auth",
-    element: <Auth />,
+    path: "/auth/:provider?",
+    element: <AuthProvider />,
   },
   {
     path: "/setting",

@@ -2,6 +2,10 @@ import { colorStyles } from "@/shared/ui";
 import { useTranslation } from "react-i18next";
 import { IMessage } from "@/shared/types";
 import Card from "./Card";
+import ChatIconTwitch from "./chat_icon_twitch.svg";
+import ChatIconChzzk from "./chat_icon_chzzk.svg";
+import ChatIconSoop from "./chat_icon_soop.svg";
+import ChatIconYoutube from "./chat_icon_youtube.svg";
 
 function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
   const { t } = useTranslation();
@@ -9,7 +13,7 @@ function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
     <Card>
       <div
         css={{
-          padding: 16,
+          padding: "8px 12px",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -29,6 +33,28 @@ function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
               alignItems: "start",
             }}
           >
+            {msg.provider && (
+              <img
+                css={{
+                  width: 18,
+                  height: 18,
+                  marginRight: 4,
+                  marginTop: -2,
+                }}
+                src={
+                  msg.provider === "twitch"
+                    ? ChatIconTwitch
+                    : msg.provider === "chzzk"
+                    ? ChatIconChzzk
+                    : msg.provider === "soop"
+                    ? ChatIconSoop
+                    : msg.provider === "youtube"
+                    ? ChatIconYoutube
+                    : ""
+                }
+                alt={msg.provider}
+              />
+            )}
             <span
               css={{
                 marginRight: 4,
@@ -54,7 +80,7 @@ function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
                 fontWeight: msg.status === "success" ? 900 : "",
               }}
             >
-              {`: ${msg.content}`}
+              {`${msg.content}`}
               <span
                 css={{
                   fontSize: 12,

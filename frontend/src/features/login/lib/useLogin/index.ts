@@ -18,7 +18,7 @@ export default function () {
     const queryParams = {
       response_type: "code",
       client_id: CLIENT_ID,
-      redirect_uri: BASE_URL + "auth",
+      redirect_uri: BASE_URL + "auth/twitch",
       scope: scopes.join(" "),
     };
     location.replace(`${AUTH_URL}?${objectToQueryString(queryParams)}`);

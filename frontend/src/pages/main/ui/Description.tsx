@@ -5,7 +5,6 @@ import useInterval from "use-interval";
 import { getGameCnt } from "@/entities/game/api";
 
 import {
-  Card,
   ChatCard,
   colorStyles,
   textShadowStyles,
@@ -219,14 +218,21 @@ function DemoChatCard() {
       content: "j10",
       status: "success",
     },
+    {
+      name: "알파고",
+      content: "f7",
+      status: "error",
+    },
   ]);
 
   useInterval(() => {
-    setDemoQueue((prevQueue) => {
-      const newQueue = [...prevQueue];
-      const firstValue = newQueue.shift();
-      return [...newQueue, firstValue] as IMessage[];
-    });
-  }, 300);
+    if (Math.random() < 0.3) {
+      setDemoQueue((prevQueue) => {
+        const newQueue = [...prevQueue];
+        const firstValue = newQueue.shift();
+        return [...newQueue, firstValue] as IMessage[];
+      });
+    }
+  }, 50);
   return <ChatCard chatQueue={demoQueue} />;
 }

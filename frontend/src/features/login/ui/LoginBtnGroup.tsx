@@ -40,7 +40,7 @@ function LoginBtnGroup() {
       logoImg: chzzkLogoBig,
       onClick: () => chzzkLogin(),
       alt: "chzzk login button",
-      active: false,
+      active: true,
     },
     {
       id: 1,
@@ -50,7 +50,7 @@ function LoginBtnGroup() {
       logoImg: soopLogoBig,
       onClick: () => soopLogin(),
       alt: "soop login button",
-      active: false,
+      active: true,
     },
     {
       id: 2,
