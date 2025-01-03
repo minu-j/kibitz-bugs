@@ -5,11 +5,22 @@ import { useRecoilValue } from "recoil";
 import { chatLogger } from "../chatLogger";
 import { processCoord } from "@/entities/game";
 import usePushChatQueue from "../usePushChatQueue";
+import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
+
+type TChatSDK = {
+  connect: () => Promise<boolean>;
+  disconnect: () => void;
+  handleMessageReceived: (
+    callback: (action: string, message: ISoopMessage) => void,
+  ) => void;
+  handleError: (callback: (code: string, message: string) => void) => void;
+  setAuth: (token: string) => void;
+};
 
 declare global {
   interface Window {
     SOOP: {
-      ChatSDK: new (clientId: string, clientSecret: string) => any;
+      ChatSDK: new (clientId: string, clientSecret: string) => TChatSDK;
     };
   }
 }
@@ -39,14 +50,20 @@ const CLIENT_SECRET = import.meta.env.VITE_SOOP_CLIENT_SECRET;
 
 const SOOP_CHANNEL_ACCESS_TOKEN = "";
 
-function useChatSoop(addVote?: TAddVote) {
+function useChatSoop(addVote: TAddVote) {
+  const user = useRecoilValue(userState);
+
+  const chat = useRef<TChatSDK | null>(null);
   const pushChatQueue = usePushChatQueue();
 
-  const user = useRecoilValue(userState);
-  const chat = useRef<any | null>(null);
+  const isPlay = useRecoilValue(gomokuIsPlayState);
+  const isPlayRef = useRef(isPlay);
+  useEffect(() => {
+    isPlayRef.current = isPlay;
+  }, [isPlay]);
 
   const messageHandler = (msg: ISoopMessage) => {
-    const status = addVote
+    const status = isPlayRef.current
       ? addVote(msg.userId, processCoord(msg.message))
       : "normal";
 
@@ -58,7 +75,8 @@ function useChatSoop(addVote?: TAddVote) {
     });
   };
 
-  const initChat = () => {
+  const init = () => {
+    if (!user.id || !SOOP_CHANNEL_ACCESS_TOKEN) return;
     const ChatSDK = window.SOOP.ChatSDK;
     if (!ChatSDK) {
       console.error("ChatSDK is not available");
@@ -67,49 +85,38 @@ function useChatSoop(addVote?: TAddVote) {
     chat.current = new ChatSDK(CLIENT_ID, CLIENT_SECRET);
     chat.current.setAuth(SOOP_CHANNEL_ACCESS_TOKEN);
 
-    console.log(1);
     chat.current
       .connect()
       .then((res: boolean) => {
-        console.log(2);
         chatLogger("soop", `connected : ${res}`);
-        console.log(3);
-        chat.current.handleMessageReceived((action: any, message: any) => {
-          switch (action) {
-            case "MESSAGE":
-              messageHandler(message);
-              break;
-            default:
-              break;
-          }
-        });
-        console.log(4);
-        chat.current.handleError((code: any, message: any) => {
+        chat.current?.handleMessageReceived(
+          (action: string, message: ISoopMessage) => {
+            switch (action) {
+              case "MESSAGE":
+                messageHandler(message);
+                break;
+              default:
+                break;
+            }
+          },
+        );
+        chat.current?.handleError((code: string, message: string) => {
           console.log("SDK ERROR ::", code, message);
         });
-        console.log(5);
       })
-      .catch((error: any) => {
+      .catch((error: unknown) => {
         console.log(error);
       });
   };
 
   const cleanup = () => {
-    console.log("cleanup", chat.current);
     if (chat.current) {
       chat.current.disconnect();
       chat.current = null;
     }
   };
 
-  useEffect(() => {
-    if (!user.id) return;
-    initChat();
-
-    return () => {
-      cleanup();
-    };
-  }, [user.id]);
+  return { init, cleanup };
 }
 
 export default useChatSoop;

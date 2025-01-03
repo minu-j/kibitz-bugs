@@ -143,7 +143,7 @@ function GomokuBoard() {
                   forbidden={board.forbidden.has(`${i} ${j}`)}
                   stone={col}
                   recent={recent[0] == i && recent[1] == j}
-                  voteRate={Math.floor((voteCount[i][j] / totalCount) * 100)}
+                  voteRate={(voteCount[i][j] / totalCount) * 100}
                 />
               ),
             )}

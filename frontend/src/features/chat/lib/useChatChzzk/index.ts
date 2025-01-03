@@ -5,6 +5,7 @@ import { type TAddVote } from "../useChatVote";
 import { userState } from "@/entities/auth";
 import { useRecoilValue } from "recoil";
 import { chatLogger } from "../chatLogger";
+import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
 
 interface IChzzkMessage {
   svcid: string;
@@ -26,21 +27,20 @@ const CHZZK_WS_URL = "wss://kr-ss1.chat.naver.com/chat";
 const CHZZK_CHANNEL_ID = "";
 const CHZZK_CHANNEL_ACCESS_TOKEN = "";
 
-function useChatChzzk(addVote?: TAddVote) {
-  const pushChatQueue = usePushChatQueue();
+function useChatChzzk(addVote: TAddVote) {
   const user = useRecoilValue(userState);
 
-  const chatSocket = useRef<WebSocket | null>(null);
+  const chat = useRef<WebSocket | null>(null);
+  const pushChatQueue = usePushChatQueue();
 
-  const cleanup = () => {
-    if (chatSocket.current) {
-      chatSocket.current.close();
-      chatSocket.current = null;
-    }
-  };
+  const isPlay = useRecoilValue(gomokuIsPlayState);
+  const isPlayRef = useRef(isPlay);
+  useEffect(() => {
+    isPlayRef.current = isPlay;
+  }, [isPlay]);
 
   const sendConnectionMessage = () => {
-    if (!chatSocket.current) return;
+    if (!chat.current) return;
     const connectionMessage = {
       ver: "2",
       cmd: 100,
@@ -54,7 +54,7 @@ function useChatChzzk(addVote?: TAddVote) {
       },
       tid: 1,
     };
-    chatSocket.current.send(JSON.stringify(connectionMessage));
+    chat.current.send(JSON.stringify(connectionMessage));
     chatLogger("chzzk", "try to connect...");
   };
 
@@ -63,7 +63,7 @@ function useChatChzzk(addVote?: TAddVote) {
   };
 
   const messageHandler = (msg: IChzzkMessage) => {
-    const status = addVote ? addVote(msg.uid, processCoord(msg.msg)) : "normal";
+    const status = isPlay ? addVote(msg.uid, processCoord(msg.msg)) : "normal";
 
     pushChatQueue({
       name: JSON.parse(msg.profile).nickname,
@@ -74,14 +74,14 @@ function useChatChzzk(addVote?: TAddVote) {
   };
 
   const onMessageHandler = (event: MessageEvent) => {
-    if (!chatSocket.current) return;
+    if (!chat.current) return;
     const data = JSON.parse(event.data);
     switch (data.cmd) {
       case 10100: // Connection
         chatLogger("chzzk", `connected : ${data.bdy.sid}`);
         break;
       case 0: // Pong
-        chatSocket.current.send(JSON.stringify({ ver: 2, cmd: 10000 }));
+        chat.current.send(JSON.stringify({ ver: 2, cmd: 10000 }));
         break;
       case 94008: // Ignore clean bot message
         break;
@@ -103,15 +103,23 @@ function useChatChzzk(addVote?: TAddVote) {
     }
   };
 
-  useEffect(() => {
-    if (!user.id) return;
-    if (!chatSocket.current) {
-      chatSocket.current = new WebSocket(CHZZK_WS_URL);
-      chatSocket.current?.addEventListener("open", onConnectedHandler);
-      chatSocket.current?.addEventListener("message", onMessageHandler);
+  const init = () => {
+    if (!user.id || !CHZZK_CHANNEL_ID || !CHZZK_CHANNEL_ACCESS_TOKEN) return;
+    if (!chat.current) {
+      chat.current = new WebSocket(CHZZK_WS_URL);
+      chat.current?.addEventListener("open", onConnectedHandler);
+      chat.current?.addEventListener("message", onMessageHandler);
     }
-    return cleanup;
-  }, [user.id]);
+  };
+
+  const cleanup = () => {
+    if (chat.current) {
+      chat.current.close();
+      chat.current = null;
+    }
+  };
+
+  return { init, cleanup };
 }
 
 export default useChatChzzk;

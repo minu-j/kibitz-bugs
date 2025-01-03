@@ -114,20 +114,20 @@ function GomokuBoardSquare({
       }
       {
         // 시청자 투표율 표시
-        nowPlayer === 2 && voteRate && !result ? (
+        nowPlayer === 2 && voteRate > 0 && !result ? (
           <div
             css={{
-              position: "absolute",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              width: "100%",
               height: "100%",
               animation: `popIn 0.3s 0s both`,
               ...textStyles.title2,
               fontSize: 24,
             }}
           >
-            {voteRate}
+            {Math.floor(voteRate)}
             <span
               css={{
                 ...textStyles.contents,

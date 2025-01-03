@@ -2,20 +2,23 @@ import styled from "@emotion/styled";
 import { useRecoilValue } from "recoil";
 import { ChatCard, colorStyles } from "@/shared/ui";
 import { useTranslation } from "react-i18next";
-import { useChatVote } from "../lib";
 import { chatQueueState } from "../model";
 import { gomokuNowPlayerState } from "@/entities/game";
 import { gomokuResultState } from "@/entities/game";
+import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 function GomokuChatCard() {
-  useChatVote();
+  const { pathname } = useLocation();
+  const isGomoku = useMemo(() => pathname.includes("gomoku"), [pathname]);
+
   const chatQueue = useRecoilValue(chatQueueState);
   const result = useRecoilValue(gomokuResultState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
 
   return (
     <StyledGomokuChatCard>
-      {!result && nowPlayer === 2 ? <NowVoteFlag /> : null}
+      {isGomoku && !result && nowPlayer === 2 ? <NowVoteFlag /> : null}
       <ChatCard chatQueue={chatQueue} />
     </StyledGomokuChatCard>
   );

@@ -58,6 +58,11 @@ const gomokuRecordState = atom<string[]>({
   default: [""],
 });
 
+const gomokuIsPlayState = atom<boolean>({
+  key: "gomokuIsPlayState",
+  default: false,
+});
+
 export {
   gomokuState,
   gomokuBoardState,
@@ -67,4 +72,5 @@ export {
   gomokuNowPlayerState,
   gomokuVoteState,
   gomokuRecordState,
+  gomokuIsPlayState,
 };

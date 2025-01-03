@@ -29,7 +29,8 @@
     "recoil-persist": "^5.1.0",
     "tmi.js": "^1.8.5",
     "use-interval": "^1.4.0",
-    "vite-plugin-mkcert": "^1.16.0"
+    "vite-plugin-mkcert": "^1.16.0",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",

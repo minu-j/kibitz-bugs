@@ -1,1 +1,1 @@
-export { chatQueueState } from "./chat";
+export { chatQueueState } from "./chatQueue";

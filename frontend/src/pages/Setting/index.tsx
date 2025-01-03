@@ -1,8 +1,9 @@
-import { GomokuSetting, SettingChatCard, SettingInfoCard } from "./ui";
+import { GomokuSetting, SettingInfoCard } from "./ui";
 import { useState } from "react";
 import { AspectRatioLayout } from "@/shared/ui";
 import { Countdown } from "@/entities/game";
 import { CameraCard } from "@/entities/auth";
+import GomokuChatCard from "@/features/chat/ui/GomokuChatCard";
 
 function Setting() {
   const [showCount, setShowCount] = useState<boolean>(false);
@@ -16,7 +17,7 @@ function Setting() {
       )}
       <aside css={{ width: 380, display: "flex", flexDirection: "column" }}>
         <SettingInfoCard />
-        <SettingChatCard />
+        <GomokuChatCard />
         <CameraCard />
       </aside>
     </AspectRatioLayout>

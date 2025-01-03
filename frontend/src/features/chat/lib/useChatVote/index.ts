@@ -10,6 +10,7 @@ import {
 import { useRecoilValue } from "recoil";
 import { useRef } from "react";
 import { useChat } from "..";
+import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
 
 export type TAddVote = (
   user: string,
@@ -19,6 +20,7 @@ export type TAddVote = (
 function useChatVote() {
   const votedViewers = useRef(new Set());
   const setVote = useSetRecoilState(gomokuVoteState);
+  const isPlay = useRecoilValue(gomokuIsPlayState);
 
   const board = useRecoilValue(gomokuBoardState);
   const boardRef = useRef(board);
@@ -37,10 +39,10 @@ function useChatVote() {
   useEffect(() => {
     nowPlayerRef.current = nowPlayer;
     // 시청자 차례로 넘어갈 때 투표된 아이디 초기화
-    if (nowPlayer === 2) {
+    if ((nowPlayer === 2 && isPlay) || !isPlay) {
       votedViewers.current.clear();
     }
-  }, [nowPlayer]);
+  }, [nowPlayer, isPlay]);
 
   const addVote = (user: string, coord: string) => {
     if (coord && !resultRef.current && nowPlayerRef.current === 2) {

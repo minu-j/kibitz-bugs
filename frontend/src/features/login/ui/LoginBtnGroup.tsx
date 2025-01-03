@@ -60,7 +60,7 @@ function LoginBtnGroup() {
       logoImg: youtubeLogoBig,
       onClick: () => youtubeLogin(),
       alt: "youtube login button",
-      active: false,
+      active: true,
     },
     {
       id: 3,
