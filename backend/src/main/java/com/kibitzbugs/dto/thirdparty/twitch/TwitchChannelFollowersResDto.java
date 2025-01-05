@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TwitchChannelFollowersResDto {
 
-    private long total;
+    private Integer total;
 
 }

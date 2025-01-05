@@ -1,5 +1,6 @@
 package com.kibitzbugs.auth;
 
+import com.kibitzbugs.enums.Provider;
 import com.kibitzbugs.utils.Aes256;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -36,11 +37,7 @@ public class JwtTokenProvider {
     @Value("#{private['jwt.validity.in.seconds']}")
     private Integer tokenValidityInSeconds;
 
-    @Value("#{private['twitch.id.ysu']}")
-    private String ysu;
-
-    @Value("#{private['twitch.id.minu']}")
-    private String minu;
+    private final String REFRESH_TOKEN_PREFIX = "REFRESH-TOKEN-";
 
     private Key key;
 
@@ -50,29 +47,21 @@ public class JwtTokenProvider {
     }
 
     // 리프레시 토큰으로 JWT토큰 생성
-    // twitch 로그인 Id 확인 후 admin 권한 부여
-    public String createToken(String refreshToken, String twitchId) {
+    public String createToken(String refreshToken) {
         Claims claims = Jwts.claims();
         Date now = new Date();
-
-        // 권한 분기
-        String role = Role.user();
-        if(twitchId.equals(ysu) || twitchId.equals(minu)) {
-            role = Role.admin();
-        }
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(encodeRefreshToken(refreshToken))
                 .setIssuedAt(now)
-                .setAudience(role)
                 .setExpiration(new Date((now.getTime() + tokenValidityInSeconds)))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // 리프레시 토큰으로 JWT토큰 생성
-    // 토큰의 권환 그대로 권한 부여
+    // 토큰의 권한 그대로 권한 부여
     public String createToken(String refreshToken, Collection<? extends GrantedAuthority> authorities) {
         Claims claims = Jwts.claims();
         Date now = new Date();
@@ -96,14 +85,17 @@ public class JwtTokenProvider {
     }
 
     // 요청의 쿠키에서 JWT 토큰 확인 후 JWT 토큰 반환
-    public String resolveToken(HttpServletRequest request) {
+    public List<ProviderTokenPair> resolveToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("REFRESH-TOKEN")) {
-                return cookie.getValue();
-            }
+        if (cookies == null) {
+            return Collections.emptyList();
         }
-        throw new AuthenticationServiceException("REFRESH-TOKEN이 없습니다.");
+        return Arrays.stream(cookies)
+            .filter(cookie -> cookie.getName().startsWith(REFRESH_TOKEN_PREFIX))
+            .filter(cookie -> validateToken(cookie.getValue()))
+            .map(cookie -> new ProviderTokenPair(
+                Provider.valueOf(cookie.getName().substring(REFRESH_TOKEN_PREFIX.length())), cookie.getValue()))
+            .toList();
     }
 
     // JWT토큰 유효성 검증
@@ -127,12 +119,10 @@ public class JwtTokenProvider {
     }
 
     // 유저 인증 후 인증 객체 반환
-    public Authentication getAuthentication(String jwtToken) {
-        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken);
+    public Authentication getAuthentication(List<ProviderTokenPair> pairs) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        GrantedAuthority authority = new SimpleGrantedAuthority(claims.getBody().getAudience());
-        authorities.add(authority);
-        UserDetails userDetails = new User(getRefreshToken(jwtToken), "", authorities);
+        pairs.forEach(pair -> authorities.add(new SimpleGrantedAuthority(pair.getProvider() + "-" + getRefreshToken(pair.getToken()))));
+        UserDetails userDetails = new User(UUID.randomUUID().toString(), "", authorities);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

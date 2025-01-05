@@ -4,8 +4,9 @@ import com.kibitzbugs.auth.CookieProvider;
 import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
+import com.kibitzbugs.dto.auth.RefreshTokenReqDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
-import com.kibitzbugs.dto.thirdparty.twitch.TwitchUserInfoResDto;
+import com.kibitzbugs.dto.login.StreamerInfoDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.service.AuthService;
@@ -41,37 +42,36 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "OK",
-                    headers = {@Header(name = "ACCESS_TOKEN", description = "Twitch Access Token"),
+                    headers = {@Header(name = "ACCESS_TOKEN", description = "Access Token"),
                             @Header(name = "Set-Cookie", description = "JWT Refresh Token")}),
             @ApiResponse(responseCode = "401", description = "code가 유효하지 않습니다.")
     })
     // 응답 헤더 ACCESS-TOKEN, 쿠키 REFRESH-TOKEN 추가
     public ResponseEntity<LoginHistoryResDto> authenticateUser(HttpServletResponse response,
-                                                   @Valid @RequestBody AuthenticateUserReqDto authenticateUserReqDto) {
+        @Valid @RequestBody AuthenticateUserReqDto request) {
 
         // code로 액세스 토큰 및 리프레시 토큰 얻기
-        AuthenticateUserResDto authenticateUserResDto = authService.authenticateUser(authenticateUserReqDto.getCode());
+        AuthenticateUserResDto authenticateUserResDto = authService.authenticateUser(request.getCode(), request.getProvider(), request.getState());
 
         // 액세스 토큰으로 유저 정보 얻기
-        TwitchUserInfoResDto.Data userInfo = loginService.getTwitchUserInfo(authenticateUserResDto.getAccessToken());
+        StreamerInfoDto streamerInfo = loginService.getStreamerInfo(authenticateUserResDto.getAccessToken(), request.getProvider());
 
         // 로그인 기록 저장 및 알림
         LoginHistoryResDto loginHistoryResDto = loginService.createLoginHistory(LoginHistoryReqDto.builder()
-                .id(userInfo.getId())
-                .nickname(userInfo.getDisplay_name())
-                .name(userInfo.getLogin())
-                .imgUrl(userInfo.getProfile_image_url())
-                .build(), authenticateUserResDto.getAccessToken());
+                .id(streamerInfo.getId())
+                .nickname(streamerInfo.getNickname())
+                .imgUrl(streamerInfo.getImageUrl())
+                .build(), authenticateUserResDto.getAccessToken(), request.getProvider(), streamerInfo.getBroadcastUrlId());
 
-        // 리프레시 토큰과 유저 아이디로 JWT 생성
-        String jwtToken = jwtTokenProvider.createToken(authenticateUserResDto.getRefreshToken(), userInfo.getLogin());
-        
+        // 리프레시 토큰으로 JWT 생성
+        String jwtToken = jwtTokenProvider.createToken(authenticateUserResDto.getRefreshToken());
+
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();
-        headers.add("ACCESS-TOKEN", authenticateUserResDto.getAccessToken());
+        headers.add("ACCESS-TOKEN", streamerInfo.getChatAccessToken());
 
         // 쿠키에 JWT 토큰 담기
-        cookieProvider.setCookie(response, jwtToken);
+        cookieProvider.setRefreshToken(response, jwtToken, request.getProvider());
 
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
@@ -83,30 +83,31 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "OK",
-                    headers = {@Header(name = "ACCESS_TOKEN", description = "Twitch Access Token")})
+                    headers = {@Header(name = "ACCESS_TOKEN", description = "Access Token")})
     })
-    public ResponseEntity<LoginHistoryResDto> refreshAccessToken(HttpServletResponse response) {
-        
+    public ResponseEntity<LoginHistoryResDto> refreshAccessToken(
+        @Valid @RequestBody RefreshTokenReqDto request,
+        HttpServletResponse response
+    ) {
+
         // 액세스 토큰 갱신
-        RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken();
+        RefreshTokenResDto refreshTokenResDto = authService.refreshAccessToken(request.getProvider());
 
         // 액세스 토큰으로 유저 정보 얻기
-        TwitchUserInfoResDto.Data userInfo = loginService.getTwitchUserInfo(refreshTokenResDto.getAccessToken());
+        StreamerInfoDto streamerInfo = loginService.getStreamerInfo(refreshTokenResDto.getAccessToken(), request.getProvider());
         LoginHistoryResDto loginHistoryResDto = LoginHistoryResDto.builder()
-                .streamerId(userInfo.getId())
-                .name(userInfo.getLogin())
-                .nickname(userInfo.getDisplay_name())
-                .imgUrl(userInfo.getProfile_image_url())
-                .build();
+            .streamerId(streamerInfo.getId())
+            .nickname(streamerInfo.getNickname())
+            .imgUrl(streamerInfo.getImageUrl())
+            .build();
 
         // 헤더에 액세스 토큰 담기
         HttpHeaders headers = new HttpHeaders();
-        headers.add("ACCESS-TOKEN", refreshTokenResDto.getAccessToken());
+        headers.add("ACCESS-TOKEN", streamerInfo.getChatAccessToken());
 
         // 쿠키에 리프레시 토큰 담기
-        cookieProvider.setCookie(response, refreshTokenResDto.getJwtRefreshToken());
-        
+        cookieProvider.setRefreshToken(response, refreshTokenResDto.getJwtRefreshToken(), request.getProvider());
+
         return new ResponseEntity<>(loginHistoryResDto, headers, HttpStatus.OK);
     }
-
 }
