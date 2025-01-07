@@ -57,7 +57,7 @@ public class AuthService {
     public AuthenticateUserResDto authenticateUser(String code, Provider provider, String state) {
         return switch (provider) {
             case TWITCH -> authenticateTwitchUserWithCode(code);
-            case NAVER -> authenticateNaverUserWithCode(code, state);
+            case CHZZK -> authenticateNaverUserWithCode(code, state);
         };
     }
 
@@ -72,7 +72,7 @@ public class AuthService {
             .orElseThrow(() -> new AuthenticationServiceException("인증되지 않은 유저입니다."));
         CommonTokenResDto updatedTokens = switch (provider) {
             case TWITCH -> getTwitchRefreshToken(refreshToken);
-            case NAVER -> getNaverRefreshToken(refreshToken);
+            case CHZZK -> getNaverRefreshToken(refreshToken);
         };
 
         // 리프레시 토큰 갱신

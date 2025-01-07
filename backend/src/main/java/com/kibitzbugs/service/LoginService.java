@@ -87,7 +87,7 @@ public class LoginService {
     public StreamerInfoDto getStreamerInfo(String accessToken, Provider provider) {
         return switch (provider) {
             case TWITCH -> getTwitchUserInfo(accessToken);
-            case NAVER -> getNaverUserInfo(accessToken);
+            case CHZZK -> getNaverUserInfo(accessToken);
         };
     }
 
@@ -185,12 +185,12 @@ public class LoginService {
     private void sendWebhook(String id, String nickname, Provider provider, String accessToken, String broadcastUrlId) {
         Mono<Integer> followerCntMono = switch (provider) {
             case TWITCH -> getTwitchStreamerFollowers(id, accessToken);
-            case NAVER -> getNaverStreamerFollowers(id);
+            case CHZZK -> getNaverStreamerFollowers(id);
         };
 
         String broadcastUrl = switch (provider) {
             case TWITCH -> "https://www.twitch.tv/" + broadcastUrlId;
-            case NAVER -> "https://openapi.chzzk.naver.com/live/" + broadcastUrlId;
+            case CHZZK -> "https://openapi.chzzk.naver.com/live/" + broadcastUrlId;
         };
 
         followerCntMono.subscribe(cnt -> {

@@ -121,7 +121,7 @@ public class JwtTokenProvider {
     // 유저 인증 후 인증 객체 반환
     public Authentication getAuthentication(List<ProviderTokenPair> pairs) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        pairs.forEach(pair -> authorities.add(new SimpleGrantedAuthority(pair.getProvider() + "-" + getRefreshToken(pair.getToken()))));
+        pairs.forEach(pair -> authorities.add(new SimpleGrantedAuthority(pair.getProvider() + "-" + getRefreshToken(pair.getRefreshToken()))));
         UserDetails userDetails = new User(UUID.randomUUID().toString(), "", authorities);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

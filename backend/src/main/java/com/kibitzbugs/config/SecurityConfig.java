@@ -37,7 +37,6 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(baseUrl+"/auth/code").permitAll()
-                .antMatchers(baseUrl+"/auth/naver/code").permitAll()
                 .antMatchers(baseUrl+"/login/cnt", baseUrl+"/game/cnt").permitAll()
                 .antMatchers(baseUrl+"/swagger-ui", baseUrl+"/swagger-ui/**", baseUrl+"/swagger-resources/**",
                         "/v3/api-docs", "/v3/api-docs/**", "/webjars/**").hasRole("ADMIN")
