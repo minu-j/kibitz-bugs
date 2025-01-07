@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 
 import { vs, blackStone, whiteStone } from "@/shared/resource/images";
 import { TbArrowsDiff, TbAlarm } from "react-icons/tb";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { SettingRow } from ".";
 import { click, hover } from "@/shared/resource/audios";
 import { useTranslation } from "react-i18next";
-import { useCheckUserAuth, userState } from "@/entities/auth";
+import { useCheckUserAuth, userStore } from "@/entities/auth";
 import { gomokuState } from "@/entities/game";
 import { Dropdown, LargeBtn, textStyles } from "@/shared/ui";
 
@@ -20,7 +20,7 @@ const hoverSound = new Audio(hover);
 
 function GomokuSetting({ onClick }: { onClick(): void }) {
   const { t } = useTranslation();
-  const user = useRecoilValue(userState);
+  const { getUser } = userStore();
   const [setting, setSetting] = useRecoilState(gomokuState);
 
   // 시간설정
@@ -67,7 +67,7 @@ function GomokuSetting({ onClick }: { onClick(): void }) {
             ...textStyles.title2,
           }}
         >
-          {user.nickname}
+          {getUser()?.nickname}
         </h2>
         <img
           css={{

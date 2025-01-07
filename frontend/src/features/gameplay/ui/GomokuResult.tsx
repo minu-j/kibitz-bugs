@@ -4,7 +4,7 @@ import { logo } from "@/shared/resource/images";
 import { textStyles } from "@/shared/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { userState } from "@/entities/auth";
+import { userStore } from "@/entities/auth";
 import { postGame, gomokuResultState, gomokuState } from "@/entities/game";
 import { win } from "@/shared/resource/audios";
 
@@ -13,7 +13,7 @@ const winSound = new Audio(win);
 function GomokuResult() {
   const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
-  const user = useRecoilValue(userState);
+  const { user } = userStore();
   const setting = useRecoilValue(gomokuState);
 
   useEffect(() => {
@@ -62,7 +62,9 @@ function GomokuResult() {
       >
         {result === 1
           ? `${user.nickname}`
-          : setting.viewerNickname ?? t("viewers")}
+          : setting.viewerNickname
+          ? setting.viewerNickname
+          : t("viewers")}
       </h3>
     </StyledGomokuResultCard>
   );

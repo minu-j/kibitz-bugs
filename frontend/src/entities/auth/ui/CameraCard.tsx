@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
-import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
-import { userState } from "../model";
+import { userStore } from "@/entities/auth";
 import { Card, textStyles } from "@/shared/ui";
 
 function CameraCard({ played }: { played?: boolean }) {
   const { t } = useTranslation();
-  const user = useRecoilValue(userState);
+  const { getUser } = userStore();
   return (
     <StyledCameraCard>
       <Card>
@@ -26,7 +25,7 @@ function CameraCard({ played }: { played?: boolean }) {
               borderRadius: "100%",
               filter: played ? "" : "opacity(0.2)",
             }}
-            src={user.imgUrl}
+            src={getUser()?.imgUrl ?? ""}
           />
           {played ? null : (
             <h4

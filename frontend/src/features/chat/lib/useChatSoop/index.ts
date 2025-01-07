@@ -1,4 +1,4 @@
-import { userState } from "@/entities/auth";
+import { userStore } from "@/entities/auth";
 import { type TAddVote } from "../useChatVote";
 import { useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
@@ -48,10 +48,8 @@ interface ISoopMessage {
 const CLIENT_ID = import.meta.env.VITE_SOOP_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_SOOP_CLIENT_SECRET;
 
-const SOOP_CHANNEL_ACCESS_TOKEN = "";
-
 function useChatSoop(addVote: TAddVote) {
-  const user = useRecoilValue(userState);
+  const { getIsLogin, user } = userStore();
 
   const chat = useRef<TChatSDK | null>(null);
   const pushChatQueue = usePushChatQueue();
@@ -76,14 +74,14 @@ function useChatSoop(addVote: TAddVote) {
   };
 
   const init = () => {
-    if (!user.id || !SOOP_CHANNEL_ACCESS_TOKEN) return;
+    if (!getIsLogin() || !user.soop?.accessToken) return;
     const ChatSDK = window.SOOP.ChatSDK;
     if (!ChatSDK) {
       console.error("ChatSDK is not available");
       return;
     }
     chat.current = new ChatSDK(CLIENT_ID, CLIENT_SECRET);
-    chat.current.setAuth(SOOP_CHANNEL_ACCESS_TOKEN);
+    chat.current.setAuth(user.soop?.accessToken);
 
     chat.current
       .connect()

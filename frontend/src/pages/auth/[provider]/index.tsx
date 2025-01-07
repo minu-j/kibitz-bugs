@@ -1,8 +1,7 @@
 import { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { userState, postAuthCode, postAuthRefresh } from "@/entities/auth";
+import { postAuthCode, postAuthRefresh, userStore } from "@/entities/auth";
 import { LoadingSpinner } from "@/shared/ui";
 
 function Auth() {
@@ -11,7 +10,7 @@ function Auth() {
   const { provider } = useParams();
   const queryParams = new URLSearchParams(location.search);
 
-  const setUser = useSetRecoilState(userState);
+  const { setTwitchUser } = userStore();
 
   const handleLoginError = () => {
     alert("인증 오류가 발생했습니다. 다시 시도해주세요.");
@@ -19,14 +18,15 @@ function Auth() {
   };
   const userLogin = (res: AxiosResponse) => {
     const token = res.headers["access-token"];
+    const user = {
+      id: res.data.streamerId,
+      name: res.data.name,
+      nickname: res.data.nickname,
+      imgUrl: res.data.imgUrl,
+      accessToken: token,
+    };
     if (token) {
-      setUser({
-        id: res.data.streamerId,
-        name: res.data.name,
-        nickname: res.data.nickname,
-        imgUrl: res.data.imgUrl,
-        accessToken: token,
-      });
+      setTwitchUser(user);
       navigate("/setting");
     } else {
       handleLoginError();

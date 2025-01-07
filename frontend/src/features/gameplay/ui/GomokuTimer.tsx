@@ -6,14 +6,14 @@ import { colorStyles, textStyles } from "@/shared/ui";
 import { useRecoilValue } from "recoil";
 
 import { useTranslation } from "react-i18next";
-import { userState } from "@/entities/auth";
+import { userStore } from "@/entities/auth";
 import { gomokuNowPlayerState, gomokuState } from "@/entities/game";
 import GomokuProgressBar from "./GomokuProgressBar";
 import { useGameplay } from "@/features/gameplay";
 
 function GomokuTimer() {
   const { t } = useTranslation();
-  const user = useRecoilValue(userState);
+  const { user } = userStore();
   const setting = useRecoilValue(gomokuState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
 
@@ -38,7 +38,10 @@ function GomokuTimer() {
           src={vs}
         />
 
-        {UserInfo(setting.viewerNickname ?? t("viewers"), "right")}
+        {UserInfo(
+          setting.viewerNickname ? setting.viewerNickname : t("viewers"),
+          "right",
+        )}
       </div>
       <GomokuProgressBar
         progress={

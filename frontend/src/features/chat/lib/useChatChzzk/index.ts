@@ -2,10 +2,10 @@ import { processCoord } from "@/entities/game";
 import { usePushChatQueue } from "../..";
 import { useEffect, useRef } from "react";
 import { type TAddVote } from "../useChatVote";
-import { userState } from "@/entities/auth";
-import { useRecoilValue } from "recoil";
 import { chatLogger } from "../chatLogger";
 import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
+import { userStore } from "@/entities/auth";
+import { useRecoilValue } from "recoil";
 
 interface IChzzkMessage {
   svcid: string;
@@ -24,11 +24,9 @@ interface IChzzkMessage {
 }
 
 const CHZZK_WS_URL = "wss://kr-ss1.chat.naver.com/chat";
-const CHZZK_CHANNEL_ID = "";
-const CHZZK_CHANNEL_ACCESS_TOKEN = "";
 
 function useChatChzzk(addVote: TAddVote) {
-  const user = useRecoilValue(userState);
+  const { getIsLogin, user } = userStore();
 
   const chat = useRef<WebSocket | null>(null);
   const pushChatQueue = usePushChatQueue();
@@ -45,11 +43,11 @@ function useChatChzzk(addVote: TAddVote) {
       ver: "2",
       cmd: 100,
       svcid: "game",
-      cid: CHZZK_CHANNEL_ID,
+      cid: user.chzzk?.id,
       bdy: {
         uid: null,
         devType: 2001,
-        accTkn: CHZZK_CHANNEL_ACCESS_TOKEN,
+        accTkn: user.chzzk?.accessToken,
         auth: "READ",
       },
       tid: 1,
@@ -104,7 +102,7 @@ function useChatChzzk(addVote: TAddVote) {
   };
 
   const init = () => {
-    if (!user.id || !CHZZK_CHANNEL_ID || !CHZZK_CHANNEL_ACCESS_TOKEN) return;
+    if (!getIsLogin() || !user.chzzk?.accessToken) return;
     if (!chat.current) {
       chat.current = new WebSocket(CHZZK_WS_URL);
       chat.current?.addEventListener("open", onConnectedHandler);

@@ -2,7 +2,7 @@ import { processCoord } from "@/entities/game";
 import { usePushChatQueue } from "../..";
 import { useEffect, useRef } from "react";
 import { type TAddVote } from "../useChatVote";
-import { userState } from "@/entities/auth";
+import { userStore } from "@/entities/auth";
 import { useRecoilValue } from "recoil";
 import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
 
@@ -51,7 +51,7 @@ const YOUTUBE_LIVE_CHANNEL_ID = "";
 const YOUTUBE_ACCESS_TOKEN = "";
 
 function useChatYoutube(addVote: TAddVote) {
-  const user = useRecoilValue(userState);
+  const { getIsLogin } = userStore();
 
   const pushChatQueue = usePushChatQueue();
   let isActive = false;
@@ -106,7 +106,7 @@ function useChatYoutube(addVote: TAddVote) {
   };
 
   const init = async () => {
-    if (!user.id || !YOUTUBE_LIVE_CHANNEL_ID) return;
+    if (!getIsLogin() || !YOUTUBE_LIVE_CHANNEL_ID) return;
     isActive = true;
     await getNextMessages();
   };

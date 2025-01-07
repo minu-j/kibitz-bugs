@@ -20,7 +20,7 @@ const hoverSound = new Audio(hover);
 function LoginBtnGroup() {
   const { t } = useTranslation();
   const { twitchLogin, soopLogin, chzzkLogin, youtubeLogin } = useLogin();
-
+  const recentProvider = localStorage.getItem("recent_provider");
   const [index, setIndex] = useState(0);
   const [hoverId, setHoverId] = useState<number | undefined>(undefined);
   useInterval(() => {
@@ -38,9 +38,13 @@ function LoginBtnGroup() {
       fgColor: "#00FFA3",
       buttonBgColor: "transparent",
       logoImg: chzzkLogoBig,
-      onClick: () => chzzkLogin(),
+      onClick: () => {
+        chzzkLogin();
+        localStorage.setItem("recent_provider", "chzzk");
+      },
       alt: "chzzk login button",
       active: true,
+      recent: recentProvider === "chzzk",
     },
     {
       id: 1,
@@ -48,9 +52,13 @@ function LoginBtnGroup() {
       fgColor: "#0387FE",
       buttonBgColor: "transparent",
       logoImg: soopLogoBig,
-      onClick: () => soopLogin(),
+      onClick: () => {
+        soopLogin();
+        localStorage.setItem("recent_provider", "soop");
+      },
       alt: "soop login button",
       active: true,
+      recent: recentProvider === "soop",
     },
     {
       id: 2,
@@ -58,9 +66,13 @@ function LoginBtnGroup() {
       fgColor: "#000000",
       buttonBgColor: "#000000",
       logoImg: youtubeLogoBig,
-      onClick: () => youtubeLogin(),
+      onClick: () => {
+        youtubeLogin();
+        localStorage.setItem("recent_provider", "youtube");
+      },
       alt: "youtube login button",
-      active: true,
+      active: false,
+      recent: recentProvider === "youtube",
     },
     {
       id: 3,
@@ -68,9 +80,13 @@ function LoginBtnGroup() {
       fgColor: "#000000",
       buttonBgColor: "transparent",
       logoImg: twitchLogoBig,
-      onClick: () => twitchLogin(),
+      onClick: () => {
+        twitchLogin();
+        localStorage.setItem("recent_provider", "twitch");
+      },
       alt: "twitch login button",
       active: true,
+      recent: recentProvider === "twitch",
     },
   ];
 
@@ -105,15 +121,12 @@ function LoginBtnGroup() {
       <div
         css={{
           display: "flex",
-          flexWrap: "wrap",
           gap: "10px",
           justifyContent: "center",
 
-          "@media (max-width: 768px)": {
-            display: "flex",
-            flexWrap: "wrap",
+          "@media (max-width: 528px)": {
+            flexDirection: "column",
             justifyContent: "center",
-            maxWidth: "312px",
             margin: "0 auto",
           },
         }}
@@ -121,105 +134,128 @@ function LoginBtnGroup() {
         {buttons.map(
           (button, idx) =>
             button.active && (
-              <button
+              <div
                 key={`${button.alt}-${idx}`}
-                onClick={() => {
-                  button.onClick();
-                  clickSound.play();
-                }}
-                onMouseEnter={() => {
-                  setHoverId(button.id);
-                  hoverSound.play();
-                }}
-                onMouseLeave={() => {
-                  setHoverId(undefined);
-                  hoverSound.pause();
-                  hoverSound.currentTime = 0;
-                }}
                 css={{
-                  padding: "0",
-                  width: "151px",
-                  height: "60px",
                   position: "relative",
-                  border: `3px solid ${button.fgColor}`,
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: button.buttonBgColor,
-                  transition: "scale 0.1s",
-                  "&:hover": {
-                    scale: "1.03",
-                  },
                 }}
               >
-                <div
+                <button
+                  onClick={() => {
+                    button.onClick();
+                    clickSound.play();
+                  }}
+                  onMouseEnter={() => {
+                    setHoverId(button.id);
+                    hoverSound.play();
+                  }}
+                  onMouseLeave={() => {
+                    setHoverId(undefined);
+                    hoverSound.pause();
+                    hoverSound.currentTime = 0;
+                  }}
                   css={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    scale: "1.15",
+                    padding: "0",
+                    maxWidth: "150px",
+                    height: "60px",
+                    position: "relative",
+                    border: `3px solid ${button.fgColor}`,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: button.buttonBgColor,
+                    transition: "scale 0.1s",
+                    "&:hover": {
+                      scale: "1.03",
+                    },
                   }}
                 >
-                  {hoverId === button.id ? (
-                    <>
-                      {index === 0 ? (
-                        <div
-                          css={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: button.bgColor,
-                            maskImage: `url(${buttonBg1})`,
-                            maskSize: "100% 100%",
-                          }}
-                        />
-                      ) : index === 1 ? (
-                        <div
-                          css={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: button.bgColor,
-                            maskImage: `url(${buttonBg2})`,
-                            maskSize: "100% 100%",
-                          }}
-                        />
-                      ) : (
-                        <div
-                          css={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: button.bgColor,
-                            maskImage: `url(${buttonBg3})`,
-                            maskSize: "100% 100%",
-                          }}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <div
-                      css={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: button.bgColor,
-                        maskImage: `url(${
-                          button.id === 0
-                            ? buttonBg1
-                            : button.id === 1
-                            ? buttonBg2
-                            : buttonBg3
-                        })`,
-                        maskSize: "100% 100%",
-                      }}
-                    />
-                  )}
-                </div>
-                <img
-                  src={button.logoImg}
-                  alt={button.alt}
-                  css={{ width: "70%" }}
-                />
-              </button>
+                  <div
+                    css={{
+                      position: "absolute",
+                      width: "100%",
+                      height: "100%",
+                      scale: "1.15",
+                    }}
+                  >
+                    {hoverId === button.id ? (
+                      <>
+                        {index === 0 ? (
+                          <div
+                            css={{
+                              width: "100%",
+                              height: "100%",
+                              backgroundColor: button.bgColor,
+                              maskImage: `url(${buttonBg1})`,
+                              maskSize: "100% 100%",
+                            }}
+                          />
+                        ) : index === 1 ? (
+                          <div
+                            css={{
+                              width: "100%",
+                              height: "100%",
+                              backgroundColor: button.bgColor,
+                              maskImage: `url(${buttonBg2})`,
+                              maskSize: "100% 100%",
+                            }}
+                          />
+                        ) : (
+                          <div
+                            css={{
+                              width: "100%",
+                              height: "100%",
+                              backgroundColor: button.bgColor,
+                              maskImage: `url(${buttonBg3})`,
+                              maskSize: "100% 100%",
+                            }}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <div
+                        css={{
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: button.bgColor,
+                          maskImage: `url(${
+                            button.id === 0
+                              ? buttonBg1
+                              : button.id === 1
+                              ? buttonBg2
+                              : buttonBg3
+                          })`,
+                          maskSize: "100% 100%",
+                        }}
+                      />
+                    )}
+                  </div>
+                  <img
+                    src={button.logoImg}
+                    alt={button.alt}
+                    css={{ width: "70%" }}
+                  />
+                </button>
+                {button.recent && (
+                  <div
+                    css={{
+                      position: "absolute",
+                      bottom: "-20px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      ...textStyles.contents,
+                      color: button.bgColor,
+                      backgroundColor: button.fgColor,
+                      borderRadius: "6px",
+                      padding: "5px",
+                    }}
+                  >
+                    최근 로그인
+                  </div>
+                )}
+              </div>
             ),
         )}
       </div>

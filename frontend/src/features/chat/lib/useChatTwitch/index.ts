@@ -3,13 +3,13 @@ import { usePushChatQueue } from "../..";
 import tmi from "tmi.js";
 import { useRef, useEffect } from "react";
 import { type TAddVote } from "../useChatVote";
-import { userState } from "@/entities/auth";
 import { useRecoilValue } from "recoil";
 import { chatLogger } from "../chatLogger";
 import { gomokuIsPlayState } from "@/entities/game/model/gomoku";
+import { userStore } from "@/entities/auth";
 
 function useChatTwitch(addVote: TAddVote) {
-  const user = useRecoilValue(userState);
+  const { user, getIsLogin } = userStore();
 
   const chat = useRef<tmi.Client | null>(null);
   const pushChatQueue = usePushChatQueue();
@@ -46,13 +46,13 @@ function useChatTwitch(addVote: TAddVote) {
   };
 
   const init = () => {
-    if (!user.id || !user.accessToken) return;
+    if (!getIsLogin() || !user.twitch?.accessToken) return;
     const opts = {
       identity: {
         username: "kibitz-bugs",
-        password: user.accessToken,
+        password: user.twitch.accessToken,
       },
-      channels: [user.name ?? ""],
+      channels: [user.twitch.name ?? ""],
     };
     chat.current = new tmi.client(opts);
     chat.current.on("message", onMessageHandler);

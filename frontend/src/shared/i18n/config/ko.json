@@ -25,11 +25,11 @@
       "start": "게임시작!",
       "description title": "게임 설명",
       "description1": "1. 시청자는 채팅으로 원하는 좌표를 입력합니다.",
-      "description1-1": "예) A1, a10, A10, 8B, 14g 등 위치를 특정할 수 있는 좌표 형식",
-      "description2": "2. 가장 많은 표를 획득한 좌표가 시청자의 수가 됩니다.",
+      "description1-1": "예) A1, a10, A10, 8B, 14g 등 좌표 형식 (대소문자, 순서 상관 없음)",
+      "description2": "2. 가장 많이 투표된 좌표가 시청자의 수가 됩니다.",
       "description3": "3. 시간 내 투표하지 않으면 패합니다.",
-      "description4": "4. 중복투표는 불가합니다.",
-      "description5": "5. 규칙은 렌주룰을 적용합니다.",
+      "description4": "4. 한 계정은 한 턴에 한 번만 투표할 수 있습니다.",
+      "description5": "5. 규칙은 렌주룰이 적용됩니다.",
       "what is renju": "렌주룰(Renju)이란 흑돌에게 일방적으로 유리한 오목(Gomoku)의 규칙을 보완한 공식 룰입니다. 렌주룰에서는 금수(forbidden moves)가 존재하며, 먼저 시작하는 흑돌은 3x3, 4x4, 장목(6목 이상의 수)를 둘 수 없습니다."
     },
     "gomoku": {
