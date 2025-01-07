@@ -7,8 +7,10 @@ logging:
         web: DEBUG
 
 
-# swagger
 spring:
+  jackson:
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
