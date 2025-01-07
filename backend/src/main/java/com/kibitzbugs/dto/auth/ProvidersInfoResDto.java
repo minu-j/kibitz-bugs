@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProvidersInfoResDto {
 
-	private ProviderInfo TWITCH;
-	private ProviderInfo CHZZK;
+	private ProviderInfo twitch;
+	private ProviderInfo chzzk;
 
 	@Getter
 	@NoArgsConstructor
@@ -22,6 +22,9 @@ public class ProvidersInfoResDto {
 	public static class ProviderInfo {
 		@Schema(description = "스트리머 식별 id", example = "123456789")
 		private String streamerId;
+
+		@Schema(description = "스트리머 이름", example = "ysu6691")
+		private String name;
 
 		@Schema(description = "스트리머 닉네임", example = "훈수남")
 		private String nickname;
@@ -36,18 +39,19 @@ public class ProvidersInfoResDto {
 	public void updateProviderInfo(StreamerInfoDto streamerInfo, Provider provider) {
 		switch (provider) {
 			case TWITCH -> {
-				this.TWITCH = new ProviderInfo();
-				this.TWITCH.streamerId = streamerInfo.getId();
-				this.TWITCH.nickname = streamerInfo.getNickname();
-				this.TWITCH.imgUrl = streamerInfo.getImageUrl();
-				this.TWITCH.accessToken = streamerInfo.getChatAccessToken();
+				this.twitch = new ProviderInfo();
+				this.twitch.streamerId = streamerInfo.getId();
+				this.twitch.name = streamerInfo.getName();
+				this.twitch.nickname = streamerInfo.getNickname();
+				this.twitch.imgUrl = streamerInfo.getImageUrl();
+				this.twitch.accessToken = streamerInfo.getChatAccessToken();
 			}
 			case CHZZK -> {
-				this.CHZZK = new ProviderInfo();
-				this.CHZZK.streamerId = streamerInfo.getId();
-				this.CHZZK.nickname = streamerInfo.getNickname();
-				this.CHZZK.imgUrl = streamerInfo.getImageUrl();
-				this.CHZZK.accessToken = streamerInfo.getChatAccessToken();
+				this.chzzk = new ProviderInfo();
+				this.chzzk.streamerId = streamerInfo.getId();
+				this.chzzk.nickname = streamerInfo.getNickname();
+				this.chzzk.imgUrl = streamerInfo.getImageUrl();
+				this.chzzk.accessToken = streamerInfo.getChatAccessToken();
 			}
 		}
 	}

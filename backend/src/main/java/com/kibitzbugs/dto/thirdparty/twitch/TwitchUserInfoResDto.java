@@ -30,6 +30,7 @@ public class TwitchUserInfoResDto {
         public StreamerInfoDto toStreamerInfo(String accessToken) {
             return StreamerInfoDto.builder()
                 .id(id)
+                .name(login)
                 .nickname(display_name)
                 .imageUrl(profile_image_url)
                 .broadcastUrlId(login)

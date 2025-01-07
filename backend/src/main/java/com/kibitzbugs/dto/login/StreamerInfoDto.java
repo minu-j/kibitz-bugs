@@ -8,6 +8,7 @@ import lombok.Getter;
 public class StreamerInfoDto {
 
 	private String id;
+	private String name;
 	private String nickname;
 	private String imageUrl;
 	private String broadcastUrlId;
