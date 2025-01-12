@@ -1,11 +1,18 @@
 package com.kibitzbugs.service;
 
+import com.kibitzbugs.dto.login.StreamerInfoDto;
+import com.kibitzbugs.dto.thirdparty.naver.NaverChannelInfoResDto;
+import com.kibitzbugs.dto.thirdparty.naver.NaverChannelPollingInfoResDto;
+import com.kibitzbugs.dto.thirdparty.naver.NaverChatAccessTokenResDto;
+import com.kibitzbugs.dto.thirdparty.naver.NaverUserInfoResDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopChanneInfoResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchChannelFollowersResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginCntResDto;
 import com.kibitzbugs.dto.login.LoginHistoryReqDto;
 import com.kibitzbugs.dto.login.LoginHistoryResDto;
 import com.kibitzbugs.entity.Login;
+import com.kibitzbugs.enums.Provider;
 import com.kibitzbugs.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -35,54 +44,33 @@ public class LoginService {
     final private TelegramService telegramService;
 
     @Value("#{private['twitch.client-id']}")
-    private String clientId;
+    private String twitchClientId;
+
+    @Value("#{private['naver.client-id']}")
+    private String naverClientId;
+
+    @Value("#{private['naver.client-secret']}")
+    private String naverClientSecret;
 
     // 로그인 기록 생성
     @Transactional
-    public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto, String accessToken) {
+    public LoginHistoryResDto createLoginHistory(LoginHistoryReqDto loginHistoryReqDto, String accessToken, Provider provider, String broadcastUrlId) {
 
         // 유저 로그인 기록 저장
         Login savedLogin = loginRepository.save(Login.builder()
                 .streamerId(loginHistoryReqDto.getId())
-                .name(loginHistoryReqDto.getName())
                 .nickname(loginHistoryReqDto.getNickname())
                 .imgUrl(loginHistoryReqDto.getImgUrl())
                 .build()
         );
 
         // 팔로워 수 확인 후 알림
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Client-Id", clientId);
-        headers.add("Authorization", "Bearer " + accessToken);
-
-        WebClient client = WebClient.builder()
-                .baseUrl("https://api.twitch.tv")
-                .build();
-
-        Mono<TwitchChannelFollowersResDto> twitchChannelFollowersResDtoMono
-                = client.get()
-                .uri(uriBuilder -> uriBuilder.path("/helix/channels/followers")
-                        .queryParam("broadcaster_id", loginHistoryReqDto.getId())
-                        .build())
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .retrieve()
-                .bodyToMono(TwitchChannelFollowersResDto.class);
-
-        twitchChannelFollowersResDtoMono.subscribe(
-                twitchChannelFollowersResDto -> {
-                    if (twitchChannelFollowersResDto.getTotal() >= 10) {
-                        telegramService.sendMessage("[로그인] " + savedLogin.getNickname() + "%0A" +
-                                "https://www.twitch.tv/" + savedLogin.getName());
-                    }
-                },
-                throwable -> log.error("webflux error: " + throwable.getMessage(), throwable)
-        );
+        sendWebhook(loginHistoryReqDto.getId(), loginHistoryReqDto.getNickname(), provider, accessToken, broadcastUrlId);
 
         log.info("[Login] " + savedLogin.getNickname());
 
         // 로그인 기록 반환
         return LoginHistoryResDto.builder()
-                .name(savedLogin.getName())
                 .streamerId(savedLogin.getStreamerId())
                 .nickname(savedLogin.getNickname())
                 .imgUrl(savedLogin.getImgUrl())
@@ -98,31 +86,193 @@ public class LoginService {
     }
 
     // 액세스 토큰으로 유저 정보 얻기
-    public TwitchUserInfoResDto.Data getTwitchUserInfo(String accessToken) {
+    public StreamerInfoDto getStreamerInfo(String accessToken, Provider provider) {
+        return switch (provider) {
+            case TWITCH -> getTwitchUserInfo(accessToken);
+            case CHZZK -> getNaverUserInfo(accessToken);
+            case SOOP -> getSoopUserInfo(accessToken);
+        };
+    }
+
+    private StreamerInfoDto getTwitchUserInfo(String accessToken) {
         // url 설정
         URI uri = UriComponentsBuilder
-                .fromUriString("https://api.twitch.tv")
-                .path("/helix/users")
-                .encode()
-                .build()
-                .toUri();
+            .fromUriString("https://api.twitch.tv")
+            .path("/helix/users")
+            .encode()
+            .build()
+            .toUri();
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Client-id", clientId);
+        headers.set("Client-id", twitchClientId);
         headers.set("Authorization", "Bearer " + accessToken);
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<TwitchUserInfoResDto> responseEntity = restTemplate.exchange(
-                    uri, HttpMethod.GET, requestEntity, TwitchUserInfoResDto.class);
-            return responseEntity.getBody().getData()[0];
+                uri, HttpMethod.GET, requestEntity, TwitchUserInfoResDto.class);
+            return responseEntity.getBody().getData()[0].toStreamerInfo(accessToken);
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
                 throw new AuthenticationServiceException("토큰이 유효하지 않습니다.");
             }
         }
         return null;
+    }
+
+    private StreamerInfoDto getNaverUserInfo(String accessToken) {
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://openapi.chzzk.naver.com")
+            .path("/open/v1/users/me")
+            .encode()
+            .build()
+            .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Content-Type", "application/json");
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            NaverUserInfoResDto.Content userInfo = restTemplate.exchange(
+                uri, HttpMethod.GET, requestEntity, NaverUserInfoResDto.class).getBody().getContent();
+
+            URI channelInfoUrl = UriComponentsBuilder
+                .fromUriString("https://openapi.chzzk.naver.com")
+                .path("/open/v1/channels")
+                .query("channelIds=" + userInfo.getChannelId())
+                .build()
+                .toUri();
+
+            HttpHeaders channelInfoHeaders = new HttpHeaders();
+            channelInfoHeaders.set("Client-Id", naverClientId);
+            channelInfoHeaders.set("Client-Secret", naverClientSecret);
+            channelInfoHeaders.set("Content-Type", "application/json");
+            HttpEntity<Void> channelInfoRequestEntity = new HttpEntity<>(channelInfoHeaders);
+
+            NaverChannelInfoResDto.Content.Data channelInfo = restTemplate.exchange(
+                channelInfoUrl, HttpMethod.GET, channelInfoRequestEntity, NaverChannelInfoResDto.class)
+                .getBody().getContent().getData().get(0);
+
+            URI channelPollingUrl = UriComponentsBuilder
+                .fromUriString("https://api.chzzk.naver.com")
+                .path("/polling/v2/channels/" + channelInfo.getChannelId() +"/live-status")
+                .build()
+                .toUri();
+
+            String chatChannelId = restTemplate.exchange(
+                    channelPollingUrl, HttpMethod.GET, HttpEntity.EMPTY, NaverChannelPollingInfoResDto.class)
+                .getBody().getContent().getChatChannelId();
+
+            URI chatAccessTokenUrl = UriComponentsBuilder
+                .fromUriString("https://comm-api.game.naver.com")
+                .path("/nng_main/v1/chats/access-token")
+                .query("channelId=" + chatChannelId + "&chatType=STREAMING")
+                .build()
+                .toUri();
+
+            String chatAccessToken = restTemplate.exchange(chatAccessTokenUrl, HttpMethod.GET, HttpEntity.EMPTY, NaverChatAccessTokenResDto.class)
+                .getBody().getContent().getAccessToken();
+            return channelInfo.toStreamerInfo(chatAccessToken);
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("토큰이 유효하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
+    private StreamerInfoDto getSoopUserInfo(String accessToken) {
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("access_token", accessToken);
+
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://openapi.sooplive.co.kr")
+            .path("/user/stationinfo")
+            .encode()
+            .build()
+            .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/x-www-form-urlencoded");
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+             return restTemplate.postForEntity(
+                 uri,
+                 requestEntity,
+                 SoopChanneInfoResDto.class
+             ).getBody().getData().toStreamerInfo(accessToken);
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("code가 유효하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
+    private void sendWebhook(String id, String nickname, Provider provider, String accessToken, String broadcastUrlId) {
+        Mono<Integer> followerCntMono = switch (provider) {
+            case TWITCH -> getTwitchStreamerFollowers(id, accessToken);
+            case CHZZK, SOOP -> Mono.just(10);
+		};
+
+        String broadcastUrl = switch (provider) {
+            case TWITCH -> "https://www.twitch.tv/" + broadcastUrlId;
+            case CHZZK -> "https://chzzk.naver.com/live/" + broadcastUrlId;
+            case SOOP -> "https://sooplive.co.kr/search?szLocation=total_search&szSearchType=total&szKeyword=" + broadcastUrlId;
+        };
+
+        followerCntMono.subscribe(cnt -> {
+            if (cnt >= 10) {
+                telegramService.sendMessage("[" + provider + " 로그인] " + nickname + "\n" + broadcastUrl);
+            }},
+            throwable -> log.error("webflux error: " + throwable.getMessage(), throwable)
+        );
+    }
+
+    private Mono<Integer> getTwitchStreamerFollowers(String id, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Client-Id", twitchClientId);
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        WebClient client = WebClient.builder()
+            .baseUrl("https://api.twitch.tv")
+            .build();
+
+        return client.get()
+            .uri(uriBuilder -> uriBuilder.path("/helix/channels/followers")
+                .queryParam("broadcaster_id", id)
+                .build()
+            )
+            .headers(httpHeaders -> httpHeaders.addAll(headers))
+            .retrieve()
+            .bodyToMono(TwitchChannelFollowersResDto.class)
+            .map(TwitchChannelFollowersResDto::getTotal);
+    }
+
+    private Mono<Integer> getNaverStreamerFollowers(String id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Client-Id", naverClientId);
+        headers.add("Client-Secret", naverClientSecret);
+        headers.set("Content-Type", "application/json");
+
+        WebClient client = WebClient.builder()
+            .baseUrl("https://openapi.chzzk.naver.com")
+            .build();
+
+        return client.get()
+            .uri(uriBuilder -> uriBuilder.path("/open/v1/channels")
+                .queryParam("channelIds", id)
+                .build()
+            )
+            .headers(httpHeaders -> httpHeaders.addAll(headers))
+            .retrieve()
+            .bodyToMono(NaverChannelInfoResDto.class)
+            .map(dto -> dto.getContent().getData().get(0).getFollowerCount());
     }
 }

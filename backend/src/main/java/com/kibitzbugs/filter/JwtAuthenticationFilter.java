@@ -1,6 +1,8 @@
 package com.kibitzbugs.filter;
 
 import com.kibitzbugs.auth.JwtTokenProvider;
+import com.kibitzbugs.auth.ProviderTokenPair;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -24,29 +27,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            Cookie[] cookies = request.getCookies();
-            boolean flag = false;
-
-            // 쿠키에 리프레시 토큰이 있는 경우
-            if (cookies != null) {
-                for(Cookie cookie : cookies) {
-                    if(cookie.getName().equals("REFRESH-TOKEN")) {
-                        flag = true;
-                        String jwtToken = jwtTokenProvider.resolveToken(request);
-                        if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)) {
-                            Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
-                            SecurityContextHolder.getContext().setAuthentication(authentication);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            // 쿠키에 리프레시 토큰이 없는 경우
-            if(!flag) {
+            List<ProviderTokenPair> providerTokenPairs = jwtTokenProvider.resolveToken(request);
+            if (providerTokenPairs.isEmpty()) {
                 SecurityContextHolder.getContext().setAuthentication(null);
+            } else {
+                Authentication authentication = jwtTokenProvider.getAuthentication(providerTokenPairs);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-                
         } catch (ExpiredJwtException e) {
             throw new AuthenticationServiceException("토큰이 만료되었습니다.");
         } catch (JwtException e) {
