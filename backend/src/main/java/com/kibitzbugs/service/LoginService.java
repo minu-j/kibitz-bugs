@@ -1,11 +1,11 @@
 package com.kibitzbugs.service;
 
-import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
 import com.kibitzbugs.dto.login.StreamerInfoDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverChannelInfoResDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverChannelPollingInfoResDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverChatAccessTokenResDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverUserInfoResDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopChanneInfoResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchChannelFollowersResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchUserInfoResDto;
 import com.kibitzbugs.dto.login.LoginCntResDto;
@@ -24,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -88,6 +90,7 @@ public class LoginService {
         return switch (provider) {
             case TWITCH -> getTwitchUserInfo(accessToken);
             case CHZZK -> getNaverUserInfo(accessToken);
+            case SOOP -> getSoopUserInfo(accessToken);
         };
     }
 
@@ -182,20 +185,51 @@ public class LoginService {
         return null;
     }
 
+    private StreamerInfoDto getSoopUserInfo(String accessToken) {
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("access_token", accessToken);
+
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://openapi.sooplive.co.kr")
+            .path("/user/stationinfo")
+            .encode()
+            .build()
+            .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/x-www-form-urlencoded");
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+             return restTemplate.postForEntity(
+                 uri,
+                 requestEntity,
+                 SoopChanneInfoResDto.class
+             ).getBody().getData().toStreamerInfo(accessToken);
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("code가 유효하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
     private void sendWebhook(String id, String nickname, Provider provider, String accessToken, String broadcastUrlId) {
         Mono<Integer> followerCntMono = switch (provider) {
             case TWITCH -> getTwitchStreamerFollowers(id, accessToken);
-            case CHZZK -> getNaverStreamerFollowers(id);
-        };
+            case CHZZK, SOOP -> Mono.just(10);
+		};
 
         String broadcastUrl = switch (provider) {
             case TWITCH -> "https://www.twitch.tv/" + broadcastUrlId;
-            case CHZZK -> "https://openapi.chzzk.naver.com/live/" + broadcastUrlId;
+            case CHZZK -> "https://chzzk.naver.com/live/" + broadcastUrlId;
+            case SOOP -> "https://sooplive.co.kr/search?szLocation=total_search&szSearchType=total&szKeyword=" + broadcastUrlId;
         };
 
         followerCntMono.subscribe(cnt -> {
             if (cnt >= 10) {
-                telegramService.sendMessage("[로그인] " + nickname + "%0A" + broadcastUrl);
+                telegramService.sendMessage("[" + provider + " 로그인] " + nickname + "\n" + broadcastUrl);
             }},
             throwable -> log.error("webflux error: " + throwable.getMessage(), throwable)
         );

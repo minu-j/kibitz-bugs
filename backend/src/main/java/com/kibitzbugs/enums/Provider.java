@@ -1,5 +1,5 @@
 package com.kibitzbugs.enums;
 
 public enum Provider {
-	TWITCH, CHZZK;
+	TWITCH, CHZZK, SOOP;
 }

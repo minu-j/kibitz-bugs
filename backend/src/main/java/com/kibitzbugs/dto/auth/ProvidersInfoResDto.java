@@ -15,6 +15,7 @@ public class ProvidersInfoResDto {
 
 	private ProviderInfo twitch;
 	private ProviderInfo chzzk;
+	private ProviderInfo soop;
 
 	@Getter
 	@NoArgsConstructor
@@ -52,6 +53,13 @@ public class ProvidersInfoResDto {
 				this.chzzk.nickname = streamerInfo.getNickname();
 				this.chzzk.imgUrl = streamerInfo.getImageUrl();
 				this.chzzk.accessToken = streamerInfo.getChatAccessToken();
+			}
+			case SOOP -> {
+				this.soop = new ProviderInfo();
+				this.soop.streamerId = streamerInfo.getId();
+				this.soop.nickname = streamerInfo.getNickname();
+				this.soop.imgUrl = streamerInfo.getImageUrl();
+				this.soop.accessToken = streamerInfo.getChatAccessToken();
 			}
 		}
 	}

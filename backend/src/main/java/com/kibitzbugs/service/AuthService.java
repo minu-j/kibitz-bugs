@@ -7,6 +7,10 @@ import com.kibitzbugs.dto.thirdparty.naver.NaverAuthCodeReqDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverAuthCodeResDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverRefreshTokenReqDto;
 import com.kibitzbugs.dto.thirdparty.naver.NaverRefreshTokenResDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopAuthCodeReqDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopAuthCodeResDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopRefreshTokenReqDto;
+import com.kibitzbugs.dto.thirdparty.soop.SoopRefreshTokenResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchAuthCodeReqDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchAuthCodeResDto;
 import com.kibitzbugs.dto.thirdparty.twitch.TwitchRefreshTokenReqDto;
@@ -51,6 +55,15 @@ public class AuthService {
     @Value("#{private['naver.redirect-uri']}")
     private String naverRedirectUri;
 
+    @Value("#{private['soop.client-id']}")
+    private String soopClientId;
+
+    @Value("#{private['soop.client-secret']}")
+    private String soopClientSecret;
+
+    @Value("#{private['soop.redirect-uri']}")
+    private String soopRedirectUri;
+
     private final JwtTokenProvider jwtTokenProvider;
 
     // code로 유저 액세스 토큰 및 리프레쉬 토큰 발급
@@ -58,6 +71,7 @@ public class AuthService {
         return switch (provider) {
             case TWITCH -> authenticateTwitchUserWithCode(code);
             case CHZZK -> authenticateNaverUserWithCode(code, state);
+            case SOOP -> authenticateSoopUserWithCode(code);
         };
     }
 
@@ -73,6 +87,7 @@ public class AuthService {
         CommonTokenResDto updatedTokens = switch (provider) {
             case TWITCH -> getTwitchRefreshToken(refreshToken);
             case CHZZK -> getNaverRefreshToken(refreshToken);
+            case SOOP -> getSoopRefreshToken(refreshToken);
         };
 
         // 리프레시 토큰 갱신
@@ -150,6 +165,41 @@ public class AuthService {
         return null;
     }
 
+    private AuthenticateUserResDto authenticateSoopUserWithCode(String code) {
+        SoopAuthCodeReqDto soopAuthCodeReqDto = SoopAuthCodeReqDto.builder()
+            .grantType("authorization_code")
+            .clientId(soopClientId)
+            .clientSecret(soopClientSecret)
+            .redirectUri(soopRedirectUri)
+            .code(code)
+            .build();
+
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://openapi.sooplive.co.kr")
+            .path("/auth/token")
+            .encode()
+            .build()
+            .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<SoopAuthCodeResDto> responseEntity = restTemplate.postForEntity(
+                uri,
+                soopAuthCodeReqDto,
+                SoopAuthCodeResDto.class);
+
+            return AuthenticateUserResDto.builder()
+                .accessToken(responseEntity.getBody().getAccessToken())
+                .refreshToken(responseEntity.getBody().getRefreshToken())
+                .build();
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("code가 유효하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
     private CommonTokenResDto getTwitchRefreshToken(String refreshToken) {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -213,6 +263,41 @@ public class AuthService {
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
                 throw new AuthenticationServiceException("Refresh Token이 유효하지 않습니다.");
+            }
+        }
+        return null;
+    }
+
+    private CommonTokenResDto getSoopRefreshToken(String refreshToken) {
+        SoopRefreshTokenReqDto soopAuthCodeReqDto = SoopRefreshTokenReqDto.builder()
+            .grantType("refresh_token")
+            .clientId(soopClientId)
+            .clientSecret(soopClientSecret)
+            .redirectUri(soopRedirectUri)
+            .refreshToken(refreshToken)
+            .build();
+
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://openapi.sooplive.co.kr")
+            .path("/auth/token")
+            .encode()
+            .build()
+            .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<SoopRefreshTokenResDto> responseEntity = restTemplate.postForEntity(
+                uri,
+                soopAuthCodeReqDto,
+                SoopRefreshTokenResDto.class);
+
+            return CommonTokenResDto.builder()
+                .accessToken(responseEntity.getBody().getAccessToken())
+                .refreshToken(responseEntity.getBody().getRefreshToken())
+                .build();
+        } catch (HttpClientErrorException e) {
+            if(e.getStatusCode().is4xxClientError()) {
+                throw new AuthenticationServiceException("code가 유효하지 않습니다.");
             }
         }
         return null;

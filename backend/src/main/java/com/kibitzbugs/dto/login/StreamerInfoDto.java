@@ -2,9 +2,11 @@ package com.kibitzbugs.dto.login;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class StreamerInfoDto {
 
 	private String id;
