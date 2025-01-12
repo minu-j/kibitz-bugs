@@ -1,5 +1,7 @@
 package com.kibitzbugs.dto.thirdparty.twitch;
 
+import com.kibitzbugs.dto.login.StreamerInfoDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,17 @@ public class TwitchUserInfoResDto {
         private String view_count;
         private String email;
         private String created_at;
+
+        public StreamerInfoDto toStreamerInfo(String accessToken) {
+            return StreamerInfoDto.builder()
+                .id(id)
+                .name(login)
+                .nickname(display_name)
+                .imageUrl(profile_image_url)
+                .broadcastUrlId(login)
+                .chatAccessToken(accessToken)
+                .build();
+        }
     }
     private Data[] data;
 }

@@ -3,9 +3,12 @@ package com.kibitzbugs.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+
+import com.kibitzbugs.dto.webhook.WebhookReqDto;
 
 @Service
 @Slf4j
@@ -19,12 +22,22 @@ public class TelegramService {
 
     // 유저 로그인 시 알림
     public void sendMessage(String text){
+        WebhookReqDto reqDto = WebhookReqDto.builder()
+            .chatId(chatId)
+            .text(text)
+            .build();
+
+        URI uri = UriComponentsBuilder
+            .fromUriString("https://api.telegram.org")
+            .path("/bot" + token + "/sendmessage")
+            .encode()
+            .build()
+            .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
         try {
-            URL url = new URL("https://api.telegram.org/bot" + token + "/sendmessage?chat_id=" + chatId + "&text=" + text);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.getInputStream();
-        } catch(Exception e) {
+            restTemplate.postForEntity(uri, reqDto, Object.class);
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }

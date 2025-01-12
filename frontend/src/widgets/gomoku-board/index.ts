@@ -1,0 +1,1 @@
+export { GomokuBoard } from "./ui";
