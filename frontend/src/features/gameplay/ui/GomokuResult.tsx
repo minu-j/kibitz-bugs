@@ -13,18 +13,23 @@ const winSound = new Audio(win);
 function GomokuResult() {
   const { t } = useTranslation();
   const result = useRecoilValue(gomokuResultState);
-  const { user } = userStore();
+  const { getUser } = userStore();
   const setting = useRecoilValue(gomokuState);
 
   useEffect(() => {
     winSound.play();
     // DB에 게임 결과 전송
-    if (user.id && user.name && user.nickname && user.imgUrl)
+    if (
+      getUser()?.id &&
+      getUser()?.name &&
+      getUser()?.nickname &&
+      getUser()?.imgUrl
+    )
       postGame({
-        id: user.id,
-        name: user.name,
-        nickname: user.nickname,
-        imgUrl: user.imgUrl,
+        id: getUser()?.id || "",
+        name: getUser()?.name || "",
+        nickname: getUser()?.nickname || "",
+        imgUrl: getUser()?.imgUrl || "",
         win: result === 1 ? true : false,
       });
   }, []);
@@ -61,7 +66,7 @@ function GomokuResult() {
         }}
       >
         {result === 1
-          ? `${user.nickname}`
+          ? `${getUser()?.nickname}`
           : setting.viewerNickname
           ? setting.viewerNickname
           : t("viewers")}

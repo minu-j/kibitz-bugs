@@ -1,5 +1,4 @@
 import { Header, Description, Footer } from "./ui";
-import { SelectLocales } from "@/shared/i18n";
 import { LoginBtnGroup } from "@/features/login";
 import { background } from "@/shared/resource/images";
 
@@ -24,10 +23,9 @@ function Main() {
             justifyContent: "center",
           }}
         >
-          <div css={{ marginBottom: "20px" }}>
+          <div css={{ marginBottom: "80px" }}>
             <LoginBtnGroup />
           </div>
-          <SelectLocales />
           <Description />
           <LoginBtnGroup />
           <Footer />

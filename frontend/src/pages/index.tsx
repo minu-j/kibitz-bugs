@@ -9,7 +9,7 @@ import Maintenance from "./maintenance";
 
 const router = createBrowserRouter([
   {
-    path: "/*",
+    path: "/",
     element: <Maintenance />,
   },
   // {
