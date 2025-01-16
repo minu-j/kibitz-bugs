@@ -13,7 +13,7 @@ import { useGameplay } from "@/features/gameplay";
 
 function GomokuTimer() {
   const { t } = useTranslation();
-  const { user } = userStore();
+  const { getUser } = userStore();
   const setting = useRecoilValue(gomokuState);
   const nowPlayer = useRecoilValue(gomokuNowPlayerState);
 
@@ -29,7 +29,7 @@ function GomokuTimer() {
           marginBlock: 16,
         }}
       >
-        {UserInfo(user.nickname ?? t("streamer"), "left")}
+        {UserInfo(getUser()?.nickname ?? t("streamer"), "left")}
         <img
           css={{
             width: 60,
