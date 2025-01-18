@@ -24,7 +24,6 @@ public class GameService {
     public GameHistoryResDto createGameHistory(GameHistoryReqDto gameHistoryReqDto) {
         Game savedGame = gameRepository.save(Game.builder()
                 .streamerId(gameHistoryReqDto.getId())
-                .name(gameHistoryReqDto.getName())
                 .nickname(gameHistoryReqDto.getNickname())
                 .imgUrl(gameHistoryReqDto.getImgUrl())
                 .win(gameHistoryReqDto.getWin())
