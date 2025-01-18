@@ -10,6 +10,7 @@ import com.kibitzbugs.auth.JwtTokenProvider;
 import com.kibitzbugs.auth.ProviderTokenPair;
 import com.kibitzbugs.dto.auth.AuthenticateUserReqDto;
 import com.kibitzbugs.dto.auth.AuthenticateUserResDto;
+import com.kibitzbugs.dto.auth.LogoutReqDto;
 import com.kibitzbugs.dto.auth.ProvidersInfoResDto;
 import com.kibitzbugs.dto.auth.RefreshTokenResDto;
 import com.kibitzbugs.dto.login.StreamerInfoDto;
@@ -133,7 +134,7 @@ public class AuthController {
         )
     })
     public ResponseEntity<ProvidersInfoResDto> logout(
-        @Valid @RequestBody AuthenticateUserReqDto requestDto,
+        @Valid @RequestBody LogoutReqDto requestDto,
         HttpServletRequest request,
         HttpServletResponse response
     ) {
