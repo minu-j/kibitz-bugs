@@ -15,17 +15,12 @@ public class GameHistoryReqDto {
     private String id;
 
     @NotBlank
-    @Schema(description = "스트리머 계정 아이디", example = "ysu6691", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String name;
-
-    @NotBlank
     @Schema(description = "스트리머 닉네임", example = "훈수남", requiredMode = Schema.RequiredMode.REQUIRED)
     private String nickname;
 
     @NotBlank
     @Schema(description = "스트리머 이미지", example = "https://imgurl", requiredMode = Schema.RequiredMode.REQUIRED)
     private String imgUrl;
-
 
     @NotNull
     @Schema(description = "승/패", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
