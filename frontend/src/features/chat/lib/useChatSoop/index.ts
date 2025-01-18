@@ -100,6 +100,8 @@ function useChatSoop(addVote: TAddVote) {
         );
         chat.current?.handleError((code: string, message: string) => {
           console.log("SDK ERROR ::", code, message);
+          window.alert("Chzzk 채팅 연결이 끊어졌습니다. 다시 로그인해주세요.");
+          window.location.href = "/";
         });
       })
       .catch((error: unknown) => {

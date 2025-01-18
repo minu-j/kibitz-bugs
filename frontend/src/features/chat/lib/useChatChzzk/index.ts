@@ -105,9 +105,9 @@ function useChatChzzk(addVote: TAddVote) {
 
   const onCloseHandler = () => {
     chatLogger("chzzk", "disconnected");
-    chatLogger("chzzk", "try to reconnect...");
     cleanup();
-    init();
+    window.alert("Chzzk 채팅 연결이 끊어졌습니다. 다시 로그인해주세요.");
+    window.location.href = "/";
   };
 
   const init = () => {

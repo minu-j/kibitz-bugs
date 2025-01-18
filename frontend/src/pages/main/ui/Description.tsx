@@ -4,15 +4,9 @@ import { useTranslation } from "react-i18next";
 import useInterval from "use-interval";
 import { getGameCnt } from "@/entities/game/api";
 
-import {
-  ChatCard,
-  colorStyles,
-  textShadowStyles,
-  textStyles,
-} from "@/shared/ui";
+import { ChatCard, textShadowStyles, textStyles } from "@/shared/ui";
 import { getLoginCnt } from "@/features/login/api";
 import { IMessage } from "@/shared/types";
-import { youtubeLogo } from "@/shared/resource/images";
 
 function Description() {
   const { t } = useTranslation();
@@ -139,31 +133,6 @@ function Description() {
             <p css={textStyles.contents}>{t("pages.login.game count")}</p>
           </div>
         </div>
-        <a
-          href="https://youtube.com/playlist?list=PL5gs1D9-S_9g4hkd-Z14JvIV6zTFS3nZx&si=rAflflhGS3tLEJbv"
-          target="_blank"
-          rel="noopener noreferrer"
-          css={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            textDecoration: "none",
-            color: colorStyles.primary,
-            border: `2px solid ${colorStyles.primary}`,
-            borderRadius: 12,
-            padding: "8px 24px",
-            marginBlock: 24,
-            backgroundColor: "#ffffff",
-            animation: "breath 2s alternate infinite ease-in-out",
-
-            "&:hover": {
-              filter: "brightness(0.9)",
-            },
-          }}
-        >
-          <img src={youtubeLogo} alt="youtube logo" width={24} height={24} />
-          <span css={textStyles.contents}>{t("유튜브에서 다시보기")}</span>
-        </a>
       </div>
     </div>
   );

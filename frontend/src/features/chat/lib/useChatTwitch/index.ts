@@ -45,6 +45,13 @@ function useChatTwitch(addVote: TAddVote) {
     chatLogger("twitch", `connected: ${addr}:${port}`);
   };
 
+  const onCloseHandler = () => {
+    chatLogger("twitch", "disconnected");
+    cleanup();
+    window.alert("Twitch 채팅 연결이 끊어졌습니다. 다시 로그인해주세요.");
+    window.location.href = "/";
+  };
+
   const init = () => {
     if (!getIsLogin() || !user.twitch?.accessToken) return;
     const opts = {
@@ -57,6 +64,7 @@ function useChatTwitch(addVote: TAddVote) {
     chat.current = new tmi.client(opts);
     chat.current.on("message", onMessageHandler);
     chat.current.on("connected", onConnectedHandler);
+    chat.current.on("disconnected", onCloseHandler);
     chat.current.connect();
   };
 
@@ -64,6 +72,7 @@ function useChatTwitch(addVote: TAddVote) {
     if (!chat.current) return;
     chat.current.removeListener("message", onMessageHandler);
     chat.current.removeListener("connected", onConnectedHandler);
+    chat.current.removeListener("disconnected", onCloseHandler);
     chat.current.disconnect();
     chat.current = null;
   };
