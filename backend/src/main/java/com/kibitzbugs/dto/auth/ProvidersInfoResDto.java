@@ -35,6 +35,9 @@ public class ProvidersInfoResDto {
 
 		@Schema(description = "액세스 토큰", example = "ABCDEFG")
 		private String accessToken;
+
+		@Schema(description = "채팅 채널 ID", example = "ABCEDF", nullable = true)
+		private String chatChannelId;
 	}
 
 	public void updateProviderInfo(StreamerInfoDto streamerInfo, Provider provider) {
@@ -53,6 +56,7 @@ public class ProvidersInfoResDto {
 				this.chzzk.nickname = streamerInfo.getNickname();
 				this.chzzk.imgUrl = streamerInfo.getImageUrl();
 				this.chzzk.accessToken = streamerInfo.getChatAccessToken();
+				this.chzzk.chatChannelId = streamerInfo.getChatChannelId();
 			}
 			case SOOP -> {
 				this.soop = new ProviderInfo();

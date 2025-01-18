@@ -176,7 +176,7 @@ public class LoginService {
 
             String chatAccessToken = restTemplate.exchange(chatAccessTokenUrl, HttpMethod.GET, HttpEntity.EMPTY, NaverChatAccessTokenResDto.class)
                 .getBody().getContent().getAccessToken();
-            return channelInfo.toStreamerInfo(chatAccessToken);
+            return channelInfo.toStreamerInfo(chatAccessToken, chatChannelId);
         } catch (HttpClientErrorException e) {
             if(e.getStatusCode().is4xxClientError()) {
                 throw new AuthenticationServiceException("토큰이 유효하지 않습니다.");

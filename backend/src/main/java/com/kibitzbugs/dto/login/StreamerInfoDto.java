@@ -14,6 +14,7 @@ public class StreamerInfoDto {
 	private String nickname;
 	private String imageUrl;
 	private String broadcastUrlId;
+	private String chatChannelId;
 	private String chatAccessToken;
 
 }
