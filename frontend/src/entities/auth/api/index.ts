@@ -28,3 +28,12 @@ export async function postAuthRefresh() {
     },
   );
 }
+
+/**
+ * [POST] 로그아웃 요청
+ */
+export async function postAuthLogout(body: { provider: string }) {
+  return instance().post("auth/logout", body, {
+    withCredentials: true,
+  });
+}

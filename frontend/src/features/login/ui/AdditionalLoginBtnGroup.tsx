@@ -10,7 +10,8 @@ import buttonBg2 from "./button_bg_2.svg";
 import buttonBg3 from "./button_bg_3.svg";
 
 import { click, hover } from "@/shared/resource/audios";
-import { userStore } from "@/entities/auth";
+import { useAuth, userStore } from "@/entities/auth";
+import { textStyles } from "@/shared/ui";
 
 const clickSound = new Audio(click);
 const hoverSound = new Audio(hover);
@@ -18,6 +19,7 @@ const hoverSound = new Audio(hover);
 function AdditionalLoginBtnGroup() {
   const { getIsChzzkLogin, getIsTwitchLogin, getIsSoopLogin } = userStore();
   const { twitchLogin, soopLogin, chzzkLogin, youtubeLogin } = useLogin();
+  const { logoutProvider } = useAuth();
   const [index, setIndex] = useState(0);
   const [hoverId, setHoverId] = useState<number | undefined>(undefined);
   useInterval(() => {
@@ -28,9 +30,14 @@ function AdditionalLoginBtnGroup() {
     }
   }, 200);
 
+  const logout = (provider: string) => {
+    logoutProvider(provider);
+  };
+
   const buttons = [
     {
       id: 0,
+      provider: "chzzk",
       bgColor: "#000000",
       fgColor: "#00FFA3",
       buttonBgColor: "transparent",
@@ -44,6 +51,7 @@ function AdditionalLoginBtnGroup() {
     },
     {
       id: 1,
+      provider: "soop",
       bgColor: "#17191C",
       fgColor: "#0387FE",
       buttonBgColor: "transparent",
@@ -57,6 +65,7 @@ function AdditionalLoginBtnGroup() {
     },
     {
       id: 2,
+      provider: "youtube",
       bgColor: "#FFFFFF",
       fgColor: "#000000",
       buttonBgColor: "#000000",
@@ -70,6 +79,7 @@ function AdditionalLoginBtnGroup() {
     },
     {
       id: 3,
+      provider: "twitch",
       bgColor: "#9246FF",
       fgColor: "#000000",
       buttonBgColor: "transparent",
@@ -111,18 +121,21 @@ function AdditionalLoginBtnGroup() {
               >
                 <button
                   onClick={() => {
-                    if (button.isLogin) return;
-                    button.onClick();
+                    if (button.isLogin) {
+                      logout(button.provider);
+                    } else {
+                      button.onClick();
+                    }
                     clickSound.play();
                   }}
                   onMouseEnter={() => {
-                    if (button.isLogin) return;
                     setHoverId(button.id);
+                    if (button.isLogin) return;
                     hoverSound.play();
                   }}
                   onMouseLeave={() => {
-                    if (button.isLogin) return;
                     setHoverId(undefined);
+                    if (button.isLogin) return;
                     hoverSound.pause();
                     hoverSound.currentTime = 0;
                   }}
@@ -137,14 +150,13 @@ function AdditionalLoginBtnGroup() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    cursor: button.isLogin ? "default !important" : "pointer",
                     backgroundColor: button.buttonBgColor,
                     filter: button.isLogin
                       ? "none"
                       : "grayscale(80%) opacity(0.3) brightness(1.2)",
                     transition: "all 0.1s",
                     "&:hover": {
-                      scale: button.isLogin ? "1" : "1.03",
+                      scale: button.isLogin ? "0.97" : "1.03",
                       filter: "grayscale(0%) opacity(1) brightness(1)",
                     },
                   }}
@@ -209,6 +221,51 @@ function AdditionalLoginBtnGroup() {
                       />
                     )}
                   </div>
+                  {hoverId === button.id ? (
+                    button.isLogin ? (
+                      <div
+                        css={{
+                          ...textStyles.title3,
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          zIndex: 10,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#ffffff",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                          backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        }}
+                      >
+                        로그아웃
+                      </div>
+                    ) : (
+                      <div
+                        css={{
+                          ...textStyles.title3,
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          zIndex: 10,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#ffffff",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                          backgroundColor: "rgba(0, 0, 0, 0.3)",
+                        }}
+                      >
+                        연결
+                      </div>
+                    )
+                  ) : null}
                   <img
                     src={button.logoImg}
                     alt={button.alt}

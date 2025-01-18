@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { userStore } from "../..";
 
 import { postAuthCode, postAuthRefresh } from "../..";
-import { PostAuthCodeResponse } from "../../api";
+import { PostAuthCodeResponse, postAuthLogout } from "../../api";
 
 export default function () {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function () {
   const { setTwitchUser, setSoopUser, setChzzkUser } = userStore();
 
   const handleLoginError = () => {
-    alert("인증 오류가 발생했습니다. 다시 시도해주세요.");
+    alert("로그인이 필요합니다.");
     navigate("/");
   };
 
@@ -62,5 +62,14 @@ export default function () {
     }
   };
 
-  return { requestToken };
+  const logoutProvider = async (provider: string) => {
+    try {
+      await postAuthLogout({ provider });
+      window.location.reload();
+    } catch (error) {
+      handleLoginError();
+    }
+  };
+
+  return { requestToken, logoutProvider };
 }
