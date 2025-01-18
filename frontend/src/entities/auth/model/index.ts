@@ -40,14 +40,13 @@ export const userStore = create<TUserStore>((set, get) => ({
   setTwitchUser: (user: TUser) =>
     set({ user: { ...get().user, twitch: user } }),
   getUser: () => {
-    if (recentProvider === "twitch") return get().user.twitch;
-    if (recentProvider === "soop") return get().user.soop;
     if (recentProvider === "chzzk") return get().user.chzzk;
-    return (
-      (get().user.chzzk && get().user.chzzk) ||
-      (get().user.soop && get().user.soop) ||
-      (get().user.twitch && get().user.twitch)
-    );
+    if (recentProvider === "soop") return get().user.soop;
+    if (recentProvider === "twitch") return get().user.twitch;
+    if (get().user.chzzk) return get().user.chzzk;
+    if (get().user.soop) return get().user.soop;
+    if (get().user.twitch) return get().user.twitch;
+    return null;
   },
   getIsLogin: () => {
     return !!get().user.chzzk || !!get().user.twitch || !!get().user.soop;
