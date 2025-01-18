@@ -217,7 +217,7 @@ public class LoginService {
 
     private void sendWebhook(String id, String nickname, Provider provider, String accessToken, String broadcastUrlId) {
         Mono<Integer> followerCntMono = switch (provider) {
-            case TWITCH -> getTwitchStreamerFollowers(id, accessToken);
+            case TWITCH -> Mono.just(10); // getTwitchStreamerFollowers(id, accessToken);
             case CHZZK, SOOP -> Mono.just(10);
 		};
 
