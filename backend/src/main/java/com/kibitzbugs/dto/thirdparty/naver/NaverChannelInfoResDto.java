@@ -30,12 +30,13 @@ public class NaverChannelInfoResDto {
 			private String channelImageUrl;
 			private Integer followerCount;
 
-			public StreamerInfoDto toStreamerInfo(String chatAccessToken) {
+			public StreamerInfoDto toStreamerInfo(String chatAccessToken, String chatChannelId) {
 				return StreamerInfoDto.builder()
 					.id(channelId)
 					.nickname(channelName)
 					.imageUrl(channelImageUrl)
 					.broadcastUrlId(channelId)
+					.chatChannelId(chatChannelId)
 					.chatAccessToken(chatAccessToken)
 					.build();
 			}
