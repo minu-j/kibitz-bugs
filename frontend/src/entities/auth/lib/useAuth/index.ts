@@ -63,8 +63,13 @@ export default function () {
   };
 
   const logoutProvider = async (provider: string) => {
+    const recentProvider = localStorage.getItem("recent_provider");
     try {
       await postAuthLogout({ provider });
+      if (recentProvider === provider) {
+        window.alert("로그아웃 되었습니다.");
+        navigate("/");
+      }
       window.location.reload();
     } catch (error) {
       handleLoginError();
