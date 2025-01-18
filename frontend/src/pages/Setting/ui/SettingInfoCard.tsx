@@ -19,7 +19,7 @@ function SettingInfoCard() {
       ) : null}
       <h2
         css={{
-          marginBlock: 12,
+          marginBlock: 8,
           ...textStyles.title3,
         }}
       >
@@ -27,12 +27,12 @@ function SettingInfoCard() {
       </h2>
       <div css={{ fontSize: 14, fontWeight: "bold" }}>
         <p>{t("pages.setting.description1")}</p>
-        <p css={{ fontSize: 12, marginBlock: 2, marginLeft: 14 }}>
+        <p css={{ fontSize: 12, marginBlock: 4, marginLeft: 14 }}>
           {t("pages.setting.description1-1")}
         </p>
-        <p css={{ marginBlock: 10 }}>{t("pages.setting.description2")}</p>
-        <p css={{ marginBlock: 10 }}>{t("pages.setting.description3")}</p>
-        <p css={{ marginBlock: 10 }}>{t("pages.setting.description4")}</p>
+        <p css={{ marginBlock: 8 }}>{t("pages.setting.description2")}</p>
+        <p css={{ marginBlock: 8 }}>{t("pages.setting.description3")}</p>
+        <p css={{ marginBlock: 8 }}>{t("pages.setting.description4")}</p>
         <p
           css={{
             display: "flex",
@@ -60,7 +60,6 @@ function SettingInfoCard() {
 export default SettingInfoCard;
 
 const StyledSettingInfoCard = styled.section`
-  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;

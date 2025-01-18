@@ -1,14 +1,15 @@
 import { create } from "zustand";
 
-interface TUser {
+export interface TUser {
   id: string;
   name: string | null;
   nickname: string;
   imgUrl: string;
   accessToken: string;
+  chatChannelId?: string;
 }
 
-interface TUsersByProvider {
+export interface TUsersByProvider {
   chzzk: TUser | null;
   soop: TUser | null;
   twitch: TUser | null;
@@ -21,6 +22,9 @@ interface TUserStore {
   setTwitchUser: (user: TUser) => void;
   getUser: () => TUser | null;
   getIsLogin: () => boolean;
+  getIsChzzkLogin: () => boolean;
+  getIsTwitchLogin: () => boolean;
+  getIsSoopLogin: () => boolean;
 }
 
 const recentProvider = localStorage.getItem("recent_provider");
@@ -47,5 +51,14 @@ export const userStore = create<TUserStore>((set, get) => ({
   },
   getIsLogin: () => {
     return !!get().user.chzzk || !!get().user.twitch || !!get().user.soop;
+  },
+  getIsChzzkLogin: () => {
+    return !!get().user.chzzk;
+  },
+  getIsTwitchLogin: () => {
+    return !!get().user.twitch;
+  },
+  getIsSoopLogin: () => {
+    return !!get().user.soop;
   },
 }));

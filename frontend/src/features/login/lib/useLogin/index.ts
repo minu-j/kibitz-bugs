@@ -38,14 +38,25 @@ export default function () {
     const AUTH_URL = import.meta.env.VITE_CHZZK_AUTH_URL;
     const CLIENT_ID = import.meta.env.VITE_CHZZK_CLIENT_ID;
 
+    // Generate cryptographically secure random state
+    const randomBytes = new Uint8Array(32);
+    crypto.getRandomValues(randomBytes);
+    const state = btoa(String.fromCharCode(...randomBytes))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
+
     const queryParams = {
       clientId: CLIENT_ID,
       redirectUri: BASE_URL + "auth/chzzk",
-      state: "kibitz-bugs",
+      state,
     };
     location.replace(`${AUTH_URL}?${objectToQueryString(queryParams)}`);
   };
 
+  /**
+   * @deprecated
+   */
   const youtubeLogin = () => {
     const AUTH_URL = import.meta.env.VITE_YOUTUBE_AUTH_URL;
     const CLIENT_ID = import.meta.env.VITE_YOUTUBE_CLIENT_ID;
@@ -55,7 +66,7 @@ export default function () {
       redirect_uri: BASE_URL + "auth/youtube",
       response_type: "code",
       scope: "https://www.googleapis.com/auth/youtube.readonly",
-      state: "kibitz-bugs",
+      state: "",
     };
     location.replace(`${AUTH_URL}?${objectToQueryString(queryParams)}`);
   };

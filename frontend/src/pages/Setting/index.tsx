@@ -3,7 +3,8 @@ import { useState } from "react";
 import { AspectRatioLayout } from "@/shared/ui";
 import { Countdown } from "@/entities/game";
 import { CameraCard } from "@/entities/auth";
-import GomokuChatCard from "@/features/chat/ui/GomokuChatCard";
+import { GomokuChatCard } from "@/features/chat";
+import { AdditionalLoginBtnGroup } from "@/features/login";
 
 function Setting() {
   const [showCount, setShowCount] = useState<boolean>(false);
@@ -17,6 +18,7 @@ function Setting() {
       )}
       <aside css={{ width: 380, display: "flex", flexDirection: "column" }}>
         <SettingInfoCard />
+        <AdditionalLoginBtnGroup />
         <GomokuChatCard />
         <CameraCard />
       </aside>

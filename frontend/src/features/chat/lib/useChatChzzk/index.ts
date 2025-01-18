@@ -43,7 +43,7 @@ function useChatChzzk(addVote: TAddVote) {
       ver: "2",
       cmd: 100,
       svcid: "game",
-      cid: user.chzzk?.id,
+      cid: user.chzzk?.chatChannelId,
       bdy: {
         uid: null,
         devType: 2001,
@@ -61,7 +61,9 @@ function useChatChzzk(addVote: TAddVote) {
   };
 
   const messageHandler = (msg: IChzzkMessage) => {
-    const status = isPlay ? addVote(msg.uid, processCoord(msg.msg)) : "normal";
+    const status = isPlayRef.current
+      ? addVote(msg.uid, processCoord(msg.msg))
+      : "normal";
 
     pushChatQueue({
       name: JSON.parse(msg.profile).nickname,
@@ -101,12 +103,20 @@ function useChatChzzk(addVote: TAddVote) {
     }
   };
 
+  const onCloseHandler = () => {
+    chatLogger("chzzk", "disconnected");
+    chatLogger("chzzk", "try to reconnect...");
+    cleanup();
+    init();
+  };
+
   const init = () => {
     if (!getIsLogin() || !user.chzzk?.accessToken) return;
     if (!chat.current) {
       chat.current = new WebSocket(CHZZK_WS_URL);
       chat.current?.addEventListener("open", onConnectedHandler);
       chat.current?.addEventListener("message", onMessageHandler);
+      chat.current?.addEventListener("close", onCloseHandler);
     }
   };
 

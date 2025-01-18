@@ -66,7 +66,7 @@ function ChatCard({ chatQueue }: { chatQueue: IMessage[] }) {
                 textOverflow: "ellipsis",
               }}
             >
-              {msg.name}
+              {msg.name}:
             </span>
             <span
               css={{
