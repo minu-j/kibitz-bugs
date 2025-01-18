@@ -30,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -87,7 +88,7 @@ public class AuthController {
         } catch (Exception e) {}
 
         ProvidersInfoResDto providersInfo =
-            getProvidersInfo(request.getProvider(), providers, streamerInfoMap, jwtTokenMap, response);
+            getProvidersInfo(request.getProvider(), null, providers, streamerInfoMap, jwtTokenMap, response);
 
         return new ResponseEntity<>(providersInfo, HttpStatus.OK);
     }
@@ -113,13 +114,44 @@ public class AuthController {
         Map<Provider, String> jwtTokenMap = new HashMap<>();
 
         ProvidersInfoResDto providersInfo =
-            getProvidersInfo(null, providers, streamerInfoMap, jwtTokenMap, response);
+            getProvidersInfo(null, null, providers, streamerInfoMap, jwtTokenMap, response);
+
+        return new ResponseEntity<>(providersInfo, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    @Operation(
+        summary = "로그아웃",
+        description = "Provider를 지정해 로그아웃",
+        security = {@SecurityRequirement(name = "Basic Auth")}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            headers = {@Header(name = "ACCESS_TOKEN", description = "Access Token")}
+        )
+    })
+    public ResponseEntity<ProvidersInfoResDto> logout(
+        @Valid @RequestBody AuthenticateUserReqDto requestDto,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) {
+        List<Provider> providers = new ArrayList<>();
+        Map<Provider, StreamerInfoDto> streamerInfoMap = new HashMap<>();
+        Map<Provider, String> jwtTokenMap = new HashMap<>();
+
+        ProvidersInfoResDto providersInfo =
+            getProvidersInfo(null, requestDto.getProvider(), providers, streamerInfoMap, jwtTokenMap, response);
+
+        cookieProvider.deleteCookie(request, response, "REFRESH-TOKEN-" + requestDto.getProvider());
 
         return new ResponseEntity<>(providersInfo, HttpStatus.OK);
     }
 
     private ProvidersInfoResDto getProvidersInfo(
         Provider loginAttemptedProvider,
+        Provider logoutAttemptedProvider,
         List<Provider> providers,
         Map<Provider, StreamerInfoDto> streamerInfoMap,
         Map<Provider, String> jwtTokenMap,
@@ -132,7 +164,7 @@ public class AuthController {
             .map(ProviderTokenPair::from)
             .filter(pair -> {
                 if (pair == null) return false;
-                return !pair.getProvider().equals(loginAttemptedProvider);
+                return !pair.getProvider().equals(loginAttemptedProvider) && !pair.getProvider().equals(logoutAttemptedProvider);
             })
             .forEach(pair -> {
                 try {
