@@ -28,6 +28,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
@@ -217,8 +218,9 @@ public class LoginService {
 
     private void sendWebhook(String id, String nickname, Provider provider, String accessToken, String broadcastUrlId) {
         Mono<Integer> followerCntMono = switch (provider) {
-            case TWITCH -> Mono.just(10); // getTwitchStreamerFollowers(id, accessToken);
-            case CHZZK, SOOP -> Mono.just(10);
+            case TWITCH -> getTwitchStreamerFollowers(id, accessToken);
+            case CHZZK -> getNaverStreamerFollowers(id);
+            case SOOP -> getSoopStreamerFollowers(accessToken);
 		};
 
         String broadcastUrl = switch (provider) {
@@ -227,10 +229,8 @@ public class LoginService {
             case SOOP -> "https://sooplive.co.kr/search?szLocation=total_search&szSearchType=total&szKeyword=" + broadcastUrlId;
         };
 
-        followerCntMono.subscribe(cnt -> {
-            if (cnt >= 10) {
-                telegramService.sendMessage("[" + provider + " 로그인] " + nickname + "\n" + broadcastUrl);
-            }},
+        followerCntMono.subscribe(
+            cnt -> telegramService.sendMessage("[" + provider + " 로그인] " + nickname + "(" + String.format("%,d", cnt) + ")" + "\n" + broadcastUrl),
             throwable -> log.error("webflux error: " + throwable.getMessage(), throwable)
         );
     }
@@ -274,5 +274,22 @@ public class LoginService {
             .retrieve()
             .bodyToMono(NaverChannelInfoResDto.class)
             .map(dto -> dto.getContent().getData().get(0).getFollowerCount());
+    }
+
+    private Mono<Integer> getSoopStreamerFollowers(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/x-www-form-urlencoded");
+
+        WebClient client = WebClient.builder()
+            .baseUrl("https://openapi.sooplive.co.kr")
+            .build();
+
+        return client.post()
+            .uri(uriBuilder -> uriBuilder.path("/user/stationinfo").build())
+            .headers(httpHeaders -> httpHeaders.addAll(headers))
+            .body(BodyInserters.fromFormData("access_token", accessToken))
+            .retrieve()
+            .bodyToMono(SoopChanneInfoResDto.class)
+            .map(dto -> dto.getData().getFavoriteCnt());
     }
 }

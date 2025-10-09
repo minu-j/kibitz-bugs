@@ -21,7 +21,7 @@ public class SoopChanneInfoResDto {
 		private String userNick;
 		private String stationName;
 		private String profileImage;
-		private String favoriteCnt;
+		private Integer favoriteCnt;
 
 		public StreamerInfoDto toStreamerInfo(String accessToken) {
 			return StreamerInfoDto.builder()
